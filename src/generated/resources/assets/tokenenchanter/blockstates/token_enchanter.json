@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "tokenenchanter:block/token_enchanter"
+    }
+  }
+}

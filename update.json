@@ -1,0 +1,9 @@
+{
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/token-enchanter",
+    "changelog": "https://github.com/SilentChaos512/Token-Enchanter/blob/1.16.x/CHANGELOG.md",
+    "1.16.3": {},
+    "promos": {
+        "1.16.3-latest": "1.0.0",
+        "1.16.3-recommended": "1.0.0"
+    }
+}

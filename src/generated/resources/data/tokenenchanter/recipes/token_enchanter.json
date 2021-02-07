@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " d ",
+    "/o/",
+    "/#/"
+  ],
+  "key": {
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "/": {
+      "tag": "forge:ingots/gold"
+    },
+    "o": {
+      "item": "tokenenchanter:blank_token"
+    },
+    "#": {
+      "tag": "forge:storage_blocks/lapis"
+    }
+  },
+  "result": {
+    "item": "tokenenchanter:token_enchanter"
+  }
+}

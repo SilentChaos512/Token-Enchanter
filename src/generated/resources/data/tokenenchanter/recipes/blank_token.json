@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "///",
+    "lel",
+    "///"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:ingots/gold"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    },
+    "e": {
+      "tag": "forge:gems/emerald"
+    }
+  },
+  "result": {
+    "item": "tokenenchanter:blank_token",
+    "count": 12
+  }
+}
