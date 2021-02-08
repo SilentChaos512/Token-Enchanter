@@ -1,11 +1,15 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://plugins.gradle.org/m2/' }
+        maven { url = 'https://dist.creeper.host/Sponge/maven' }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
@@ -13,11 +17,14 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id "com.jfrog.bintray" version "1.8.5"
-    id "com.matthewprenger.cursegradle" version "1.2.0"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
+apply plugin: 'com.matthewprenger.cursegradle'
+apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'idea'
 
 repositories {
     flatDir {
@@ -163,12 +170,6 @@ jar {
     }
 }
 
-task deobfJar(type: Jar) {
-    appendix = "${project.mc_version}"
-    classifier = 'deobf'
-    from sourceSets.main.output
-}
-
 task sourcesJar(type: Jar) {
     appendix = "${project.mc_version}"
     classifier = 'sources'
@@ -181,16 +182,18 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.getDestinationDir()
 }
 
+task apiJar(type: Jar) {
+    appendix = "${project.mc_version}"
+    classifier = 'api'
+    include 'net/silentchaos512/tokenenchanter/api/**/*'
+    from sourceSets.main.allSource
+    from sourceSets.main.output
+}
+
 artifacts {
-    if (project.hasProperty('doDeobfJar')) {
-        archives deobfJar
-    }
-    if (project.hasProperty('doSourceJar')) {
-        archives sourcesJar
-    }
-    if (project.hasProperty('doJavadocJar')) {
-        archives javadocJar
-    }
+    archives javadocJar
+    archives sourcesJar
+    archives apiJar
 }
 
 class Secrets {
@@ -270,6 +273,7 @@ publishing {
 
             from components.java
 
+            artifact apiJar
             artifact sourcesJar
             artifact javadocJar
         }
