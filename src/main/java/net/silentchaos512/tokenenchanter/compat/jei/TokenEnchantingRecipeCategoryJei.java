@@ -26,7 +26,7 @@ import java.util.List;
 
 public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEnchanterRecipe> {
     private static final int GUI_START_X = 21;
-    private static final int GUI_START_Y = 20;
+    private static final int GUI_START_Y = 24;
     private static final int GUI_WIDTH = 134;
     private static final int GUI_HEIGHT = 50;
 

@@ -27,7 +27,9 @@ import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class EnchantedTokenItem extends Item {
     public enum Icon {
@@ -215,7 +217,7 @@ public class EnchantedTokenItem extends Item {
 
     private static int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
         // First compare icon names (group together enchantments of one type)
-        int k = -getModelIcon(o1).getName().compareTo(getModelIcon(o2).getName());
+        int k = getModelIcon(o1).getName().compareTo(getModelIcon(o2).getName());
         if (k == 0) {
             Enchantment e1 = getSingleEnchantment(o1);
             Enchantment e2 = getSingleEnchantment(o2);
@@ -263,19 +265,27 @@ public class EnchantedTokenItem extends Item {
     public static int getItemColor(ItemStack stack, int tintIndex) {
         if (tintIndex != 1) return 0xFFFFFF;
 
-        Enchantment enchantment = getSingleEnchantment(stack);
-        if (enchantment != null && OUTLINE_COLOR_MAP.containsKey(enchantment)) {
-            int k = OUTLINE_COLOR_MAP.get(enchantment);
+        int baseColor = getOutlineColor(stack);
 
-            int j = (int) (160 * MathHelper.sin(ClientTicks.ticksInGame() * OUTLINE_PULSATE_SPEED));
-            j = MathHelper.clamp(j, 0, 255);
-            int r = (k >> 16) & 255;
-            r = MathHelper.clamp(r + j, 0, 255);
-            int g = (k >> 8) & 255;
-            g = MathHelper.clamp(g + j, 0, 255);
-            int b = k & 255;
-            b = MathHelper.clamp(b + j, 0, 255);
-            return (r << 16) | (g << 8) | b;
+        int j = (int) (160 * MathHelper.sin(ClientTicks.ticksInGame() * OUTLINE_PULSATE_SPEED));
+        j = MathHelper.clamp(j, 0, 255);
+        int r = (baseColor >> 16) & 255;
+        r = MathHelper.clamp(r + j, 0, 255);
+        int g = (baseColor >> 8) & 255;
+        g = MathHelper.clamp(g + j, 0, 255);
+        int b = baseColor & 255;
+        b = MathHelper.clamp(b + j, 0, 255);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    private static int getOutlineColor(ItemStack stack) {
+        Enchantment enchantment = getSingleEnchantment(stack);
+        if (enchantment != null) {
+            return OUTLINE_COLOR_MAP.computeIfAbsent(enchantment, e -> {
+                int hash = NameUtils.from(e).hashCode();
+                float hue = ((hash + 32 * OUTLINE_COLOR_MAP.size()) % 1024) / 1024f;
+                return Color.getHSBColor(hue, 1f, 1f).getRGB();
+            });
         }
         return 0x8040CC;
     }
