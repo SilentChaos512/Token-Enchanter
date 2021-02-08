@@ -10,5 +10,7 @@
   "item.tokenenchanter.xp_crystal": "XP Crystal",
   "item.tokenenchanter.xp_crystal.levels": "Levels: %s / %s",
   "item.tokenenchanter.xp_crystal.not_enough_levels": "Not enough levels to fill (needs %d)",
+  "item.tokenenchanter.xp_bread": "XP Bread",
+  "item.tokenenchanter.xp_food.levels": "Levels: %d",
   "misc.tokenenchanter.level_cost": "Levels Required: %s"
 }

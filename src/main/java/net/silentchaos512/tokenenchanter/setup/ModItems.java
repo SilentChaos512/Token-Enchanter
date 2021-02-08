@@ -1,10 +1,12 @@
 package net.silentchaos512.tokenenchanter.setup;
 
+import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.item.XpCrystalItem;
+import net.silentchaos512.tokenenchanter.item.XpFoodItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +22,10 @@ public final class ModItems {
             new XpCrystalItem(10, unstackableProps()));
     public static final ItemRegistryObject<XpCrystalItem> XP_CRYSTAL = registerSimpleModel("xp_crystal", () ->
             new XpCrystalItem(30, unstackableProps()));
+
+    public static final ItemRegistryObject<XpFoodItem> XP_BREAD = registerSimpleModel("xp_bread", () ->
+            new XpFoodItem(baseProps()
+                    .food(new Food.Builder().hunger(6).saturation(1.2f).setAlwaysEdible().build())));
 
     public static final ItemRegistryObject<EnchantedTokenItem> ENCHANTED_TOKEN = register("enchanted_token", () ->
             new EnchantedTokenItem(baseProps()));

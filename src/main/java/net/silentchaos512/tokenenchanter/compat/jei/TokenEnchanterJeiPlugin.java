@@ -11,9 +11,12 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.TokenMod;
+import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
+import net.silentchaos512.tokenenchanter.item.XpFoodItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
@@ -64,10 +67,24 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration reg) {
-        // Enchantment tokens
+        // Enchanted tokens
         reg.registerSubtypeInterpreter(ModItems.ENCHANTED_TOKEN.get(), stack -> {
             Enchantment enchantment = EnchantedTokenItem.getSingleEnchantment(stack);
             return enchantment != null ? enchantment.getName() : "none";
+        });
+        // XP crystals
+        ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
+            reg.registerSubtypeInterpreter(item, stack -> {
+                float levels = ((IXpCrystalItem) item).getLevels(stack);
+                return String.valueOf((int) levels);
+            });
+        });
+        // XP food
+        ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof XpFoodItem).forEach(item -> {
+            reg.registerSubtypeInterpreter(item, stack -> {
+                int levels = ((XpFoodItem) item).getLevels(stack);
+                return String.valueOf(levels);
+            });
         });
     }
 }
