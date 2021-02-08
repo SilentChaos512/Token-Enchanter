@@ -57,25 +57,20 @@ public class TokenEnchanterContainer extends Container {
             ItemStack stack1 = slot.getStack();
             stack = stack1.copy();
 
-            final int playerStart = 5;
+            final int playerStart = 8;
             final int playerEnd = playerStart + 36;
 
-            if (slotIndex == 4) {
+            if (slotIndex == 7) {
                 // Transfer from output slot
                 if (!this.mergeItemStack(stack1, playerStart, playerEnd, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(stack1, stack);
-            } else if (slotIndex > 4) {
+            } else if (slotIndex > 7) {
                 // Transfer from player
                 if (this.tileEntity.isItemValidForSlot(0, stack1)) {
-                    // Blank tokens slot
-                    if (!this.mergeItemStack(stack1, 0, 1, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (this.tileEntity.isItemValidForSlot(1, stack1)) {
-                    // Ingredients start
-                    if (!this.mergeItemStack(stack1, 1, 4, false)) {
+                    // Tokens and ingredients
+                    if (!this.mergeItemStack(stack1, 0, 7, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
