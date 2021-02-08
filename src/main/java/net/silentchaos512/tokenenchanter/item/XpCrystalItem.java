@@ -12,6 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
@@ -116,9 +117,14 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        String levels = String.format("%.1f", getLevels(stack));
+        float levels = getLevels(stack);
+        if (levels <= 0.1f) {
+            tooltip.add(TextUtil.translate("item", "xp_crystal.hint").copyRaw().mergeStyle(TextFormatting.ITALIC));
+        }
+
+        String levelsFormatted = String.format("%.1f", levels);
         String max = String.valueOf((int) getMaxLevels(stack));
-        tooltip.add(TextUtil.translate("item", "xp_crystal.levels", levels, max));
+        tooltip.add(TextUtil.translate("item", "xp_crystal.levels", levelsFormatted, max));
     }
 
     @Override
