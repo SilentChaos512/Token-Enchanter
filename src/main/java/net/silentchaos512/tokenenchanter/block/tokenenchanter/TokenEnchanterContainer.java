@@ -16,9 +16,10 @@ import javax.annotation.Nonnull;
 
 public class TokenEnchanterContainer extends Container {
     private final TokenEnchanterTileEntity tileEntity;
+    private final IIntArray fields;
 
     public TokenEnchanterContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
-        this(id, playerInventory, new TokenEnchanterTileEntity(), new IntArray(4));
+        this(id, playerInventory, new TokenEnchanterTileEntity(), new IntArray(1));
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
@@ -26,6 +27,8 @@ public class TokenEnchanterContainer extends Container {
         super(ModContainers.TOKEN_ENCHANTER.get(), id);
 
         this.tileEntity = tileEntity;
+        this.fields = fields;
+        trackIntArray(this.fields);
 
         // XP crystal
         this.addSlot(new Slot(this.tileEntity, 0, 22, 55));
@@ -42,6 +45,14 @@ public class TokenEnchanterContainer extends Container {
         this.addSlot(new SlotOutputOnly(this.tileEntity, 8, 132, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+    }
+
+    public int getProgress() {
+        return this.fields.get(0);
+    }
+
+    public int getProcessTime() {
+        return TokenEnchanterTileEntity.PROCESS_TIME;
     }
 
     @Override

@@ -15,6 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.tokenenchanter.TokenMod;
+import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
+import net.silentchaos512.tokenenchanter.api.item.IXpItem;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 import java.util.Collections;
@@ -56,14 +58,48 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     public void consumeIngredients(IInventory inv) {
-        consumeItems(inv, token, 1);
-        ingredientMap.forEach(((ingredient, count) -> consumeItems(inv, ingredient, count)));
+        ItemStack stack = inv.getStackInSlot(0);
+        if (stack.getItem() instanceof IXpCrystalItem) {
+            IXpItem crystalItem = (IXpCrystalItem) stack.getItem();
+            crystalItem.drainLevels(stack, this.levelCost);
+        }
+
+        consumeItems(inv, 1, 2, token, 1);
+        ingredientMap.forEach(((ingredient, count) -> {
+            consumeItems(inv, 2, inv.getSizeInventory() - 1, ingredient, count);
+        }));
+    }
+
+    private static void consumeItems(IInventory inventory, int startIndex, int endIndex, Predicate<ItemStack> ingredient, int amount) {
+        int amountLeft = amount;
+        for (int i = startIndex; i < endIndex; ++i) {
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (!stack.isEmpty() && ingredient.test(stack)) {
+                int toRemove = Math.min(amountLeft, stack.getCount());
+
+                stack.shrink(toRemove);
+                if (stack.isEmpty()) {
+                    inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                }
+
+                amountLeft -= toRemove;
+                if (amountLeft == 0) {
+                    return;
+                }
+            }
+        }
     }
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         if (!valid) return false;
 
+        // XP crystal with enough levels?
+        if (!matchesXpCrystal(inv.getStackInSlot(0))) {
+            return false;
+        }
+
+        // FIXME: Cleanup + Probably shouldn't use StackList in matches (speed issue)
         StackList list = StackList.from(inv);
 
         // Token?
@@ -87,6 +123,16 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         return true;
+    }
+
+    private boolean matchesXpCrystal(ItemStack stack) {
+        // Return true if item is an XP crystal with sufficient levels
+        if (stack.getItem() instanceof IXpCrystalItem) {
+            IXpItem crystalItem = (IXpCrystalItem) stack.getItem();
+            float storedLevels = crystalItem.getLevels(stack);
+            return storedLevels >= this.levelCost;
+        }
+        return false;
     }
 
     @Override
@@ -117,26 +163,6 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     @Override
     public boolean isDynamic() {
         return true;
-    }
-
-    private static void consumeItems(IInventory inventory, Predicate<ItemStack> ingredient, int amount) {
-        int amountLeft = amount;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
-            if (!stack.isEmpty() && ingredient.test(stack)) {
-                int toRemove = Math.min(amountLeft, stack.getCount());
-
-                stack.shrink(toRemove);
-                if (stack.isEmpty()) {
-                    inventory.setInventorySlotContents(i, ItemStack.EMPTY);
-                }
-
-                amountLeft -= toRemove;
-                if (amountLeft == 0) {
-                    return;
-                }
-            }
-        }
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<TokenEnchanterRecipe> {

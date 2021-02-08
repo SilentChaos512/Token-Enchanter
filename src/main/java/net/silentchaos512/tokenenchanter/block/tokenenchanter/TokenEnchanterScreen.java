@@ -30,6 +30,12 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
         blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
+
+        // Progress arrow
+        int progress = container.getProgress();
+        int cost = container.getProcessTime();
+        int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
+        blit(matrixStack, xPos + 102, yPos + 34, 176, 14, length + 1, 16);
     }
 
     @Override
