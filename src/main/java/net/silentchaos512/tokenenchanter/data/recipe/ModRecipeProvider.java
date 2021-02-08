@@ -1,14 +1,17 @@
 package net.silentchaos512.tokenenchanter.data.recipe;
 
+import net.minecraft.data.CustomRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.util.NameUtils;
@@ -29,6 +32,8 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+        customRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN);
+
         registerTokenEnchanting(consumer);
 
         ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.GOLD_TOKEN, 16)
@@ -269,5 +274,9 @@ public class ModRecipeProvider extends RecipeProvider {
         ResourceLocation id = NameUtils.from(enchantment);
         return TokenEnchantingRecipeBuilder.enchantedTokenBuilder(enchantment, 1, 1, levelCost)
                 .name(TokenMod.getId(String.format("enchanted_token/%s.%s", id.getNamespace(), id.getPath())));
+    }
+
+    private static void customRecipe(Consumer<IFinishedRecipe> consumer, RegistryObject<SpecialRecipeSerializer<?>> serializer) {
+        CustomRecipeBuilder.customRecipe(serializer.get()).build(consumer, serializer.getId().toString());
     }
 }

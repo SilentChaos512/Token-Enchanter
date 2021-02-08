@@ -2,10 +2,12 @@ package net.silentchaos512.tokenenchanter.setup;
 
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.tokenenchanter.TokenMod;
+import net.silentchaos512.tokenenchanter.crafting.recipe.ApplyEnchantedTokenRecipe;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.data.recipe.XpCrystalRecipe;
 
@@ -19,15 +21,18 @@ public final class ModRecipes {
     public static final RegistryObject<IRecipeSerializer<?>> SHAPED_XP_CRYSTAL = register("shaped_xp_crystal", () ->
             ExtendedShapedRecipe.Serializer.basic(XpCrystalRecipe::new));
 
+    public static final RegistryObject<SpecialRecipeSerializer<?>> APPLY_ENCHANTED_TOKEN = register("apply_enchanted_token", () ->
+            new SpecialRecipeSerializer<>(ApplyEnchantedTokenRecipe::new));
+
     private ModRecipes() {}
 
     static void register() {}
 
-    private static RegistryObject<IRecipeSerializer<?>> register(String name, Supplier<IRecipeSerializer<?>> serializer) {
+    private static <T extends IRecipeSerializer<?>> RegistryObject<T> register(String name, Supplier<T> serializer) {
         return register(TokenMod.getId(name), serializer);
     }
 
-    private static RegistryObject<IRecipeSerializer<?>> register(ResourceLocation id, Supplier<IRecipeSerializer<?>> serializer) {
+    private static <T extends IRecipeSerializer<?>> RegistryObject<T> register(ResourceLocation id, Supplier<T> serializer) {
         return Registration.RECIPE_SERIALIZERS.register(id.getPath(), serializer);
     }
 }
