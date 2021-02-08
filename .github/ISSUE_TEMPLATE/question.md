@@ -9,12 +9,10 @@ labels: question
 ## Versions
 <!-- Include versions affected by the issue (actual version number, do not use "latest"). Pasting the name of the JAR file is acceptable. -->
 
-- **Silent's Gems**: x.x.x
-- **Silent Gear**: x.x.x <!-- if installed or N/A -->
+- **Token Enchanter**: x.x.x
 - **Silent Lib**: x.x.x
 - **Forge**: x.x.x
 - **Modpack**: N/A <!-- if publicly available -->
-- **Optifine Installed**: No <!-- enter Yes or No -->
 
 ## The Question/Issue
 

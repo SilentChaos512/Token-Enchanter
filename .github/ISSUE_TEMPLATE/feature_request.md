@@ -7,7 +7,7 @@ labels: enhancement
 ## Versions
 <!-- What version should add this? Just the Minecraft version is acceptable. -->
 
-- Minecraft 1.15.2
+- Minecraft 1.16.x
 
 ## What Should Be Added or Changed?
 <!-- What should be done and how? Please describe in as much detail as possible. -->
