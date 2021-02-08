@@ -16,10 +16,7 @@ import net.minecraft.item.Rarity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,9 +25,9 @@ import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 import javax.annotation.Nullable;
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
 import java.util.List;
+import java.util.*;
 
 public class EnchantedTokenItem extends Item {
     public enum Icon {
@@ -170,6 +167,18 @@ public class EnchantedTokenItem extends Item {
     //endregion
 
     //region Item overrides
+
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        Enchantment enchantment = getSingleEnchantment(stack);
+        if (enchantment != null) {
+            IFormattableTextComponent enchantmentName = enchantment.getDisplayName(1).copyRaw()
+                    .mergeStyle(this.getRarity(stack).color);
+            return new TranslationTextComponent(this.getTranslationKey(stack) + ".single", enchantmentName);
+        }
+        return super.getDisplayName(stack);
+    }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {

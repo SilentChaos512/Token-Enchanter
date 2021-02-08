@@ -31,7 +31,7 @@ public class ModRecipeProvider extends RecipeProvider {
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
         registerTokenEnchanting(consumer);
 
-        ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.GOLD_TOKEN, 12)
+        ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.GOLD_TOKEN, 16)
                 .patternLine("///")
                 .patternLine("lel")
                 .patternLine("///")
@@ -42,11 +42,12 @@ public class ModRecipeProvider extends RecipeProvider {
 
         ExtendedShapedRecipeBuilder.vanillaBuilder(ModBlocks.TOKEN_ENCHANTER)
                 .patternLine(" d ")
-                .patternLine("/o/")
-                .patternLine("/#/")
+                .patternLine("/t/")
+                .patternLine("o#o")
                 .key('d', Tags.Items.GEMS_DIAMOND)
                 .key('/', Tags.Items.INGOTS_GOLD)
-                .key('o', ModItems.GOLD_TOKEN)
+                .key('t', ModItems.GOLD_TOKEN)
+                .key('o', Tags.Items.OBSIDIAN)
                 .key('#', Tags.Items.STORAGE_BLOCKS_LAPIS)
                 .build(consumer);
 

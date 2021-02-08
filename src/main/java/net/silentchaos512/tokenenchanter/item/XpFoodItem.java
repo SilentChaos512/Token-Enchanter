@@ -42,6 +42,9 @@ public class XpFoodItem extends Item implements IXpItem {
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (isInGroup(group)) {
             items.add(createWithLevels(5));
+            items.add(createWithLevels(10));
+            items.add(createWithLevels(20));
+            items.add(createWithLevels(30));
         }
     }
 }

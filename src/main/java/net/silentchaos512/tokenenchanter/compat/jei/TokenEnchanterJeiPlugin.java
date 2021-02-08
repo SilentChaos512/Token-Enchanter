@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.tokenenchanter.TokenMod;
+import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainer;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
@@ -60,6 +61,12 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
         reg.addRecipeClickArea(TokenEnchanterScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+    }
+
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(TokenEnchanterContainer.class, TOKEN_ENCHANTING, 0, 8, 9, 36);
+//        registration.addRecipeTransferHandler(new TokenEnchantingRecipeTransferHandler(), TOKEN_ENCHANTING);
     }
 
     @Override

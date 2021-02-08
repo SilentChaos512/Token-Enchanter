@@ -5,6 +5,7 @@
   "item.tokenenchanter.enchanted_token": "Enchanted Token",
   "item.tokenenchanter.enchanted_token.maxLevel": "Max Level: %d",
   "item.tokenenchanter.enchanted_token.mod": "Mod: %s",
+  "item.tokenenchanter.enchanted_token.single": "%s Token",
   "item.tokenenchanter.gold_token": "Gold Token",
   "item.tokenenchanter.large_xp_crystal": "Large XP Crystal",
   "item.tokenenchanter.small_xp_crystal": "Small XP Crystal",
@@ -14,5 +15,6 @@
   "item.tokenenchanter.xp_crystal.levels": "Levels: %s / %s",
   "item.tokenenchanter.xp_crystal.not_enough_levels": "Not enough levels to fill (needs %d)",
   "item.tokenenchanter.xp_food.levels": "Levels: %d",
+  "itemGroup.tokenenchanter": "Token Enchanter",
   "misc.tokenenchanter.level_cost": "Levels Required: %s"
 }
