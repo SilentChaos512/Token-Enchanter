@@ -1,0 +1,19 @@
+{
+  "type": "tokenenchanter:shaped_xp_crystal",
+  "pattern": [
+    "e",
+    "o",
+    "e"
+  ],
+  "key": {
+    "e": {
+      "tag": "forge:gems/emerald"
+    },
+    "o": {
+      "item": "tokenenchanter:gold_token"
+    }
+  },
+  "result": {
+    "item": "tokenenchanter:small_xp_crystal"
+  }
+}

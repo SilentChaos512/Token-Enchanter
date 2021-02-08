@@ -15,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
@@ -23,6 +25,7 @@ import net.silentchaos512.tokenenchanter.util.TextUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEnchanterRecipe> {
     private static final int GUI_START_X = 21;
@@ -77,16 +80,18 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, TokenEnchanterRecipe recipe, IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        itemStacks.init(0, true, 0, 10);
-        itemStacks.init(1, true, 26, 0);
-        itemStacks.init(2, true, 44, 0);
-        itemStacks.init(3, true, 62, 0);
-        itemStacks.init(4, true, 26, 18);
-        itemStacks.init(5, true, 44, 18);
-        itemStacks.init(6, true, 62, 18);
-        itemStacks.init(7, false, 111, 10);
+        itemStacks.init(0, true, 0, 30);
+        itemStacks.init(1, true, 0, 10);
+        itemStacks.init(2, true, 26, 0);
+        itemStacks.init(3, true, 44, 0);
+        itemStacks.init(4, true, 62, 0);
+        itemStacks.init(5, true, 26, 18);
+        itemStacks.init(6, true, 44, 18);
+        itemStacks.init(7, true, 62, 18);
+        itemStacks.init(8, false, 111, 10);
 
-        itemStacks.set(0, Arrays.asList(recipe.getToken().getMatchingStacks()));
+        itemStacks.set(0, getXpCrystals());
+        itemStacks.set(1, Arrays.asList(recipe.getToken().getMatchingStacks()));
         List<List<ItemStack>> inputs = new ArrayList<>();
         recipe.getIngredientMap().forEach((ingredient, count) -> {
             List<ItemStack> list = Arrays.asList(ingredient.getMatchingStacks());
@@ -94,15 +99,25 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
             inputs.add(list);
         });
         for (int i = 0; i < inputs.size(); ++i) {
-            itemStacks.set(i + 1, inputs.get(i));
+            itemStacks.set(i + 2, inputs.get(i));
         }
-        itemStacks.set(7, recipe.getResult());
+        itemStacks.set(8, recipe.getResult());
+    }
+
+    private static List<ItemStack> getXpCrystals() {
+        return ForgeRegistries.ITEMS.getValues().stream()
+                .filter(item -> item instanceof IXpCrystalItem)
+                .map(item -> {
+                    ItemStack stack = new ItemStack(item);
+                    return ((IXpCrystalItem) item).addLevels(stack, ((IXpCrystalItem) item).getMaxLevels(stack));
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
     public void draw(TokenEnchanterRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         FontRenderer font = Minecraft.getInstance().fontRenderer;
         ITextComponent text = TextUtil.translate("misc", "level_cost", recipe.getLevelCost());
-        font.drawStringWithShadow(matrixStack, text.getString(), 1, GUI_HEIGHT - font.FONT_HEIGHT - 1, -1);
+        font.drawStringWithShadow(matrixStack, text.getString(), 25, GUI_HEIGHT - font.FONT_HEIGHT - 1, -1);
     }
 }

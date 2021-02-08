@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -186,6 +187,11 @@ public class EnchantedTokenItem extends Item {
                         .mergeStyle(TextFormatting.DARK_GRAY));
             }
         }
+    }
+
+    @Override
+    public Rarity getRarity(ItemStack stack) {
+        return Rarity.UNCOMMON;
     }
 
     @SuppressWarnings("TypeMayBeWeakened")

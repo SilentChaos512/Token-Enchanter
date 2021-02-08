@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("WeakerAccess")
 public class TokenEnchantingRecipeBuilder {
+    private ResourceLocation name;
     private final Item result;
     private final int count;
     private final int levelCost;
@@ -35,6 +36,11 @@ public class TokenEnchantingRecipeBuilder {
 
     public static TokenEnchantingRecipeBuilder builder(IItemProvider result, int count, int levelCost) {
         return new TokenEnchantingRecipeBuilder(result, count, levelCost);
+    }
+
+    public TokenEnchantingRecipeBuilder name(ResourceLocation name) {
+        this.name = name;
+        return this;
     }
 
     public TokenEnchantingRecipeBuilder enchantment(Enchantment enchantment, int level) {
@@ -70,7 +76,10 @@ public class TokenEnchantingRecipeBuilder {
 
     public void build(Consumer<IFinishedRecipe> consumer) {
         ResourceLocation itemId = NameUtils.from(this.result);
-        build(consumer, new ResourceLocation(itemId.getNamespace(), "token_enchanting/" + itemId.getPath()));
+        ResourceLocation id = name == null
+                ? new ResourceLocation(itemId.getNamespace(), "token_enchanting/" + itemId.getPath())
+                : name;
+        build(consumer, id);
     }
 
     public void build(Consumer<IFinishedRecipe> consumer, ResourceLocation id) {

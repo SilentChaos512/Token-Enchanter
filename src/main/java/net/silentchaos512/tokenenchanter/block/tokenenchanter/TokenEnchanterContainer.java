@@ -27,17 +27,19 @@ public class TokenEnchanterContainer extends Container {
 
         this.tileEntity = tileEntity;
 
-        // Token slot
-        this.addSlot(new Slot(this.tileEntity, 0, 22, 35));
-        // Other ingredients slot
-        this.addSlot(new Slot(this.tileEntity, 1, 48, 25));
-        this.addSlot(new Slot(this.tileEntity, 2, 66, 25));
-        this.addSlot(new Slot(this.tileEntity, 3, 84, 25));
-        this.addSlot(new Slot(this.tileEntity, 4, 48, 43));
-        this.addSlot(new Slot(this.tileEntity, 5, 66, 43));
-        this.addSlot(new Slot(this.tileEntity, 6, 84, 43));
+        // XP crystal
+        this.addSlot(new Slot(this.tileEntity, 0, 22, 55));
+        // Token
+        this.addSlot(new Slot(this.tileEntity, 1, 22, 35));
+        // Other ingredients
+        this.addSlot(new Slot(this.tileEntity, 2, 48, 25));
+        this.addSlot(new Slot(this.tileEntity, 3, 66, 25));
+        this.addSlot(new Slot(this.tileEntity, 4, 84, 25));
+        this.addSlot(new Slot(this.tileEntity, 5, 48, 43));
+        this.addSlot(new Slot(this.tileEntity, 6, 66, 43));
+        this.addSlot(new Slot(this.tileEntity, 7, 84, 43));
         // Output
-        this.addSlot(new SlotOutputOnly(this.tileEntity, 7, 132, 35));
+        this.addSlot(new SlotOutputOnly(this.tileEntity, 8, 132, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
     }
@@ -57,20 +59,28 @@ public class TokenEnchanterContainer extends Container {
             ItemStack stack1 = slot.getStack();
             stack = stack1.copy();
 
-            final int playerStart = 8;
+            final int playerStart = 9;
             final int playerEnd = playerStart + 36;
 
-            if (slotIndex == 7) {
+            if (slotIndex == 8) {
                 // Transfer from output slot
                 if (!this.mergeItemStack(stack1, playerStart, playerEnd, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(stack1, stack);
-            } else if (slotIndex > 7) {
+            } else if (slotIndex > 8) {
                 // Transfer from player
                 if (this.tileEntity.isItemValidForSlot(0, stack1)) {
+                    // XP crystal
+                    if (!this.mergeItemStack(stack1, 0, 1, false)) {
+                        // Tokens and ingredients
+                        if (!this.mergeItemStack(stack1, 1, 8, false)) {
+                            return ItemStack.EMPTY;
+                        }
+                    }
+                } else if (this.tileEntity.isItemValidForSlot(1, stack1)) {
                     // Tokens and ingredients
-                    if (!this.mergeItemStack(stack1, 0, 7, false)) {
+                    if (!this.mergeItemStack(stack1, 1, 8, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {

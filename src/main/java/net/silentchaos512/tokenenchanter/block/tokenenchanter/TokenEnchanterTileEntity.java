@@ -8,6 +8,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
+import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
@@ -16,10 +17,10 @@ import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
 public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
-    private static final int INVENTORY_SIZE = 1 + 6 + 1;
-    private static final int[] SLOTS_INPUT = IntStream.range(0, 7).toArray();
-    private static final int[] SLOTS_OUTPUT = {7};
-    private static final int[] SLOTS_ALL = IntStream.range(0, 8).toArray();
+    private static final int INVENTORY_SIZE = 2 + 6 + 1;
+    private static final int[] SLOTS_INPUT = IntStream.range(1, 8).toArray();
+    private static final int[] SLOTS_OUTPUT = {8};
+    private static final int[] SLOTS_ALL = IntStream.range(0, 9).toArray();
 
     protected final IIntArray fields = new IIntArray() {
         @Override
@@ -85,11 +86,19 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-        return index < INVENTORY_SIZE - 1;
+        return isItemValidForSlot(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         return index == INVENTORY_SIZE - 1;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        if (index == 0) {
+            return stack.getItem() instanceof IXpCrystalItem;
+        }
+        return index < INVENTORY_SIZE - 1;
     }
 }
