@@ -16,7 +16,6 @@ import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
-import net.silentchaos512.tokenenchanter.item.XpFoodItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
@@ -77,13 +76,6 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
             reg.registerSubtypeInterpreter(item, stack -> {
                 float levels = ((IXpCrystalItem) item).getLevels(stack);
                 return String.valueOf((int) levels);
-            });
-        });
-        // XP food
-        ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof XpFoodItem).forEach(item -> {
-            reg.registerSubtypeInterpreter(item, stack -> {
-                int levels = ((XpFoodItem) item).getLevels(stack);
-                return String.valueOf(levels);
             });
         });
     }

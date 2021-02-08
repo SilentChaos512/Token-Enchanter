@@ -109,7 +109,8 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
                 .filter(item -> item instanceof IXpCrystalItem)
                 .map(item -> {
                     ItemStack stack = new ItemStack(item);
-                    return ((IXpCrystalItem) item).addLevels(stack, ((IXpCrystalItem) item).getMaxLevels(stack));
+                    ((IXpCrystalItem) item).addLevels(stack, ((IXpCrystalItem) item).getMaxLevels(stack));
+                    return stack;
                 })
                 .collect(Collectors.toList());
     }

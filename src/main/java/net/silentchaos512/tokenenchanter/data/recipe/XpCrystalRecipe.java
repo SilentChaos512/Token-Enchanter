@@ -38,7 +38,7 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
                 }
             }
 
-            return ((IXpCrystalItem) ret.getItem()).addLevels(ret, storedLevels);
+            ((IXpCrystalItem) ret.getItem()).addLevels(ret, storedLevels);
         }
 
         return ret;

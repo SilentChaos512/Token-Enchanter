@@ -10,7 +10,6 @@ import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -21,8 +20,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class XpCrystalItem extends Item implements IXpCrystalItem {
-    private static final String NBT_LEVELS = "StoredLevels";
-
     private final int maxLevels;
 
     public XpCrystalItem(int maxLevels, Properties properties) {
@@ -31,23 +28,11 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
     }
 
     @Override
-    public float getLevels(ItemStack stack) {
-        return stack.getOrCreateTag().getFloat(NBT_LEVELS);
-    }
-
-    @Override
     public float getMaxLevels(ItemStack stack) {
         return maxLevels;
     }
 
     @Override
-    public ItemStack drainLevels(ItemStack stack, float levelsToDrain) {
-        float newLevels = MathHelper.clamp(getLevels(stack) - levelsToDrain, 0, getMaxLevels(stack));
-        ItemStack ret = stack.copy();
-        ret.getOrCreateTag().putFloat(NBT_LEVELS, newLevels);
-        return ret;
-    }
-
     public int getFillAmount(ItemStack stack) {
         return (int) getMaxLevels(stack) / 5;
     }
@@ -74,7 +59,7 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
         return 16;
     }
 
-    protected static int getPlayerLevel(LivingEntity entity) {
+    private static int getPlayerLevel(LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             return player.abilities.isCreativeMode ? Integer.MAX_VALUE : player.experienceLevel;
@@ -109,7 +94,10 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
         if (playerLevels >= fillAmount && entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
             player.addExperienceLevel(-fillAmount);
-            return addLevels(stack, fillAmount);
+
+            ItemStack ret = stack.copy();
+            addLevels(ret, fillAmount);
+            return ret;
         }
 
         return super.onItemUseFinish(stack, worldIn, entityLiving);
@@ -132,7 +120,9 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
         if (isInGroup(group)) {
             ItemStack empty = new ItemStack(this);
             items.add(empty);
-            ItemStack full = addLevels(empty, getMaxLevels(empty));
+
+            ItemStack full = empty.copy();
+            addLevels(full, getMaxLevels(full));
             items.add(full);
         }
     }
