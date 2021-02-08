@@ -3,13 +3,10 @@ package net.silentchaos512.tokenenchanter;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.tokenenchanter.config.ModConfig;
-import net.silentchaos512.tokenenchanter.setup.ModClientProxy;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.Registration;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +26,6 @@ public class TokenMod {
     public TokenMod() {
         Registration.register();
         ModConfig.init();
-
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ModClientProxy::register);
     }
 
     public static String getVersion() {
@@ -67,7 +62,7 @@ public class TokenMod {
     public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.BLANK_TOKEN);
+            return new ItemStack(ModItems.GOLD_TOKEN);
         }
     };
 }

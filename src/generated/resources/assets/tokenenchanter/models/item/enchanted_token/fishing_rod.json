@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tokenenchanter:item/gold_token",
+    "layer1": "tokenenchanter:item/enchanted_token/outline",
+    "layer2": "tokenenchanter:item/enchanted_token/fishing_rod"
+  }
+}

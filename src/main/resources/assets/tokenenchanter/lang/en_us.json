@@ -1,5 +1,10 @@
 {
   "block.tokenenchanter.token_enchanter": "Token Enchanter",
+  "category.tokenenchanter.token_enchanting": "Token Enchanting",
   "container.tokenenchanter.token_enchanter": "Token Enchanter",
-  "item.tokenenchanter.blank_token": "Blank Token"
+  "item.tokenenchanter.enchanted_token": "Enchanted Token",
+  "item.tokenenchanter.enchanted_token.maxLevel": "Max Level: %d",
+  "item.tokenenchanter.enchanted_token.mod": "Mod: %s",
+  "item.tokenenchanter.gold_token": "Gold Token",
+  "misc.tokenenchanter.level_cost": "Levels Required: %s"
 }

@@ -26,7 +26,7 @@ public class ModTags {
     }
 
     public static final class Items {
-        public static final ITag.INamedTag<Item> ENCHANTED_TOKEN_BASE = mod("enchanted_token_base");
+        public static final ITag.INamedTag<Item> TOKENS_GOLD = mod("tokens/gold");
 
         private Items() {}
 

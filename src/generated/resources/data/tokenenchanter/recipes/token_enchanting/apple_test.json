@@ -1,0 +1,18 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 1,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:apple"
+    },
+    "others": [
+      {
+        "tag": "forge:ingots/gold",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "minecraft:golden_apple"
+  }
+}

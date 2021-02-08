@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContainer> {
-    private static final ResourceLocation TEXTURE = TokenMod.getId("textures/gui/token_enchanter.png");
+    public static final ResourceLocation TEXTURE = TokenMod.getId("textures/gui/token_enchanter.png");
 
     public TokenEnchanterScreen(TokenEnchanterContainer container, PlayerInventory playerInventory, ITextComponent title) {
         super(container, playerInventory, title);
