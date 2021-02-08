@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 6,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/diamond",
+        "count": 3
+      },
+      {
+        "tag": "forge:dusts/glowstone",
+        "count": 16
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:fortune",
+        "level": 1
+      }
+    ]
+  }
+}

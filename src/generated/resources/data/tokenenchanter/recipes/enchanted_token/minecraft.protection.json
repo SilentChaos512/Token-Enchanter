@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 2,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:iron_bars",
+        "count": 4
+      },
+      {
+        "tag": "forge:ingots/brick",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:protection",
+        "level": 1
+      }
+    ]
+  }
+}

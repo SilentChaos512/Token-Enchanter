@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 5,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:magma_cream",
+        "count": 6
+      },
+      {
+        "tag": "forge:netherrack",
+        "count": 30
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:fire_aspect",
+        "level": 1
+      }
+    ]
+  }
+}

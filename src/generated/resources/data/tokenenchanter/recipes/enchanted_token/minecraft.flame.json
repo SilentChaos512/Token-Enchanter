@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 5,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "forge:rods/blaze",
+        "count": 3
+      },
+      {
+        "tag": "forge:netherrack",
+        "count": 30
+      },
+      {
+        "item": "minecraft:arrow",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:flame",
+        "level": 1
+      }
+    ]
+  }
+}

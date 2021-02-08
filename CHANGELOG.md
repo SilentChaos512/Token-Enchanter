@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Large XP Crystal (stores 100 levels, expensive to craft)
+- Token enchanter will now process recipes
+- Recipes for all vanilla enchanted tokens
 - Recipe to craft XP bread (extracts levels from crystals, but loses 20%)
 
 ## [0.1.0] - 2021-02-08

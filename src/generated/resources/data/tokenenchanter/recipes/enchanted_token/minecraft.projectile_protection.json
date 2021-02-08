@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 2,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "forge:ingots/iron",
+        "count": 4
+      },
+      {
+        "item": "minecraft:chain",
+        "count": 2
+      },
+      {
+        "item": "minecraft:arrow",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:projectile_protection",
+        "level": 1
+      }
+    ]
+  }
+}

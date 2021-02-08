@@ -11,12 +11,14 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
+import net.silentchaos512.tokenenchanter.api.item.IXpItem;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
@@ -90,7 +92,7 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
         itemStacks.init(7, true, 62, 18);
         itemStacks.init(8, false, 111, 10);
 
-        itemStacks.set(0, getXpCrystals());
+        itemStacks.set(0, getXpCrystals(recipe));
         itemStacks.set(1, Arrays.asList(recipe.getToken().getMatchingStacks()));
         List<List<ItemStack>> inputs = new ArrayList<>();
         recipe.getIngredientMap().forEach((ingredient, count) -> {
@@ -104,15 +106,19 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
         itemStacks.set(8, recipe.getResult());
     }
 
-    private static List<ItemStack> getXpCrystals() {
+    private static List<ItemStack> getXpCrystals(TokenEnchanterRecipe recipe) {
         return ForgeRegistries.ITEMS.getValues().stream()
                 .filter(item -> item instanceof IXpCrystalItem)
-                .map(item -> {
-                    ItemStack stack = new ItemStack(item);
-                    ((IXpCrystalItem) item).addLevels(stack, ((IXpCrystalItem) item).getMaxLevels(stack));
-                    return stack;
-                })
+                .map(TokenEnchantingRecipeCategoryJei::getFullCrystal)
+                .filter(stack -> ((IXpCrystalItem) stack.getItem()).getMaxLevels(stack) >= recipe.getLevelCost())
                 .collect(Collectors.toList());
+    }
+
+    private static ItemStack getFullCrystal(Item item) {
+        IXpItem xpItem = (IXpCrystalItem) item;
+        ItemStack stack = new ItemStack(item);
+        xpItem.addLevels(stack, xpItem.getMaxLevels(stack));
+        return stack;
     }
 
     @Override

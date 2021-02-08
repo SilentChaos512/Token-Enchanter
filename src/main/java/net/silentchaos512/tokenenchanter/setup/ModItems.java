@@ -22,6 +22,8 @@ public final class ModItems {
             new XpCrystalItem(10, unstackableProps()));
     public static final ItemRegistryObject<XpCrystalItem> XP_CRYSTAL = registerSimpleModel("xp_crystal", () ->
             new XpCrystalItem(30, unstackableProps()));
+    public static final ItemRegistryObject<XpCrystalItem> LARGE_XP_CRYSTAL = registerSimpleModel("large_xp_crystal", () ->
+            new XpCrystalItem(100, unstackableProps()));
 
     public static final ItemRegistryObject<XpFoodItem> XP_BREAD = registerSimpleModel("xp_bread", () ->
             new XpFoodItem(baseProps()

@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 1,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:piston",
+        "count": 2
+      },
+      {
+        "tag": "forge:feathers",
+        "count": 5
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:knockback",
+        "level": 1
+      }
+    ]
+  }
+}

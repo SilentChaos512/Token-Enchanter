@@ -1,14 +1,18 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
+  "level_cost": 2,
   "ingredients": {
     "token": {
       "tag": "tokenenchanter:tokens/gold"
     },
     "others": [
       {
-        "tag": "forge:ingots/iron",
-        "count": 8
+        "tag": "forge:storage_blocks/lapis",
+        "count": 1
+      },
+      {
+        "item": "minecraft:cod",
+        "count": 5
       }
     ]
   },
@@ -16,7 +20,7 @@
     "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:unbreaking",
+        "name": "minecraft:aqua_affinity",
         "level": 1
       }
     ]

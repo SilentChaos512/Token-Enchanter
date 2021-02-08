@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 2,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:crossbow",
+        "count": 1
+      },
+      {
+        "item": "minecraft:iron_bars",
+        "count": 12
+      },
+      {
+        "tag": "forge:ingots/gold",
+        "count": 1
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:piercing",
+        "level": 1
+      }
+    ]
+  }
+}

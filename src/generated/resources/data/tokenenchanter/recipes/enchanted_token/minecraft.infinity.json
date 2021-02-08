@@ -1,6 +1,6 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 3,
+  "level_cost": 16,
   "ingredients": {
     "token": {
       "tag": "tokenenchanter:tokens/gold"
@@ -11,8 +11,12 @@
         "count": 1
       },
       {
-        "tag": "forge:rods/blaze",
+        "item": "minecraft:ender_eye",
         "count": 4
+      },
+      {
+        "item": "minecraft:arrow",
+        "count": 64
       }
     ]
   },
@@ -20,7 +24,7 @@
     "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:silk_touch",
+        "name": "minecraft:infinity",
         "level": 1
       }
     ]

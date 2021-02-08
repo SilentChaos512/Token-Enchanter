@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 3,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "minecraft:wool",
+        "count": 5
+      },
+      {
+        "tag": "forge:feathers",
+        "count": 10
+      },
+      {
+        "tag": "forge:slimeballs",
+        "count": 2
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:feather_falling",
+        "level": 1
+      }
+    ]
+  }
+}

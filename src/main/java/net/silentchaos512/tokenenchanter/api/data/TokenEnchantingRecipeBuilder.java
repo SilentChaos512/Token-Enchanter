@@ -86,9 +86,7 @@ public class TokenEnchantingRecipeBuilder {
 
     public void build(Consumer<IFinishedRecipe> consumer) {
         ResourceLocation itemId = NameUtils.from(this.result);
-        ResourceLocation id = name == null
-                ? new ResourceLocation(itemId.getNamespace(), "token_enchanting/" + itemId.getPath())
-                : name;
+        ResourceLocation id = name == null ? itemId : name;
         build(consumer, id);
     }
 

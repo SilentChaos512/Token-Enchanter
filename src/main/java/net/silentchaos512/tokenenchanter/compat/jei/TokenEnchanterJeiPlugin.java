@@ -11,9 +11,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.TokenMod;
-import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
@@ -72,11 +70,11 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
             return enchantment != null ? enchantment.getName() : "none";
         });
         // XP crystals
-        ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
+        /*ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
             reg.registerSubtypeInterpreter(item, stack -> {
                 float levels = ((IXpCrystalItem) item).getLevels(stack);
                 return String.valueOf((int) levels);
             });
-        });
+        });*/
     }
 }

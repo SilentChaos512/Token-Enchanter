@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 2,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "forge:nuggets/gold",
+        "count": 4
+      },
+      {
+        "tag": "forge:dusts/redstone",
+        "count": 9
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:efficiency",
+        "level": 1
+      }
+    ]
+  }
+}

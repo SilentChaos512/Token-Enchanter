@@ -1,0 +1,28 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 2,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "tag": "forge:nuggets/iron",
+        "count": 6
+      },
+      {
+        "item": "minecraft:spider_eye",
+        "count": 6
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:bane_of_arthropods",
+        "level": 1
+      }
+    ]
+  }
+}

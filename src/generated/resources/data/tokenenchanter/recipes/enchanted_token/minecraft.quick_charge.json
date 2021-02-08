@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 4,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:crossbow",
+        "count": 1
+      },
+      {
+        "tag": "forge:ingots/gold",
+        "count": 2
+      },
+      {
+        "tag": "forge:dusts/glowstone",
+        "count": 16
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:quick_charge",
+        "level": 1
+      }
+    ]
+  }
+}

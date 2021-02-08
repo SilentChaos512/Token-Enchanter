@@ -1,0 +1,32 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 6,
+  "ingredients": {
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    },
+    "others": [
+      {
+        "item": "minecraft:nautilus_shell",
+        "count": 1
+      },
+      {
+        "tag": "forge:feathers",
+        "count": 20
+      },
+      {
+        "tag": "forge:gems/lapis",
+        "count": 5
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:enchanted_token",
+    "enchantments": [
+      {
+        "name": "minecraft:riptide",
+        "level": 1
+      }
+    ]
+  }
+}
