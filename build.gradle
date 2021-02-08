@@ -228,11 +228,11 @@ curseforge {
             releaseType = project.cf_release_type
             addGameVersion(project.mc_version)
             addGameVersion('1.16.4')
+            addGameVersion('1.16.5')
             mainArtifact(jar) {
 //                displayName = "$project.description $display_version"
                 relations {
                     requiredDependency 'silent-lib'
-                    optionalDependency 'silent-gear'
                 }
             }
 //            if (project.hasProperty('doAPIJar')) {
