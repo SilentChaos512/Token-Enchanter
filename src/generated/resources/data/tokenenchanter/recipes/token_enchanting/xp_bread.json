@@ -1,0 +1,19 @@
+{
+  "type": "tokenenchanter:token_enchanting",
+  "level_cost": 10,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:bread"
+    },
+    "others": [
+      {
+        "item": "minecraft:honey_bottle",
+        "count": 1
+      }
+    ]
+  },
+  "result": {
+    "item": "tokenenchanter:xp_bread",
+    "infuse_levels": 8
+  }
+}

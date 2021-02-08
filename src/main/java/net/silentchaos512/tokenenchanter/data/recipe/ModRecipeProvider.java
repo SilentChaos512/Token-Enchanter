@@ -64,10 +64,16 @@ public class ModRecipeProvider extends RecipeProvider {
     }
 
     private static void registerTokenEnchanting(Consumer<IFinishedRecipe> consumer) {
-        TokenEnchantingRecipeBuilder.builder(Items.GOLDEN_APPLE, 1, 1)
+        TokenEnchantingRecipeBuilder.builder(Items.GOLDEN_APPLE, 1, 2)
                 .token(Items.APPLE)
-                .addIngredient(Tags.Items.INGOTS_GOLD, 4)
-                .build(consumer, TokenMod.getId("token_enchanting/apple_test"));
+                .addIngredient(Tags.Items.INGOTS_GOLD, 6)
+                .build(consumer, TokenMod.getId("token_enchanting/golden_apple"));
+
+        TokenEnchantingRecipeBuilder.builder(ModItems.XP_BREAD, 1, 10)
+                .infuseLevels(8)
+                .token(Items.BREAD)
+                .addIngredient(Items.HONEY_BOTTLE, 1)
+                .build(consumer);
 
         enchantedToken(Enchantments.EFFICIENCY, 1)
                 .addIngredient(Tags.Items.NUGGETS_GOLD, 4)

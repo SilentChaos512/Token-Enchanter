@@ -204,6 +204,15 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
                 }
             }
 
+            if (recipe.result.getItem() instanceof IXpItem) {
+                // Infuse XP levels into certain items (XP bread, crystals, etc.)
+                int amount = JSONUtils.getInt(resultJson, "infuse_levels", 0);
+                if (amount > 0) {
+                    IXpItem item = (IXpItem) recipe.result.getItem();
+                    item.addLevels(recipe.result, amount);
+                }
+            }
+
             if (!recipe.valid) {
                 logInvalidRecipe(recipe);
             }

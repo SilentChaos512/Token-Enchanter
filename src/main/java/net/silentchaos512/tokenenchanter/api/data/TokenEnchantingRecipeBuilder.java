@@ -11,6 +11,7 @@ import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
+import net.silentchaos512.tokenenchanter.api.item.IXpItem;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 import javax.annotation.Nullable;
@@ -27,6 +28,7 @@ public class TokenEnchantingRecipeBuilder {
     private Ingredient token;
     private final Map<Ingredient, Integer> ingredients = new LinkedHashMap<>();
     private final Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+    private int infuseLevels = 0;
 
     protected TokenEnchantingRecipeBuilder(IItemProvider result, int count, int levelCost) {
         this.result = result.asItem();
@@ -45,6 +47,14 @@ public class TokenEnchantingRecipeBuilder {
 
     public TokenEnchantingRecipeBuilder enchantment(Enchantment enchantment, int level) {
         this.enchantments.put(enchantment, level);
+        return this;
+    }
+
+    public TokenEnchantingRecipeBuilder infuseLevels(int levels) {
+        if (!(this.result instanceof IXpItem)) {
+            throw new IllegalStateException("Item '" + NameUtils.from(this.result) + "' is not an IXpItem");
+        }
+        this.infuseLevels = levels;
         return this;
     }
 
@@ -127,6 +137,9 @@ public class TokenEnchantingRecipeBuilder {
                     array.add(obj);
                 });
                 result.add("enchantments", array);
+            }
+            if (builder.infuseLevels > 0) {
+                result.addProperty("infuse_levels", builder.infuseLevels);
             }
             json.add("result", result);
         }
