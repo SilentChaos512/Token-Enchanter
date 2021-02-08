@@ -17,7 +17,6 @@ import net.silentchaos512.tokenenchanter.api.data.TokenEnchantingRecipeBuilder;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
-import net.silentchaos512.tokenenchanter.setup.ModTags;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -267,9 +266,7 @@ public class ModRecipeProvider extends RecipeProvider {
         ENCHANTED_TOKEN_RECIPES_CREATED.add(enchantment);
 
         ResourceLocation id = NameUtils.from(enchantment);
-        return TokenEnchantingRecipeBuilder.builder(ModItems.ENCHANTED_TOKEN, 1, levelCost)
-                .enchantment(enchantment, 1)
-                .name(TokenMod.getId(String.format("enchanted_token/%s.%s", id.getNamespace(), id.getPath())))
-                .token(ModTags.Items.TOKENS_GOLD);
+        return TokenEnchantingRecipeBuilder.enchantedTokenBuilder(enchantment, 1, 1, levelCost)
+                .name(TokenMod.getId(String.format("enchanted_token/%s.%s", id.getNamespace(), id.getPath())));
     }
 }

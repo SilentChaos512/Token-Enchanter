@@ -12,7 +12,9 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.api.item.IXpItem;
+import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
+import net.silentchaos512.tokenenchanter.setup.ModTags;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
@@ -38,6 +40,12 @@ public class TokenEnchantingRecipeBuilder {
 
     public static TokenEnchantingRecipeBuilder builder(IItemProvider result, int count, int levelCost) {
         return new TokenEnchantingRecipeBuilder(result, count, levelCost);
+    }
+
+    public static TokenEnchantingRecipeBuilder enchantedTokenBuilder(Enchantment enchantment, int enchantmentLevel, int count, int levelCost) {
+        return builder(ModItems.ENCHANTED_TOKEN, count, levelCost)
+                .enchantment(enchantment, enchantmentLevel)
+                .token(ModTags.Items.TOKENS_GOLD);
     }
 
     public TokenEnchantingRecipeBuilder name(ResourceLocation name) {
