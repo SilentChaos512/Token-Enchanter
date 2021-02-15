@@ -8,7 +8,7 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.config.ModConfig;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.Registration;

@@ -8,7 +8,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 public class XpCrystalRecipe extends ExtendedShapedRecipe {
@@ -36,8 +37,10 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
             float storedLevels = 0;
             for (int i = 0; i < craftingInventory.getSizeInventory(); ++i) {
                 ItemStack stack = craftingInventory.getStackInSlot(i);
-                LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
-                storedLevels += lazy.map(IXpStorage::getLevels).orElse(0f);
+                IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+                if (xp.canDrain()) {
+                    storedLevels += xp.getLevels();
+                }
             }
 
             final float toAdd = storedLevels;

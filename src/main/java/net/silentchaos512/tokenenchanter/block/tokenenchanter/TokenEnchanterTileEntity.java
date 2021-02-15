@@ -10,7 +10,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
@@ -155,7 +157,8 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         if (index == 0) {
-            return stack.getCapability(XpStorageCapability.INSTANCE).isPresent();
+            IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+            return xp.canDrain();
         }
         return index < INVENTORY_SIZE - 1;
     }

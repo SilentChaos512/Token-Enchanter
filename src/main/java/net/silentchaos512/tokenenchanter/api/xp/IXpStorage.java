@@ -9,6 +9,8 @@ public interface IXpStorage {
 
     int getCapacity();
 
+    boolean canDrain();
+
     default void drainLevels(float amount) {
         setLevels(MathHelper.clamp(getLevels() - amount, 0, getCapacity()));
     }

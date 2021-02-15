@@ -7,8 +7,8 @@ public class XpStorageItemImpl extends XpStorage {
 
     private final ItemStack stack;
 
-    public XpStorageItemImpl(ItemStack stack, int capacity) {
-        super(capacity);
+    public XpStorageItemImpl(ItemStack stack, int capacity, boolean canDrain) {
+        super(capacity, canDrain);
         this.stack = stack;
     }
 

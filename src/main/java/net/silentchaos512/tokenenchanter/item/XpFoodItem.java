@@ -16,7 +16,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageItemImpl;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
 
 import javax.annotation.Nonnull;
@@ -41,7 +41,7 @@ public class XpFoodItem extends Item {
             @Override
             public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
                 if (cap == XpStorageCapability.INSTANCE) {
-                    return LazyOptional.of(() -> new XpStorageItemImpl(stack, Integer.MAX_VALUE)).cast();
+                    return LazyOptional.of(() -> new XpStorageItemImpl(stack, Integer.MAX_VALUE, false)).cast();
                 }
                 return LazyOptional.empty();
             }

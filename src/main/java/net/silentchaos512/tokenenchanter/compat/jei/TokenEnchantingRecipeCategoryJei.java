@@ -15,12 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
@@ -110,12 +109,11 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     private static List<ItemStack> getXpCrystals(TokenEnchanterRecipe recipe) {
         return ForgeRegistries.ITEMS.getValues().stream()
                 .map(ItemStack::new)
-                .filter(stack -> stack.getCapability(XpStorageCapability.INSTANCE).isPresent())
-                .map(TokenEnchantingRecipeCategoryJei::getFullCrystal)
                 .filter(stack -> {
-                    LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
-                    return lazy.orElseGet(() -> new XpStorage(0)).getCapacity() >= recipe.getLevelCost();
+                    IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+                    return xp.canDrain() && xp.getCapacity() >= recipe.getLevelCost();
                 })
+                .map(TokenEnchantingRecipeCategoryJei::getFullCrystal)
                 .collect(Collectors.toList());
     }
 

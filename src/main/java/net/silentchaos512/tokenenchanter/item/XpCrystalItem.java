@@ -21,7 +21,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageItemImpl;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
 
 import javax.annotation.Nonnull;
@@ -37,7 +37,7 @@ public class XpCrystalItem extends Item {
     }
 
     private static int getFillAmount(ItemStack stack) {
-        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         int normalAmount = xp.getCapacity() / 5;
         int freeSpace = (int) (xp.getCapacity() - xp.getLevels());
         return Math.min(freeSpace, normalAmount);
@@ -45,9 +45,12 @@ public class XpCrystalItem extends Item {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         float levels = xp.getLevels();
         float max = xp.getCapacity();
+        if (max == 0f) {
+            return 1.0;
+        }
         return (max - levels) / max;
     }
 
@@ -59,7 +62,7 @@ public class XpCrystalItem extends Item {
             @Override
             public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
                 if (cap == XpStorageCapability.INSTANCE) {
-                    return LazyOptional.of(() -> new XpStorageItemImpl(stack, XpCrystalItem.this.maxLevels)).cast();
+                    return LazyOptional.of(() -> new XpStorageItemImpl(stack, XpCrystalItem.this.maxLevels, true)).cast();
                 }
                 return LazyOptional.empty();
             }
@@ -92,8 +95,7 @@ public class XpCrystalItem extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
-        LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
-        IXpStorage xp = lazy.orElse(new XpStorage(0));
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         int fillAmount = getFillAmount(stack);
 
         if (xp.getLevels() < xp.getCapacity()) {
@@ -130,7 +132,7 @@ public class XpCrystalItem extends Item {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         float levels = xp.getLevels();
         if (levels <= 0.1f) {
             tooltip.add(TextUtil.translate("item", "xp_crystal.hint").copyRaw().mergeStyle(TextFormatting.ITALIC));

@@ -6,7 +6,7 @@ import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModLoot;
 
 public class FillXpItemFunction extends LootFunction {

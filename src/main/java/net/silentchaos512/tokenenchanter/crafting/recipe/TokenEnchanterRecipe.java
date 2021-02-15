@@ -11,13 +11,13 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
-import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 import java.util.Collections;
@@ -125,9 +125,8 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
     private boolean matchesXpCrystal(ItemStack stack) {
         // Return true if item is an XP crystal with sufficient levels
-        LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
-        float storedLevels = lazy.map(IXpStorage::getLevels).orElse(0f);
-        return storedLevels >= this.levelCost;
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+        return xp.canDrain() && xp.getLevels() >= this.levelCost;
     }
 
     @Override

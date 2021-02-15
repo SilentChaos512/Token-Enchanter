@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed
+- (API) Rework `IXpItem` and `IXpCrystalItem` into a capability so that mods can add XP crystal/food items without adding a required dependency
+### Fixed
+- XP crystals taking more levels from the player than they can store when too full
+- Invalid items going into the token enchanter's XP crystal slot
+
 ## [1.0.1] - 2021-02-08
 ### Fixed
 - Unable to apply enchanted tokens to anything (missing recipe)

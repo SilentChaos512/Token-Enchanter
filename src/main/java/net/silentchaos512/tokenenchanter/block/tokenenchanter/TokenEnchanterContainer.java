@@ -31,7 +31,12 @@ public class TokenEnchanterContainer extends Container {
         trackIntArray(this.fields);
 
         // XP crystal
-        this.addSlot(new Slot(this.tileEntity, 0, 22, 55));
+        this.addSlot(new Slot(this.tileEntity, 0, 22, 55) {
+            @Override
+            public boolean isItemValid(ItemStack stack) {
+                return TokenEnchanterContainer.this.tileEntity.isItemValidForSlot(0, stack);
+            }
+        });
         // Token
         this.addSlot(new Slot(this.tileEntity, 1, 22, 35));
         // Other ingredients
