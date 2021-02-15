@@ -11,15 +11,16 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
-import net.silentchaos512.tokenenchanter.api.item.IXpItem;
+import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
@@ -108,16 +109,18 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
 
     private static List<ItemStack> getXpCrystals(TokenEnchanterRecipe recipe) {
         return ForgeRegistries.ITEMS.getValues().stream()
-                .filter(item -> item instanceof IXpCrystalItem)
+                .map(ItemStack::new)
+                .filter(stack -> stack.getCapability(XpStorageCapability.INSTANCE).isPresent())
                 .map(TokenEnchantingRecipeCategoryJei::getFullCrystal)
-                .filter(stack -> ((IXpCrystalItem) stack.getItem()).getMaxLevels(stack) >= recipe.getLevelCost())
+                .filter(stack -> {
+                    LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
+                    return lazy.orElseGet(() -> new XpStorage(0)).getCapacity() >= recipe.getLevelCost();
+                })
                 .collect(Collectors.toList());
     }
 
-    private static ItemStack getFullCrystal(Item item) {
-        IXpItem xpItem = (IXpCrystalItem) item;
-        ItemStack stack = new ItemStack(item);
-        xpItem.addLevels(stack, xpItem.getMaxLevels(stack));
+    private static ItemStack getFullCrystal(ItemStack stack) {
+        stack.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(xp.getCapacity()));
         return stack;
     }
 

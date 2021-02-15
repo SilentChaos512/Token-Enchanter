@@ -5,8 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
-import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
+import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 public class XpCrystalRecipe extends ExtendedShapedRecipe {
@@ -27,18 +29,19 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
     @Override
     public ItemStack getCraftingResult(CraftingInventory craftingInventory) {
         ItemStack ret = getBaseRecipe().getCraftingResult(craftingInventory);
+        LazyOptional<IXpStorage> retCap = ret.getCapability(XpStorageCapability.INSTANCE);
 
-        if (ret.getItem() instanceof IXpCrystalItem) {
+        if (retCap.isPresent()) {
             // Get sum of the stored levels on all crystal, to preserve them
-            int storedLevels = 0;
+            float storedLevels = 0;
             for (int i = 0; i < craftingInventory.getSizeInventory(); ++i) {
                 ItemStack stack = craftingInventory.getStackInSlot(i);
-                if (stack.getItem() instanceof IXpCrystalItem) {
-                    storedLevels += ((IXpCrystalItem) stack.getItem()).getLevels(stack);
-                }
+                LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
+                storedLevels += lazy.map(IXpStorage::getLevels).orElse(0f);
             }
 
-            ((IXpCrystalItem) ret.getItem()).addLevels(ret, storedLevels);
+            final float toAdd = storedLevels;
+            retCap.ifPresent(xp -> xp.addLevels(toAdd));
         }
 
         return ret;

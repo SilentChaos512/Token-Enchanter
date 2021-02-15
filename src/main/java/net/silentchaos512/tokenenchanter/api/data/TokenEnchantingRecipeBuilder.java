@@ -5,13 +5,14 @@ import com.google.gson.JsonObject;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
-import net.silentchaos512.tokenenchanter.api.item.IXpItem;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 import net.silentchaos512.tokenenchanter.setup.ModTags;
@@ -59,8 +60,8 @@ public class TokenEnchantingRecipeBuilder {
     }
 
     public TokenEnchantingRecipeBuilder infuseLevels(int levels) {
-        if (!(this.result instanceof IXpItem)) {
-            throw new IllegalStateException("Item '" + NameUtils.from(this.result) + "' is not an IXpItem");
+        if (!new ItemStack(result).getCapability(XpStorageCapability.INSTANCE).isPresent()) {
+            throw new IllegalStateException("Item '" + NameUtils.from(this.result) + "' has no XP storage capability");
         }
         this.infuseLevels = levels;
         return this;

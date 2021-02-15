@@ -1,6 +1,6 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package net.silentchaos512.tokenenchanter.api.item;
+package net.silentchaos512.tokenenchanter.api.xp;
 
 import mcp.MethodsReturnNonnullByDefault;
 

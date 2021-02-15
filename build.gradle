@@ -268,7 +268,7 @@ publishing {
     publications {
         publication(MavenPublication) {
             groupId project.group
-            artifactId project.repoName
+            artifactId "${project.repoName}-${project.mc_version}"
             version "${versionInfo['version_short']}".toString()
 
             from components.java

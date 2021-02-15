@@ -11,12 +11,13 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.tokenenchanter.TokenMod;
-import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
-import net.silentchaos512.tokenenchanter.api.item.IXpItem;
+import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 import java.util.Collections;
@@ -59,10 +60,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
     public void consumeIngredients(IInventory inv) {
         ItemStack stack = inv.getStackInSlot(0);
-        if (stack.getItem() instanceof IXpCrystalItem) {
-            IXpItem crystalItem = (IXpCrystalItem) stack.getItem();
-            crystalItem.drainLevels(stack, this.levelCost);
-        }
+        stack.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.drainLevels(this.levelCost));
 
         consumeItems(inv, 1, 2, token, 1);
         ingredientMap.forEach(((ingredient, count) -> {
@@ -127,12 +125,9 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
     private boolean matchesXpCrystal(ItemStack stack) {
         // Return true if item is an XP crystal with sufficient levels
-        if (stack.getItem() instanceof IXpCrystalItem) {
-            IXpItem crystalItem = (IXpCrystalItem) stack.getItem();
-            float storedLevels = crystalItem.getLevels(stack);
-            return storedLevels >= this.levelCost;
-        }
-        return false;
+        LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
+        float storedLevels = lazy.map(IXpStorage::getLevels).orElse(0f);
+        return storedLevels >= this.levelCost;
     }
 
     @Override
@@ -204,12 +199,11 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
                 }
             }
 
-            if (recipe.result.getItem() instanceof IXpItem) {
+            if (recipe.result.getCapability(XpStorageCapability.INSTANCE).isPresent()) {
                 // Infuse XP levels into certain items (XP bread, crystals, etc.)
                 int amount = JSONUtils.getInt(resultJson, "infuse_levels", 0);
                 if (amount > 0) {
-                    IXpItem item = (IXpItem) recipe.result.getItem();
-                    item.addLevels(recipe.result, amount);
+                    recipe.result.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(amount));
                 }
             }
 

@@ -6,7 +6,7 @@ import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.ILootCondition;
-import net.silentchaos512.tokenenchanter.api.item.IXpItem;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModLoot;
 
 public class FillXpItemFunction extends LootFunction {
@@ -21,9 +21,10 @@ public class FillXpItemFunction extends LootFunction {
 
     @Override
     protected ItemStack doApply(ItemStack stack, LootContext context) {
-        if (stack.getItem() instanceof IXpItem) {
+        if (stack.getCapability(XpStorageCapability.INSTANCE).isPresent()) {
             ItemStack ret = stack.copy();
-            ((IXpItem) stack.getItem()).addLevels(ret, this.levels.generateInt(context.getRandom()));
+            ret.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp ->
+                    xp.addLevels(this.levels.generateInt(context.getRandom())));
             return ret;
         }
         return stack;

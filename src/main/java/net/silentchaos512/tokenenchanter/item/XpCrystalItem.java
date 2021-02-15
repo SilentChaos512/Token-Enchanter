@@ -7,19 +7,28 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.silentchaos512.tokenenchanter.api.item.IXpCrystalItem;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageItemImpl;
+import net.silentchaos512.tokenenchanter.capability.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class XpCrystalItem extends Item implements IXpCrystalItem {
+public class XpCrystalItem extends Item {
     private final int maxLevels;
 
     public XpCrystalItem(int maxLevels, Properties properties) {
@@ -27,21 +36,34 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
         this.maxLevels = maxLevels;
     }
 
-    @Override
-    public float getMaxLevels(ItemStack stack) {
-        return maxLevels;
-    }
-
-    @Override
-    public int getFillAmount(ItemStack stack) {
-        return (int) getMaxLevels(stack) / 5;
+    private static int getFillAmount(ItemStack stack) {
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        int normalAmount = xp.getCapacity() / 5;
+        int freeSpace = (int) (xp.getCapacity() - xp.getLevels());
+        return Math.min(freeSpace, normalAmount);
     }
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        float levels = getLevels(stack);
-        float max = getMaxLevels(stack);
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        float levels = xp.getLevels();
+        float max = xp.getCapacity();
         return (max - levels) / max;
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        return new ICapabilityProvider() {
+            @Nonnull
+            @Override
+            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+                if (cap == XpStorageCapability.INSTANCE) {
+                    return LazyOptional.of(() -> new XpStorageItemImpl(stack, XpCrystalItem.this.maxLevels)).cast();
+                }
+                return LazyOptional.empty();
+            }
+        };
     }
 
     @Override
@@ -70,9 +92,11 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
-        if (getLevels(stack) < getMaxLevels(stack)) {
-            int fillAmount = getFillAmount(stack);
+        LazyOptional<IXpStorage> lazy = stack.getCapability(XpStorageCapability.INSTANCE);
+        IXpStorage xp = lazy.orElse(new XpStorage(0));
+        int fillAmount = getFillAmount(stack);
 
+        if (xp.getLevels() < xp.getCapacity()) {
             if (getPlayerLevel(playerIn) >= fillAmount) {
                 playerIn.setActiveHand(handIn);
                 return ActionResult.resultConsume(stack);
@@ -83,6 +107,7 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
                 return ActionResult.resultFail(stack);
             }
         }
+
         return super.onItemRightClick(worldIn, playerIn, handIn);
     }
 
@@ -96,7 +121,7 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
             player.addExperienceLevel(-fillAmount);
 
             ItemStack ret = stack.copy();
-            addLevels(ret, fillAmount);
+            ret.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(fillAmount));
             return ret;
         }
 
@@ -105,13 +130,14 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        float levels = getLevels(stack);
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(new XpStorage(0));
+        float levels = xp.getLevels();
         if (levels <= 0.1f) {
             tooltip.add(TextUtil.translate("item", "xp_crystal.hint").copyRaw().mergeStyle(TextFormatting.ITALIC));
         }
 
         String levelsFormatted = String.format("%.1f", levels);
-        String max = String.valueOf((int) getMaxLevels(stack));
+        String max = String.valueOf(xp.getCapacity());
         tooltip.add(TextUtil.translate("item", "xp_crystal.levels", levelsFormatted, max));
     }
 
@@ -122,7 +148,7 @@ public class XpCrystalItem extends Item implements IXpCrystalItem {
             items.add(empty);
 
             ItemStack full = empty.copy();
-            addLevels(full, getMaxLevels(full));
+            full.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(xp.getCapacity()));
             items.add(full);
         }
     }
