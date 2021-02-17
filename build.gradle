@@ -158,7 +158,6 @@ dependencies {
 }
 
 jar {
-    appendix = "${project.mc_version}"
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
@@ -171,19 +170,16 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-    appendix = "${project.mc_version}"
     classifier = 'sources'
     from sourceSets.main.allJava
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    appendix = "${project.mc_version}"
     classifier = 'javadoc'
     from javadoc.getDestinationDir()
 }
 
 task apiJar(type: Jar) {
-    appendix = "${project.mc_version}"
     classifier = 'api'
     include 'net/silentchaos512/tokenenchanter/api/**/*'
     from sourceSets.main.allSource
@@ -265,37 +261,22 @@ curseforge {
 // Bintray/Maven publishing
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/silentchaos512/${project.repoName}")
+            credentials {
+                username = secret.github_username ?: System.getenv('github_username')
+                password = secret.github_token ?: System.getenv('github_token')
+            }
+        }
+    }
     publications {
-        publication(MavenPublication) {
-            groupId project.group
-            artifactId "${project.repoName}-${project.mc_version}"
-            version "${versionInfo['version_short']}".toString()
-
-            from components.java
-
+        gpr(MavenPublication) {
+            from(components.java)
             artifact apiJar
             artifact sourcesJar
             artifact javadocJar
-        }
-    }
-}
-
-bintray {
-    user = secret.BINTRAY_USER ?: System.getenv('BINTRAY_USER')
-    key = secret.BINTRAY_KEY ?: System.getenv('BINTRAY_KEY')
-    publications = ['publication']
-
-    pkg {
-        repo = project.repoName
-        name = "${project.repoName}-${project.mc_version}"
-        licenses = ["LGPL-3.0"]
-        vcsUrl = project.vcsUrl
-
-        version {
-            name = "${versionInfo['version_short']}".toString()
-            desc = "${project.name} (${project.mc_version}) ${versionInfo['version_short']}".toString()
-            released = new Date()
-            vcsTag = "v${versionInfo['version_short']}".toString()
         }
     }
 }
@@ -331,7 +312,7 @@ def getGitVersion() {
     return makeVersionMap(maj, min, rev, bn, matcher[0][4])
 }
 
-static def makeVersionMap(maj, min, rev, bn, githash) {
+def makeVersionMap(maj, min, rev, bn, githash) {
     def out = [:]
     out['build.major.number'] = maj.toString()
     out['build.minor.number'] = min.toString()
@@ -339,7 +320,7 @@ static def makeVersionMap(maj, min, rev, bn, githash) {
     out['build.githash'] = githash
     out['build.number'] = bn.toString()
     out['version_short'] = "${maj}.${min}.${rev}".toString()
-    out['version'] = "${maj}.${min}.${rev}+${bn}".toString()
+    out['version'] = "${project.mc_version}-${maj}.${min}.${rev}".toString()
     return out
 }
 
