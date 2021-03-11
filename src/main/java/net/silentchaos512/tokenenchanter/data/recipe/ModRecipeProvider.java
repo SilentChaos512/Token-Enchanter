@@ -1,42 +1,45 @@
 package net.silentchaos512.tokenenchanter.data.recipe;
 
-import net.minecraft.data.CustomRecipeBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.conditions.ICondition;
+import net.minecraftforge.common.crafting.conditions.NotCondition;
+import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
+import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.api.data.TokenEnchantingRecipeBuilder;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
+import net.silentchaos512.tokenenchanter.setup.ModTags;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class ModRecipeProvider extends RecipeProvider {
+public class ModRecipeProvider extends LibRecipeProvider {
     public ModRecipeProvider(DataGenerator generatorIn) {
-        super(generatorIn);
+        super(generatorIn, TokenMod.MOD_ID);
     }
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        customRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN);
+        registerCustomRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN.get());
 
         registerTokenEnchanting(consumer);
 
-        ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.GOLD_TOKEN, 16)
+        shapedBuilder(ModItems.GOLD_TOKEN, 16)
                 .patternLine("///")
                 .patternLine("lel")
                 .patternLine("///")
@@ -45,7 +48,32 @@ public class ModRecipeProvider extends RecipeProvider {
                 .key('e', Tags.Items.GEMS_EMERALD)
                 .build(consumer);
 
-        ExtendedShapedRecipeBuilder.vanillaBuilder(ModBlocks.TOKEN_ENCHANTER)
+        TagEmptyCondition silverTagEmpty = new TagEmptyCondition(ModTags.Items.INGOTS_SILVER.getName());
+        NotCondition silverTagExists = new NotCondition(silverTagEmpty);
+
+        shapedBuilder(ModItems.SILVER_TOKEN, 16)
+                .addExtraData(json -> writeConditions(json, silverTagExists))
+                .patternLine("///")
+                .patternLine("lel")
+                .patternLine("///")
+                .key('/', ModTags.Items.INGOTS_SILVER)
+                .key('l', Tags.Items.GEMS_LAPIS)
+                .key('e', Tags.Items.GEMS_EMERALD)
+                .build(consumer);
+
+        // Alternative silver token recipe, loaded when no silver ingots are tagged
+        shapedBuilder(ModItems.SILVER_TOKEN, 8)
+                .addExtraData(json -> writeConditions(json, silverTagEmpty))
+                .patternLine("/n/")
+                .patternLine("lel")
+                .patternLine("/n/")
+                .key('/', Tags.Items.INGOTS_IRON)
+                .key('l', Tags.Items.GEMS_LAPIS)
+                .key('e', Tags.Items.GEMS_EMERALD)
+                .key('n', Tags.Items.NUGGETS_GOLD)
+                .build(consumer, modId("silver_token_no_silver"));
+
+        shapedBuilder(ModBlocks.TOKEN_ENCHANTER)
                 .patternLine(" d ")
                 .patternLine("/t/")
                 .patternLine("o#o")
@@ -56,7 +84,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .key('#', Tags.Items.STORAGE_BLOCKS_LAPIS)
                 .build(consumer);
 
-        ExtendedShapedRecipeBuilder.builder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.SMALL_XP_CRYSTAL)
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.SMALL_XP_CRYSTAL)
                 .patternLine("e")
                 .patternLine("o")
                 .patternLine("e")
@@ -64,7 +92,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .key('o', ModItems.GOLD_TOKEN)
                 .build(consumer);
 
-        ExtendedShapedRecipeBuilder.builder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.XP_CRYSTAL)
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.XP_CRYSTAL)
                 .patternLine(" c ")
                 .patternLine("bbb")
                 .patternLine(" c ")
@@ -72,7 +100,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .key('b', Items.BLAZE_POWDER)
                 .build(consumer);
 
-        ExtendedShapedRecipeBuilder.builder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.LARGE_XP_CRYSTAL)
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.LARGE_XP_CRYSTAL)
                 .patternLine(" c ")
                 .patternLine("ene")
                 .patternLine(" c ")
@@ -276,7 +304,13 @@ public class ModRecipeProvider extends RecipeProvider {
                 .name(TokenMod.getId(String.format("enchanted_token/%s.%s", id.getNamespace(), id.getPath())));
     }
 
-    private static void customRecipe(Consumer<IFinishedRecipe> consumer, RegistryObject<SpecialRecipeSerializer<?>> serializer) {
-        CustomRecipeBuilder.customRecipe(serializer.get()).build(consumer, serializer.getId().toString());
+    protected void writeConditions(JsonObject json, ICondition... conditions) {
+        if (conditions.length > 0) {
+            JsonArray array = new JsonArray();
+            for (ICondition condition : conditions) {
+                array.add(CraftingHelper.serialize(condition));
+            }
+            json.add("conditions", array);
+        }
     }
 }

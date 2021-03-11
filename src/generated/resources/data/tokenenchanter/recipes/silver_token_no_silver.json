@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "/n/",
+    "lel",
+    "/n/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:ingots/iron"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    },
+    "e": {
+      "tag": "forge:gems/emerald"
+    },
+    "n": {
+      "tag": "forge:nuggets/gold"
+    }
+  },
+  "result": {
+    "item": "tokenenchanter:silver_token",
+    "count": 8
+  },
+  "conditions": [
+    {
+      "tag": "forge:ingots/silver",
+      "type": "forge:tag_empty"
+    }
+  ]
+}

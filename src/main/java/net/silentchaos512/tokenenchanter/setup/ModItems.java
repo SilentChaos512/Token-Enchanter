@@ -17,6 +17,7 @@ public final class ModItems {
     private static final Collection<ItemRegistryObject<? extends Item>> SIMPLE_MODEL_ITEMS = new ArrayList<>();
 
     public static final ItemRegistryObject<Item> GOLD_TOKEN = registerCraftingItem("gold_token");
+    public static final ItemRegistryObject<Item> SILVER_TOKEN = registerCraftingItem("silver_token");
 
     public static final ItemRegistryObject<XpCrystalItem> SMALL_XP_CRYSTAL = registerSimpleModel("small_xp_crystal", () ->
             new XpCrystalItem(10, unstackableProps()));

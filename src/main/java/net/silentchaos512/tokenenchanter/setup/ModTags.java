@@ -27,6 +27,9 @@ public class ModTags {
 
     public static final class Items {
         public static final ITag.INamedTag<Item> TOKENS_GOLD = mod("tokens/gold");
+        public static final ITag.INamedTag<Item> TOKENS_SILVER = mod("tokens/silver");
+
+        public static final ITag.INamedTag<Item> INGOTS_SILVER = forge("ingots/silver");
 
         private Items() {}
 
