@@ -31,7 +31,16 @@ import java.util.*;
 
 public class EnchantedTokenItem extends Item {
     public enum Icon {
-        ANY, ARMOR, BOW, CROSSBOW, FISHING_ROD, SWORD, TOOL, TRIDENT, UNKNOWN;
+        ANY,
+        TOOL,
+        SWORD,
+        FISHING_ROD,
+        TRIDENT,
+        BOW,
+        CROSSBOW,
+        ARMOR,
+        CURSE,
+        UNKNOWN;
 
         public String getName() {
             return name().toLowerCase(Locale.ROOT);
@@ -232,7 +241,7 @@ public class EnchantedTokenItem extends Item {
 
     private static int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
         // First compare icon names (group together enchantments of one type)
-        int k = getModelIcon(o1).getName().compareTo(getModelIcon(o2).getName());
+        int k = Integer.compare(getModelIcon(o1).ordinal(), getModelIcon(o2).ordinal());
         if (k == 0) {
             Enchantment e1 = getSingleEnchantment(o1);
             Enchantment e2 = getSingleEnchantment(o2);
@@ -313,7 +322,10 @@ public class EnchantedTokenItem extends Item {
         Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
         if (map.isEmpty()) return Icon.UNKNOWN;
 
-        EnchantmentType type = map.keySet().iterator().next().type;
+        Enchantment enchantment = map.keySet().iterator().next();
+        if (enchantment.isCurse()) return Icon.CURSE;
+
+        EnchantmentType type = enchantment.type;
         if (type == null) return Icon.UNKNOWN;
 
         return MODELS_BY_TYPE.getOrDefault(type.toString(), Icon.UNKNOWN);

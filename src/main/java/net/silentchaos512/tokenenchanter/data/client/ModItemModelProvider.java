@@ -36,9 +36,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     private void registerEnchantedTokens(ModelFile itemGenerated) {
         for (EnchantedTokenItem.Icon icon : EnchantedTokenItem.Icon.values()) {
+            String tokenTexture = icon != EnchantedTokenItem.Icon.CURSE ? "item/gold_token" : "item/cursed_token";
             getBuilder("item/enchanted_token/" + icon.getName())
                     .parent(itemGenerated)
-                    .texture("layer0", modLoc("item/gold_token"))
+                    .texture("layer0", modLoc(tokenTexture))
                     .texture("layer1", modLoc("item/enchanted_token/outline"))
                     .texture("layer2", modLoc("item/enchanted_token/" + icon.getName()));
         }

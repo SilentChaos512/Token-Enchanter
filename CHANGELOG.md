@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2021-03-11
+### Added
+- Silver tokens (has an alternative recipe if silver ingots are not available)
+- Recipes for curse tokens (because why not?)
+- Unique model for curse enchantment tokens
+### Changed
+- Tweaked token textures
+- Reorder token types in JEI
+
 ## [1.0.2] - 2021-02-15
 ### Changed
 - (API) Rework `IXpItem` and `IXpCrystalItem` into a capability so that mods can add XP crystal/food items without adding a required dependency

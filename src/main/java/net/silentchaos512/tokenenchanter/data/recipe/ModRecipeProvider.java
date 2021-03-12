@@ -6,7 +6,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
@@ -285,10 +287,13 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Tags.Items.COBBLESTONE, 12)
                 .build(consumer);
 
+        createCursedTokenRecipe(consumer, Enchantments.BINDING_CURSE, Tags.Items.STRING);
+        createCursedTokenRecipe(consumer, Enchantments.VANISHING_CURSE, Tags.Items.GUNPOWDER);
+
         for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS.getValues()) {
             // Check for vanilla enchantments with missing recipes
             ResourceLocation id = NameUtils.from(enchantment);
-            if (!enchantment.isCurse() && "minecraft".equals(id.getNamespace()) && !ENCHANTED_TOKEN_RECIPES_CREATED.contains(enchantment)) {
+            if ("minecraft".equals(id.getNamespace()) && !ENCHANTED_TOKEN_RECIPES_CREATED.contains(enchantment)) {
                 throw new NullPointerException("Missing enchanted token recipe for '" + id + "'");
             }
         }
@@ -299,9 +304,23 @@ public class ModRecipeProvider extends LibRecipeProvider {
     private static TokenEnchantingRecipeBuilder enchantedToken(Enchantment enchantment, int levelCost) {
         ENCHANTED_TOKEN_RECIPES_CREATED.add(enchantment);
 
-        ResourceLocation id = NameUtils.from(enchantment);
         return TokenEnchantingRecipeBuilder.enchantedTokenBuilder(enchantment, 1, 1, levelCost)
-                .name(TokenMod.getId(String.format("enchanted_token/%s.%s", id.getNamespace(), id.getPath())));
+                .name(getEnchantedTokenRecipeId(enchantment));
+    }
+
+    private static void createCursedTokenRecipe(Consumer<IFinishedRecipe> consumer, Enchantment enchantment, ITag<Item> ingredient) {
+        ENCHANTED_TOKEN_RECIPES_CREATED.add(enchantment);
+
+        TokenEnchantingRecipeBuilder.builder(ModItems.ENCHANTED_TOKEN, 1, 1)
+                .enchantment(enchantment, 1)
+                .token(ModItems.SILVER_TOKEN)
+                .addIngredient(ingredient, 4)
+                .build(consumer, getEnchantedTokenRecipeId(enchantment));
+    }
+
+    private static ResourceLocation getEnchantedTokenRecipeId(Enchantment enchantment) {
+        ResourceLocation enchantmentId = NameUtils.from(enchantment);
+        return TokenMod.getId(String.format("enchanted_token/%s.%s", enchantmentId.getNamespace(), enchantmentId.getPath()));
     }
 
     protected void writeConditions(JsonObject json, ICondition... conditions) {
