@@ -1,4 +1,4 @@
-package net.silentchaos512.tokenenchanter.data.recipe;
+package net.silentchaos512.tokenenchanter.crafting.recipe;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;

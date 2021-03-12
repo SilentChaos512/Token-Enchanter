@@ -9,7 +9,7 @@ import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.crafting.recipe.ApplyEnchantedTokenRecipe;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
-import net.silentchaos512.tokenenchanter.data.recipe.XpCrystalRecipe;
+import net.silentchaos512.tokenenchanter.crafting.recipe.XpCrystalRecipe;
 
 import java.util.function.Supplier;
 
