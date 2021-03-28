@@ -50,9 +50,7 @@ public class ApplyEnchantedTokenRecipe extends SpecialRecipe {
         ItemStack result = tool.copy();
         result.setCount(1);
         for (ItemStack token : tokens) {
-            if (!EnchantedTokenItem.applyTokenToTool(token, result)) {
-                return ItemStack.EMPTY;
-            }
+            result = EnchantedTokenItem.applyTokenToItem(token, result);
         }
         return result;
     }

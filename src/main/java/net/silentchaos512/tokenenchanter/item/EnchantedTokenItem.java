@@ -9,10 +9,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
+import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -115,15 +112,46 @@ public class EnchantedTokenItem extends Item {
 
     //region Crafting
 
-    public static boolean applyTokenToTool(ItemStack token, ItemStack tool) {
+    public static ItemStack applyTokenToItem(ItemStack token, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return stack;
+        }
+
+        if (stack.getItem() == Items.BOOK || stack.getItem() == Items.ENCHANTED_BOOK) {
+            return applyTokenToBook(token, stack);
+        }
+        return applyTokenToTool(token, stack);
+    }
+
+    public static ItemStack applyTokenToBook(ItemStack token, ItemStack book) {
+        ItemStack ret = book.getItem() == Items.BOOK ? new ItemStack(Items.ENCHANTED_BOOK) : book.copy();
+
+        // Enchantments on token
+        Map<Enchantment, Integer> enchantmentsOnToken = EnchantmentHelper.getEnchantments(token);
+        if (enchantmentsOnToken.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        // Enchantments on book
+        Map<Enchantment, Integer> enchantmentsOnBook = EnchantmentHelper.getEnchantments(ret);
+
+        // Appy enchantments to new copy of book
+        if (!mergeEnchantmentLists(enchantmentsOnToken, enchantmentsOnBook)) {
+            return ItemStack.EMPTY;
+        }
+        EnchantmentHelper.setEnchantments(enchantmentsOnToken, ret);
+        return ret;
+    }
+
+    public static ItemStack applyTokenToTool(ItemStack token, ItemStack tool) {
         if (token.isEmpty() || tool.isEmpty()) {
-            return false;
+            return ItemStack.EMPTY;
         }
 
         // Enchantments on token
         Map<Enchantment, Integer> enchantmentsOnToken = EnchantmentHelper.getEnchantments(token);
         if (enchantmentsOnToken.isEmpty()) {
-            return false;
+            return ItemStack.EMPTY;
         }
 
         // Enchantments on tool
@@ -134,24 +162,24 @@ public class EnchantedTokenItem extends Item {
             Enchantment ench = entry.getKey();
             // Valid for tool?
             if (!ench.canApply(tool)) {
-                return false;
+                return ItemStack.EMPTY;
             }
 
             // Does new enchantment conflict with any existing ones?
             for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
                 if (!ench.equals(enchTool) && !ench.isCompatibleWith(enchTool)) {
-                    return false;
+                    return ItemStack.EMPTY;
                 }
             }
         }
 
         // Appy enchantments to new copy of tool
         if (!mergeEnchantmentLists(enchantmentsOnToken, enchantmentsOnTool)) {
-            return false;
+            return ItemStack.EMPTY;
         }
-        EnchantmentHelper.setEnchantments(enchantmentsOnToken, tool);
-
-        return true;
+        ItemStack ret = tool.copy();
+        EnchantmentHelper.setEnchantments(enchantmentsOnToken, ret);
+        return ret;
     }
 
     private static boolean mergeEnchantmentLists(Map<Enchantment, Integer> first, Map<Enchantment, Integer> second) {
