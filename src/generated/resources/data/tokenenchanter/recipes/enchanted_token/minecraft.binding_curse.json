@@ -3,7 +3,7 @@
   "level_cost": 1,
   "ingredients": {
     "token": {
-      "item": "tokenenchanter:silver_token"
+      "tag": "tokenenchanter:tokens/silver"
     },
     "others": [
       {

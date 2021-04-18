@@ -313,7 +313,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         TokenEnchantingRecipeBuilder.builder(ModItems.ENCHANTED_TOKEN, 1, 1)
                 .enchantment(enchantment, 1)
-                .token(ModItems.SILVER_TOKEN)
+                .token(ModTags.Items.TOKENS_SILVER)
                 .addIngredient(ingredient, 4)
                 .build(consumer, getEnchantedTokenRecipeId(enchantment));
     }
