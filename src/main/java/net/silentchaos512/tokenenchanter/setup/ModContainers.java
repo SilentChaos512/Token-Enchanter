@@ -19,7 +19,7 @@ public class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(TOKEN_ENCHANTER.get(), TokenEnchanterScreen::new);
+        ScreenManager.register(TOKEN_ENCHANTER.get(), TokenEnchanterScreen::new);
     }
 
     private static <T extends Container> RegistryObject<ContainerType<T>> register(String name, IContainerFactory<T> factory) {

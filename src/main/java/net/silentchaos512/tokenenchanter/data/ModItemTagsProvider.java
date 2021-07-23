@@ -16,8 +16,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
-        getOrCreateBuilder(ModTags.Items.TOKENS_GOLD).add(ModItems.GOLD_TOKEN.get());
-        getOrCreateBuilder(ModTags.Items.TOKENS_SILVER).add(ModItems.SILVER_TOKEN.get());
+    protected void addTags() {
+        tag(ModTags.Items.TOKENS_GOLD).add(ModItems.GOLD_TOKEN.get());
+        tag(ModTags.Items.TOKENS_SILVER).add(ModItems.SILVER_TOKEN.get());
     }
 }

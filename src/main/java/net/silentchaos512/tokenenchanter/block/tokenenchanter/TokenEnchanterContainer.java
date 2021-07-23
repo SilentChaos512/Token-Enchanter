@@ -28,13 +28,13 @@ public class TokenEnchanterContainer extends Container {
 
         this.tileEntity = tileEntity;
         this.fields = fields;
-        trackIntArray(this.fields);
+        addDataSlots(this.fields);
 
         // XP crystal
         this.addSlot(new Slot(this.tileEntity, 0, 22, 55) {
             @Override
-            public boolean isItemValid(ItemStack stack) {
-                return TokenEnchanterContainer.this.tileEntity.isItemValidForSlot(0, stack);
+            public boolean mayPlace(ItemStack stack) {
+                return TokenEnchanterContainer.this.tileEntity.canPlaceItem(0, stack);
             }
         });
         // Token
@@ -61,18 +61,18 @@ public class TokenEnchanterContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return this.tileEntity.isUsableByPlayer(playerIn);
+    public boolean stillValid(PlayerEntity playerIn) {
+        return this.tileEntity.stillValid(playerIn);
     }
 
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity player, int slotIndex) {
+    public ItemStack quickMoveStack(PlayerEntity player, int slotIndex) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(slotIndex);
+        Slot slot = this.slots.get(slotIndex);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack stack1 = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack stack1 = slot.getItem();
             stack = stack1.copy();
 
             final int playerStart = 9;
@@ -80,44 +80,44 @@ public class TokenEnchanterContainer extends Container {
 
             if (slotIndex == 8) {
                 // Transfer from output slot
-                if (!this.mergeItemStack(stack1, playerStart, playerEnd, true)) {
+                if (!this.moveItemStackTo(stack1, playerStart, playerEnd, true)) {
                     return ItemStack.EMPTY;
                 }
-                slot.onSlotChange(stack1, stack);
+                slot.onQuickCraft(stack1, stack);
             } else if (slotIndex > 8) {
                 // Transfer from player
-                if (this.tileEntity.isItemValidForSlot(0, stack1)) {
+                if (this.tileEntity.canPlaceItem(0, stack1)) {
                     // XP crystal
-                    if (!this.mergeItemStack(stack1, 0, 1, false)) {
+                    if (!this.moveItemStackTo(stack1, 0, 1, false)) {
                         // Tokens and ingredients
-                        if (!this.mergeItemStack(stack1, 1, 8, false)) {
+                        if (!this.moveItemStackTo(stack1, 1, 8, false)) {
                             return ItemStack.EMPTY;
                         }
                     }
-                } else if (this.tileEntity.isItemValidForSlot(1, stack1)) {
+                } else if (this.tileEntity.canPlaceItem(1, stack1)) {
                     // Tokens and ingredients
-                    if (!this.mergeItemStack(stack1, 1, 8, false)) {
+                    if (!this.moveItemStackTo(stack1, 1, 8, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
                     // Move from hotbar to backpack or vice versa
                     final int hotbarStart = playerStart + 27;
                     if (slotIndex < hotbarStart) {
-                        if (!this.mergeItemStack(stack1, hotbarStart, playerEnd, false)) {
+                        if (!this.moveItemStackTo(stack1, hotbarStart, playerEnd, false)) {
                             return ItemStack.EMPTY;
                         }
-                    } else if (slotIndex < playerEnd && !this.mergeItemStack(stack1, playerStart, hotbarStart, false)) {
+                    } else if (slotIndex < playerEnd && !this.moveItemStackTo(stack1, playerStart, hotbarStart, false)) {
                         return ItemStack.EMPTY;
                     }
                 }
-            } else if (!this.mergeItemStack(stack1, playerStart, playerEnd, false)) {
+            } else if (!this.moveItemStackTo(stack1, playerStart, playerEnd, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (stack1.getCount() == stack.getCount()) {

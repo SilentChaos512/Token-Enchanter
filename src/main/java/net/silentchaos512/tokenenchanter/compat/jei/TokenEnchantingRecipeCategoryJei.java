@@ -42,7 +42,7 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     public TokenEnchantingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(TokenEnchanterScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.TOKEN_ENCHANTER));
-        localizedName = I18n.format("category.tokenenchanter.token_enchanting");
+        localizedName = I18n.get("category.tokenenchanter.token_enchanting");
     }
 
     @Override
@@ -93,10 +93,10 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
         itemStacks.init(8, false, 111, 10);
 
         itemStacks.set(0, getXpCrystals(recipe));
-        itemStacks.set(1, Arrays.asList(recipe.getToken().getMatchingStacks()));
+        itemStacks.set(1, Arrays.asList(recipe.getToken().getItems()));
         List<List<ItemStack>> inputs = new ArrayList<>();
         recipe.getIngredientMap().forEach((ingredient, count) -> {
-            List<ItemStack> list = Arrays.asList(ingredient.getMatchingStacks());
+            List<ItemStack> list = Arrays.asList(ingredient.getItems());
             list.forEach(stack -> stack.setCount(count));
             inputs.add(list);
         });
@@ -124,8 +124,8 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
 
     @Override
     public void draw(TokenEnchanterRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-        FontRenderer font = Minecraft.getInstance().fontRenderer;
+        FontRenderer font = Minecraft.getInstance().font;
         ITextComponent text = TextUtil.translate("misc", "level_cost", recipe.getLevelCost());
-        font.drawStringWithShadow(matrixStack, text.getString(), 25, GUI_HEIGHT - font.FONT_HEIGHT - 1, -1);
+        font.drawShadow(matrixStack, text.getString(), 25, GUI_HEIGHT - font.lineHeight - 1, -1);
     }
 }

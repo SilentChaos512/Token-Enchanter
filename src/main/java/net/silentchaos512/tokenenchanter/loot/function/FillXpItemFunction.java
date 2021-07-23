@@ -20,26 +20,26 @@ public class FillXpItemFunction extends LootFunction {
     }
 
     @Override
-    protected ItemStack doApply(ItemStack stack, LootContext context) {
+    protected ItemStack run(ItemStack stack, LootContext context) {
         if (stack.getCapability(XpStorageCapability.INSTANCE).isPresent()) {
             ItemStack ret = stack.copy();
             ret.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp ->
-                    xp.addLevels(this.levels.generateInt(context.getRandom())));
+                    xp.addLevels(this.levels.getInt(context.getRandom())));
             return ret;
         }
         return stack;
     }
 
     public static LootFunction.Builder<?> builder(int levels) {
-        return builder(ConstantRange.of(levels));
+        return builder(ConstantRange.exactly(levels));
     }
 
     public static LootFunction.Builder<?> builder(IRandomRange levels) {
-        return builder(conditions -> new FillXpItemFunction(conditions, levels));
+        return simpleBuilder(conditions -> new FillXpItemFunction(conditions, levels));
     }
 
     @Override
-    public LootFunctionType getFunctionType() {
+    public LootFunctionType getType() {
         return ModLoot.FILL_XP_ITEM;
     }
 

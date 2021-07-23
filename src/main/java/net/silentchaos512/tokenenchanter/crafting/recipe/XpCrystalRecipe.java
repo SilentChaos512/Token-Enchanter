@@ -28,15 +28,15 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory craftingInventory) {
-        ItemStack ret = getBaseRecipe().getCraftingResult(craftingInventory);
+    public ItemStack assemble(CraftingInventory craftingInventory) {
+        ItemStack ret = getBaseRecipe().assemble(craftingInventory);
         LazyOptional<IXpStorage> retCap = ret.getCapability(XpStorageCapability.INSTANCE);
 
         if (retCap.isPresent()) {
             // Get sum of the stored levels on all crystal, to preserve them
             float storedLevels = 0;
-            for (int i = 0; i < craftingInventory.getSizeInventory(); ++i) {
-                ItemStack stack = craftingInventory.getStackInSlot(i);
+            for (int i = 0; i < craftingInventory.getContainerSize(); ++i) {
+                ItemStack stack = craftingInventory.getItem(i);
                 IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
                 if (xp.canDrain()) {
                     storedLevels += xp.getLevels();

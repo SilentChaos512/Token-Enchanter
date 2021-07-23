@@ -59,25 +59,25 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     public void consumeIngredients(IInventory inv) {
-        ItemStack stack = inv.getStackInSlot(0);
+        ItemStack stack = inv.getItem(0);
         stack.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.drainLevels(this.levelCost));
 
         consumeItems(inv, 1, 2, token, 1);
         ingredientMap.forEach(((ingredient, count) -> {
-            consumeItems(inv, 2, inv.getSizeInventory() - 1, ingredient, count);
+            consumeItems(inv, 2, inv.getContainerSize() - 1, ingredient, count);
         }));
     }
 
     private static void consumeItems(IInventory inventory, int startIndex, int endIndex, Predicate<ItemStack> ingredient, int amount) {
         int amountLeft = amount;
         for (int i = startIndex; i < endIndex; ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
+            ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty() && ingredient.test(stack)) {
                 int toRemove = Math.min(amountLeft, stack.getCount());
 
                 stack.shrink(toRemove);
                 if (stack.isEmpty()) {
-                    inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                    inventory.setItem(i, ItemStack.EMPTY);
                 }
 
                 amountLeft -= toRemove;
@@ -93,7 +93,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         if (!valid) return false;
 
         // XP crystal with enough levels?
-        if (!matchesXpCrystal(inv.getStackInSlot(0))) {
+        if (!matchesXpCrystal(inv.getItem(0))) {
             return false;
         }
 
@@ -130,17 +130,17 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return result.copy();
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return result.copy();
     }
 
@@ -155,25 +155,25 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<TokenEnchanterRecipe> {
         @Override
-        public TokenEnchanterRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public TokenEnchanterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(recipeId);
 
             // Chaos and processing time
-            recipe.levelCost = JSONUtils.getInt(json, "level_cost", 1);
+            recipe.levelCost = JSONUtils.getAsInt(json, "level_cost", 1);
 
             // Ingredients
             JsonObject ingredientsJson = json.get("ingredients").getAsJsonObject();
-            recipe.token = Ingredient.deserialize(ingredientsJson.get("token").getAsJsonObject());
+            recipe.token = Ingredient.fromJson(ingredientsJson.get("token").getAsJsonObject());
             JsonArray othersArray = ingredientsJson.get("others").getAsJsonArray();
             for (JsonElement elem : othersArray) {
-                Ingredient ingredient = Ingredient.deserialize(elem);
-                int count = JSONUtils.getInt(elem.getAsJsonObject(), "count", 1);
+                Ingredient ingredient = Ingredient.fromJson(elem);
+                int count = JSONUtils.getAsInt(elem.getAsJsonObject(), "count", 1);
                 recipe.ingredientMap.put(ingredient, count);
             }
 
@@ -186,13 +186,13 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
             if (elem != null) {
                 for (JsonElement elem1 : elem.getAsJsonArray()) {
                     JsonObject elemObj = elem1.getAsJsonObject();
-                    String name = JSONUtils.getString(elemObj, "name");
+                    String name = JSONUtils.getAsString(elemObj, "name");
                     Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(name));
                     if (enchantment == null) {
                         // Enchantment does not exist!
                         recipe.valid = false;
                     } else {
-                        int level = JSONUtils.getInt(elemObj, "level", 1);
+                        int level = JSONUtils.getAsInt(elemObj, "level", 1);
                         addEnchantment(recipe.result, enchantment, level);
                     }
                 }
@@ -200,7 +200,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
             if (recipe.result.getCapability(XpStorageCapability.INSTANCE).isPresent()) {
                 // Infuse XP levels into certain items (XP bread, crystals, etc.)
-                int amount = JSONUtils.getInt(resultJson, "infuse_levels", 0);
+                int amount = JSONUtils.getAsInt(resultJson, "infuse_levels", 0);
                 if (amount > 0) {
                     recipe.result.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(amount));
                 }
@@ -214,14 +214,14 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         @Override
-        public TokenEnchanterRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public TokenEnchanterRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(recipeId);
             recipe.levelCost = buffer.readVarInt();
-            recipe.result = buffer.readItemStack();
-            recipe.token = Ingredient.read(buffer);
+            recipe.result = buffer.readItem();
+            recipe.token = Ingredient.fromNetwork(buffer);
             int otherCount = buffer.readVarInt();
             for (int i = 0; i < otherCount; ++i) {
-                Ingredient ingredient = Ingredient.read(buffer);
+                Ingredient ingredient = Ingredient.fromNetwork(buffer);
                 int count = buffer.readVarInt();
                 recipe.ingredientMap.put(ingredient, count);
             }
@@ -229,23 +229,23 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         @Override
-        public void write(PacketBuffer buffer, TokenEnchanterRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, TokenEnchanterRecipe recipe) {
             buffer.writeVarInt(recipe.levelCost);
-            buffer.writeItemStack(recipe.result);
-            recipe.token.write(buffer);
+            buffer.writeItem(recipe.result);
+            recipe.token.toNetwork(buffer);
             buffer.writeVarInt(recipe.ingredientMap.size());
             recipe.ingredientMap.forEach((ingredient, count) -> {
-                ingredient.write(buffer);
+                ingredient.toNetwork(buffer);
                 buffer.writeVarInt(count);
             });
         }
 
         private static ItemStack deserializeItem(JsonObject json) {
-            return ShapedRecipe.deserializeItem(json);
+            return ShapedRecipe.itemFromJson(json);
         }
 
         private static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-            stack.addEnchantment(enchantment, level);
+            stack.enchant(enchantment, level);
         }
 
         @SuppressWarnings("TypeMayBeWeakened")

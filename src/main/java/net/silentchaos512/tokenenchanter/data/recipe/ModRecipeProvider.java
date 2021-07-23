@@ -36,7 +36,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerCustomRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN.get());
 
         registerTokenEnchanting(consumer);
@@ -145,11 +145,11 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.WARPED_FUNGUS, 1)
                 .addIngredient(Items.CLAY, 8)
                 .build(consumer);
-        enchantedToken(Enchantments.EFFICIENCY, 2)
+        enchantedToken(Enchantments.BLOCK_EFFICIENCY, 2)
                 .addIngredient(Tags.Items.NUGGETS_GOLD, 4)
                 .addIngredient(Tags.Items.DUSTS_REDSTONE, 9)
                 .build(consumer);
-        enchantedToken(Enchantments.FEATHER_FALLING, 3)
+        enchantedToken(Enchantments.FALL_PROTECTION, 3)
                 .addIngredient(ItemTags.WOOL, 5)
                 .addIngredient(Tags.Items.FEATHERS, 10)
                 .addIngredient(Tags.Items.SLIMEBALLS, 2)
@@ -162,12 +162,12 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.SNOW_BLOCK, 5)
                 .addIngredient(Tags.Items.INGOTS_NETHER_BRICK, 20)
                 .build(consumer);
-        enchantedToken(Enchantments.FLAME, 5)
+        enchantedToken(Enchantments.FLAMING_ARROWS, 5)
                 .addIngredient(Tags.Items.RODS_BLAZE, 3)
                 .addIngredient(Tags.Items.NETHERRACK, 30)
                 .addIngredient(Items.ARROW, 4)
                 .build(consumer);
-        enchantedToken(Enchantments.FORTUNE, 6)
+        enchantedToken(Enchantments.BLOCK_FORTUNE, 6)
                 .addIngredient(Tags.Items.GEMS_DIAMOND, 3)
                 .addIngredient(Tags.Items.DUSTS_GLOWSTONE, 16)
                 .build(consumer);
@@ -183,7 +183,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.IRON_SWORD, 1)
                 .addIngredient(Tags.Items.DUSTS_PRISMARINE, 4)
                 .build(consumer);
-        enchantedToken(Enchantments.INFINITY, 16)
+        enchantedToken(Enchantments.INFINITY_ARROWS, 16)
                 .addIngredient(Tags.Items.STORAGE_BLOCKS_EMERALD, 1)
                 .addIngredient(Items.ENDER_EYE, 4)
                 .addIngredient(Items.ARROW, 64)
@@ -192,7 +192,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.PISTON, 2)
                 .addIngredient(Tags.Items.FEATHERS, 5)
                 .build(consumer);
-        enchantedToken(Enchantments.LOOTING, 8)
+        enchantedToken(Enchantments.MOB_LOOTING, 8)
                 .addIngredient(Tags.Items.GEMS_EMERALD, 2)
                 .addIngredient(Tags.Items.STORAGE_BLOCKS_REDSTONE, 3)
                 .build(consumer);
@@ -200,12 +200,12 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.NAUTILUS_SHELL, 1)
                 .addIngredient(Items.CHAIN, 12)
                 .build(consumer);
-        enchantedToken(Enchantments.LUCK_OF_THE_SEA, 2)
+        enchantedToken(Enchantments.FISHING_LUCK, 2)
                 .addIngredient(Items.COD, 7)
                 .addIngredient(Items.KELP, 7)
                 .addIngredient(Items.SEAGRASS, 7)
                 .build(consumer);
-        enchantedToken(Enchantments.LURE, 2)
+        enchantedToken(Enchantments.FISHING_SPEED, 2)
                 .addIngredient(Items.TRIPWIRE_HOOK, 4)
                 .addIngredient(Items.SALMON, 6)
                 .build(consumer);
@@ -226,7 +226,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.IRON_BARS, 12)
                 .addIngredient(Tags.Items.INGOTS_GOLD, 1)
                 .build(consumer);
-        enchantedToken(Enchantments.POWER, 2)
+        enchantedToken(Enchantments.POWER_ARROWS, 2)
                 .addIngredient(Items.ARROW, 10)
                 .addIngredient(Tags.Items.STRING, 5)
                 .addIngredient(Tags.Items.DUSTS_REDSTONE, 5)
@@ -236,11 +236,11 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.CHAIN, 2)
                 .addIngredient(Items.ARROW, 4)
                 .build(consumer);
-        enchantedToken(Enchantments.PROTECTION, 2)
+        enchantedToken(Enchantments.ALL_DAMAGE_PROTECTION, 2)
                 .addIngredient(Items.IRON_BARS, 4)
                 .addIngredient(Tags.Items.INGOTS_BRICK, 4)
                 .build(consumer);
-        enchantedToken(Enchantments.PUNCH, 1)
+        enchantedToken(Enchantments.PUNCH_ARROWS, 1)
                 .addIngredient(Items.PISTON, 2)
                 .addIngredient(Items.ARROW, 4)
                 .build(consumer);
@@ -274,7 +274,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Tags.Items.STORAGE_BLOCKS_QUARTZ, 1)
                 .addIngredient(Items.SOUL_SOIL, 20)
                 .build(consumer);
-        enchantedToken(Enchantments.SWEEPING, 1)
+        enchantedToken(Enchantments.SWEEPING_EDGE, 1)
                 .addIngredient(Items.CHAIN, 2)
                 .addIngredient(Items.SUGAR_CANE, 8)
                 .build(consumer);

@@ -51,7 +51,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return 1;
         }
     };
@@ -62,13 +62,13 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
 
     @Nullable
     private TokenEnchanterRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.TOKEN_ENCHANTING_TYPE, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.TOKEN_ENCHANTING_TYPE, this, level).orElse(null);
     }
 
     @SuppressWarnings("TypeMayBeWeakened")
     private ItemStack getCraftingResult(TokenEnchanterRecipe recipe) {
-        return recipe.getCraftingResult(this);
+        return recipe.assemble(this);
     }
 
     private void consumeIngredients(TokenEnchanterRecipe recipe) {
@@ -77,7 +77,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         TokenEnchanterRecipe recipe = getRecipe();
         if (recipe != null && canMachineRun(recipe)) {
@@ -96,11 +96,11 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     }
 
     private boolean canMachineRun(TokenEnchanterRecipe recipe) {
-        return world != null && recipe.matches(this, this.world) && hasRoomForOutputItem(getCraftingResult(recipe));
+        return level != null && recipe.matches(this, this.level) && hasRoomForOutputItem(getCraftingResult(recipe));
     }
 
     private boolean hasRoomForOutputItem(ItemStack stack) {
-        return canItemsStack(stack, getStackInSlot(INVENTORY_SIZE - 1));
+        return canItemsStack(stack, getItem(INVENTORY_SIZE - 1));
     }
 
     private static boolean canItemsStack(ItemStack a, ItemStack b) {
@@ -111,10 +111,10 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
 
     private void storeResultItem(ItemStack stack) {
         // Merge the item into any output slot it can fit in
-        ItemStack output = getStackInSlot(INVENTORY_SIZE - 1);
+        ItemStack output = getItem(INVENTORY_SIZE - 1);
         if (canItemsStack(stack, output)) {
             if (output.isEmpty()) {
-                setInventorySlotContents(INVENTORY_SIZE - 1, stack);
+                setItem(INVENTORY_SIZE - 1, stack);
             } else {
                 output.setCount(output.getCount() + stack.getCount());
             }
@@ -145,17 +145,17 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-        return isItemValidForSlot(index, itemStackIn);
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+        return canPlaceItem(index, itemStackIn);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == INVENTORY_SIZE - 1;
     }
 
     @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
+    public boolean canPlaceItem(int index, ItemStack stack) {
         if (index == 0) {
             IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
             return xp.canDrain();

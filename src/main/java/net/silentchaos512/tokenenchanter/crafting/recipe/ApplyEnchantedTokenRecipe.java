@@ -19,16 +19,16 @@ public class ApplyEnchantedTokenRecipe extends SpecialRecipe {
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
-        return !getCraftingResult(inv).isEmpty();
+        return !assemble(inv).isEmpty();
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingInventory inv) {
         ItemStack tool = ItemStack.EMPTY;
         List<ItemStack> tokens = NonNullList.create();
 
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof EnchantedTokenItem) {
                     // Any number of tokens
@@ -56,7 +56,7 @@ public class ApplyEnchantedTokenRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 

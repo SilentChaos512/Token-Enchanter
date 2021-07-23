@@ -37,13 +37,13 @@ public class ModLootTableProvider extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validateLootTable(validationtracker, p_218436_2_, p_218436_3_));
+        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
     private static final class BlockLootTables extends net.minecraft.data.loot.BlockLootTables {
         @Override
         protected void addTables() {
-            registerDropSelfLootTable(ModBlocks.TOKEN_ENCHANTER.get());
+            dropSelf(ModBlocks.TOKEN_ENCHANTER.get());
         }
 
         @Override
@@ -59,20 +59,20 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         private static LootTable.Builder addXpItems() {
-            LootTable.Builder builder = LootTable.builder();
-            builder.addLootPool(LootPool.builder()
-                    .rolls(ConstantRange.of(1))
-                    .addEntry(EmptyLootEntry.func_216167_a()
-                            .weight(5)
+            LootTable.Builder builder = LootTable.lootTable();
+            builder.withPool(LootPool.lootPool()
+                    .setRolls(ConstantRange.exactly(1))
+                    .add(EmptyLootEntry.emptyItem()
+                            .setWeight(5)
                     )
-                    .addEntry(ItemLootEntry.builder(ModItems.XP_BREAD)
-                            .weight(15)
-                            .acceptFunction(SetCount.builder(RandomValueRange.of(1, 3)))
-                            .acceptFunction(FillXpItemFunction.builder(RandomValueRange.of(2, 4)))
+                    .add(ItemLootEntry.lootTableItem(ModItems.XP_BREAD)
+                            .setWeight(15)
+                            .apply(SetCount.setCount(RandomValueRange.between(1, 3)))
+                            .apply(FillXpItemFunction.builder(RandomValueRange.between(2, 4)))
                     )
-                    .addEntry(ItemLootEntry.builder(ModItems.SMALL_XP_CRYSTAL)
-                            .weight(5)
-                            .acceptFunction(FillXpItemFunction.builder(RandomValueRange.of(1, 9)))
+                    .add(ItemLootEntry.lootTableItem(ModItems.SMALL_XP_CRYSTAL)
+                            .setWeight(5)
+                            .apply(FillXpItemFunction.builder(RandomValueRange.between(1, 9)))
                     )
             );
             return builder;

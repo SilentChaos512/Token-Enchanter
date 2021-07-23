@@ -29,7 +29,7 @@ public class ModLoot {
         public static final class Tables {
             private static final Map<ResourceLocation, ResourceLocation> MAP = new HashMap<>();
 
-            public static final ResourceLocation CHESTS_SIMPLE_DUNGEON = inject(LootTables.CHESTS_SIMPLE_DUNGEON);
+            public static final ResourceLocation CHESTS_SIMPLE_DUNGEON = inject(LootTables.SIMPLE_DUNGEON);
 
             private Tables() {}
 
@@ -55,9 +55,9 @@ public class ModLoot {
             Tables.get(event.getName()).ifPresent(injectorName -> {
                 TokenMod.LOGGER.info("Injecting loot table '{}' into '{}'", injectorName, event.getName());
                 event.getTable().addPool(
-                        LootPool.builder()
+                        LootPool.lootPool()
                                 .name("tokenenchanter_injected")
-                                .addEntry(TableLootEntry.builder(injectorName))
+                                .add(TableLootEntry.lootTableReference(injectorName))
                                 .build()
                 );
             });

@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public final class ModBlocks {
     public static final BlockRegistryObject<TokenEnchanterBlock> TOKEN_ENCHANTER = register("token_enchanter", () ->
-            new TokenEnchanterBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(5, 50).sound(SoundType.METAL)));
+            new TokenEnchanterBlock(AbstractBlock.Properties.of(Material.METAL).strength(5, 50).sound(SoundType.METAL)));
 
     private ModBlocks() {}
 
@@ -44,6 +44,6 @@ public final class ModBlocks {
     }
 
     public static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().group(TokenMod.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties().tab(TokenMod.ITEM_GROUP));
     }
 }

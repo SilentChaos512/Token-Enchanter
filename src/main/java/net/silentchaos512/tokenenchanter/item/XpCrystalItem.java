@@ -20,8 +20,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
-import net.silentchaos512.tokenenchanter.api.xp.XpStorageItemImpl;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
+import net.silentchaos512.tokenenchanter.api.xp.XpStorageItemImpl;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
 
 import javax.annotation.Nonnull;
@@ -75,7 +75,7 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
+    public UseAction getUseAnimation(ItemStack stack) {
         return UseAction.DRINK;
     }
 
@@ -87,55 +87,55 @@ public class XpCrystalItem extends Item {
     private static int getPlayerLevel(LivingEntity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
-            return player.abilities.isCreativeMode ? Integer.MAX_VALUE : player.experienceLevel;
+            return player.abilities.instabuild ? Integer.MAX_VALUE : player.experienceLevel;
         }
         return 0;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack stack = playerIn.getHeldItem(handIn);
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack stack = playerIn.getItemInHand(handIn);
         IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         int fillAmount = getFillAmount(stack);
 
         if (xp.getLevels() < xp.getCapacity()) {
             if (getPlayerLevel(playerIn) >= fillAmount) {
-                playerIn.setActiveHand(handIn);
-                return ActionResult.resultConsume(stack);
+                playerIn.startUsingItem(handIn);
+                return ActionResult.consume(stack);
             } else {
                 ITextComponent msg = TextUtil.translate("item", "xp_crystal.not_enough_levels", fillAmount);
-                playerIn.sendStatusMessage(msg, true);
-                playerIn.getCooldownTracker().setCooldown(this, 10);
-                return ActionResult.resultFail(stack);
+                playerIn.displayClientMessage(msg, true);
+                playerIn.getCooldowns().addCooldown(this, 10);
+                return ActionResult.fail(stack);
             }
         }
 
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+        return super.use(worldIn, playerIn, handIn);
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
         int playerLevels = getPlayerLevel(entityLiving);
         int fillAmount = getFillAmount(stack);
 
         if (playerLevels >= fillAmount && entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
-            player.addExperienceLevel(-fillAmount);
+            player.giveExperienceLevels(-fillAmount);
 
             ItemStack ret = stack.copy();
             ret.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(fillAmount));
             return ret;
         }
 
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
+        return super.finishUsingItem(stack, worldIn, entityLiving);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         float levels = xp.getLevels();
         if (levels <= 0.1f) {
-            tooltip.add(TextUtil.translate("item", "xp_crystal.hint").copyRaw().mergeStyle(TextFormatting.ITALIC));
+            tooltip.add(TextUtil.translate("item", "xp_crystal.hint").plainCopy().withStyle(TextFormatting.ITALIC));
         }
 
         String levelsFormatted = String.format("%.1f", levels);
@@ -144,8 +144,8 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (allowdedIn(group)) {
             ItemStack empty = new ItemStack(this);
             items.add(empty);
 

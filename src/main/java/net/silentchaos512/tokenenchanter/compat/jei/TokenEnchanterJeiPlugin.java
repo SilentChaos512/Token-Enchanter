@@ -47,7 +47,7 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
-        World world = Objects.requireNonNull(Minecraft.getInstance().world);
+        World world = Objects.requireNonNull(Minecraft.getInstance().level);
         return world.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
                 .collect(Collectors.toList());
@@ -74,7 +74,7 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
         // Enchanted tokens
         reg.registerSubtypeInterpreter(ModItems.ENCHANTED_TOKEN.get(), stack -> {
             Enchantment enchantment = EnchantedTokenItem.getSingleEnchantment(stack);
-            return enchantment != null ? enchantment.getName() : "none";
+            return enchantment != null ? enchantment.getDescriptionId() : "none";
         });
         // XP crystals
         /*ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {

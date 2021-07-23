@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2021-07-22
+### Changed
+- Updated to official Mojang mappings and Silent Lib 4.10.x (required)
+
 ## [1.0.4] - 2021-03-28
 ### Added
 - Enchanted tokens can now be applied to books to create enchanted books [#2]

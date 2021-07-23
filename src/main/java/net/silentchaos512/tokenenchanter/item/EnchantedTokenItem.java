@@ -105,7 +105,7 @@ public class EnchantedTokenItem extends Item {
     }
 
     private static void addEnchantment(ItemStack stack, EnchantmentData data) {
-        stack.addEnchantment(data.enchantment, data.enchantmentLevel);
+        stack.enchant(data.enchantment, data.level);
     }
 
     //endregion
@@ -161,7 +161,7 @@ public class EnchantedTokenItem extends Item {
         for (Map.Entry<Enchantment, Integer> entry : enchantmentsOnToken.entrySet()) {
             Enchantment ench = entry.getKey();
             // Valid for tool?
-            if (!ench.canApply(tool)) {
+            if (!ench.canEnchant(tool)) {
                 return ItemStack.EMPTY;
             }
 
@@ -207,18 +207,18 @@ public class EnchantedTokenItem extends Item {
 
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
+    public ITextComponent getName(ItemStack stack) {
         Enchantment enchantment = getSingleEnchantment(stack);
         if (enchantment != null) {
-            IFormattableTextComponent enchantmentName = enchantment.getDisplayName(1).copyRaw()
-                    .mergeStyle(this.getRarity(stack).color);
-            return new TranslationTextComponent(this.getTranslationKey(stack) + ".single", enchantmentName);
+            IFormattableTextComponent enchantmentName = enchantment.getFullname(1).plainCopy()
+                    .withStyle(this.getRarity(stack).color);
+            return new TranslationTextComponent(this.getDescriptionId(stack) + ".single", enchantmentName);
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
 
         if (enchantments.size() == 1) {
@@ -230,7 +230,7 @@ public class EnchantedTokenItem extends Item {
             if (flag.isAdvanced()) {
                 ResourceLocation registryName = Objects.requireNonNull(enchantment.getRegistryName());
                 list.add(new StringTextComponent(registryName.toString())
-                        .mergeStyle(TextFormatting.DARK_GRAY));
+                        .withStyle(TextFormatting.DARK_GRAY));
             }
         }
     }
@@ -254,8 +254,8 @@ public class EnchantedTokenItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (!isInGroup(group)) return;
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (!allowdedIn(group)) return;
 
         List<ItemStack> tokens = NonNullList.create();
         for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
@@ -286,12 +286,12 @@ public class EnchantedTokenItem extends Item {
     private static ITextComponent getEnchantmentDisplayName(Enchantment enchantment) {
         // Report on broken mods
         try {
-            return enchantment.getDisplayName(1);
+            return enchantment.getFullname(1);
         } catch (Throwable ex) {
-            CrashReport report = CrashReport.makeCrashReport(ex, "Enchantment threw an exception when getting display name. This is not Token Enchanter's fault!");
-            CrashReportCategory cat = report.makeCategory("Enchantment");
-            cat.addDetail("ID", NameUtils.from(enchantment));
-            cat.addDetail("Mod Name", getModName(enchantment));
+            CrashReport report = CrashReport.forThrowable(ex, "Enchantment threw an exception when getting display name. This is not Token Enchanter's fault!");
+            CrashReportCategory cat = report.addCategory("Enchantment");
+            cat.setDetail("ID", NameUtils.from(enchantment));
+            cat.setDetail("Mod Name", getModName(enchantment));
             throw new ReportedException(report);
         }
     }
@@ -308,7 +308,7 @@ public class EnchantedTokenItem extends Item {
     //region Rendering
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
@@ -353,7 +353,7 @@ public class EnchantedTokenItem extends Item {
         Enchantment enchantment = map.keySet().iterator().next();
         if (enchantment.isCurse()) return Icon.CURSE;
 
-        EnchantmentType type = enchantment.type;
+        EnchantmentType type = enchantment.category;
         if (type == null) return Icon.UNKNOWN;
 
         return MODELS_BY_TYPE.getOrDefault(type.toString(), Icon.UNKNOWN);

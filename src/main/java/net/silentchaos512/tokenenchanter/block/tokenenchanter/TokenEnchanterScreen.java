@@ -19,26 +19,26 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
     public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrix);
         super.render(matrix, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrix, mouseX, mouseY);
+        this.renderTooltip(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bindTexture(TEXTURE);
-        int xPos = (this.width - this.xSize) / 2;
-        int yPos = (this.height - this.ySize) / 2;
-        blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
+        minecraft.getTextureManager().bind(TEXTURE);
+        int xPos = (this.width - this.imageWidth) / 2;
+        int yPos = (this.height - this.imageHeight) / 2;
+        blit(matrixStack, xPos, yPos, 0, 0, this.imageWidth, this.imageHeight);
 
         // Progress arrow
-        int progress = container.getProgress();
-        int cost = container.getProcessTime();
+        int progress = menu.getProgress();
+        int cost = menu.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
         blit(matrixStack, xPos + 102, yPos + 34, 176, 14, length + 1, 16);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
     }
 }

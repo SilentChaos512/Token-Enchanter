@@ -23,7 +23,7 @@ public final class XpStorageCapability {
 
                     @Override
                     public void readNBT(Capability<IXpStorage> capability, IXpStorage instance, Direction side, INBT nbt) {
-                        instance.setLevels(((FloatNBT) nbt).getFloat());
+                        instance.setLevels(((FloatNBT) nbt).getAsFloat());
                     }
                 },
                 () -> new XpStorage(100));

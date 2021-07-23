@@ -68,11 +68,11 @@ public class TokenEnchantingRecipeBuilder {
     }
 
     public TokenEnchantingRecipeBuilder token(IItemProvider item) {
-        return token(Ingredient.fromItems(item));
+        return token(Ingredient.of(item));
     }
 
     public TokenEnchantingRecipeBuilder token(ITag<Item> tag) {
-        return token(Ingredient.fromTag(tag));
+        return token(Ingredient.of(tag));
     }
 
     public TokenEnchantingRecipeBuilder token(Ingredient ingredient) {
@@ -81,11 +81,11 @@ public class TokenEnchantingRecipeBuilder {
     }
 
     public TokenEnchantingRecipeBuilder addIngredient(IItemProvider item, int count) {
-        return addIngredient(Ingredient.fromItems(item), count);
+        return addIngredient(Ingredient.of(item), count);
     }
 
     public TokenEnchantingRecipeBuilder addIngredient(ITag<Item> tag, int count) {
-        return addIngredient(Ingredient.fromTag(tag), count);
+        return addIngredient(Ingredient.of(tag), count);
     }
 
     public TokenEnchantingRecipeBuilder addIngredient(Ingredient ingredient, int count) {
@@ -113,16 +113,16 @@ public class TokenEnchantingRecipeBuilder {
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("level_cost", builder.levelCost);
 
             JsonObject ingredients = new JsonObject();
-            ingredients.add("token", builder.token.serialize());
+            ingredients.add("token", builder.token.toJson());
             JsonArray others = new JsonArray();
 
             // FIXME: Ingredients may be arrays...
             builder.ingredients.forEach((ing, count) -> {
-                JsonObject j = ing.serialize().getAsJsonObject();
+                JsonObject j = ing.toJson().getAsJsonObject();
                 j.addProperty("count", count);
                 others.add(j);
             });
@@ -152,24 +152,24 @@ public class TokenEnchantingRecipeBuilder {
         }
 
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return id;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return ModRecipes.TOKEN_ENCHANTING.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
+        public JsonObject serializeAdvancement() {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return null;
         }
     }

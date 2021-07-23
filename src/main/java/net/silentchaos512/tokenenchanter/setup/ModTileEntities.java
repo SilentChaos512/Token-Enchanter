@@ -35,7 +35,7 @@ public final class ModTileEntities {
         return Registration.TILE_ENTITIES.register(name, () -> {
             Block[] validBlocks = validBlocksSupplier.get().toArray(new Block[0]);
             //noinspection ConstantConditions -- null in build
-            return TileEntityType.Builder.create(factoryIn, validBlocks).build(null);
+            return TileEntityType.Builder.of(factoryIn, validBlocks).build(null);
         });
     }
 }

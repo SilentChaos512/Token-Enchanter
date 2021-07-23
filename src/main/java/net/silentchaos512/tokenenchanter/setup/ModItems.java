@@ -28,7 +28,7 @@ public final class ModItems {
 
     public static final ItemRegistryObject<XpFoodItem> XP_BREAD = registerSimpleModel("xp_bread", () ->
             new XpFoodItem(baseProps()
-                    .food(new Food.Builder().hunger(6).saturation(1.2f).setAlwaysEdible().build())));
+                    .food(new Food.Builder().nutrition(6).saturationMod(1.2f).alwaysEat().build())));
 
     public static final ItemRegistryObject<EnchantedTokenItem> ENCHANTED_TOKEN = register("enchanted_token", () ->
             new EnchantedTokenItem(baseProps()));
@@ -58,10 +58,10 @@ public final class ModItems {
     }
 
     private static Item.Properties baseProps() {
-        return new Item.Properties().group(TokenMod.ITEM_GROUP);
+        return new Item.Properties().tab(TokenMod.ITEM_GROUP);
     }
 
     private static Item.Properties unstackableProps() {
-        return baseProps().maxStackSize(1);
+        return baseProps().stacksTo(1);
     }
 }
