@@ -1,29 +1,29 @@
 package net.silentchaos512.tokenenchanter.block.tokenenchanter;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.tokenenchanter.setup.ModContainers;
 
 import javax.annotation.Nonnull;
 
-public class TokenEnchanterContainer extends Container {
+public class TokenEnchanterContainer extends AbstractContainerMenu {
     private final TokenEnchanterTileEntity tileEntity;
-    private final IIntArray fields;
+    private final ContainerData fields;
 
-    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
-        this(id, playerInventory, new TokenEnchanterTileEntity(), new IntArray(1));
+    public TokenEnchanterContainer(int id, Inventory playerInventory, FriendlyByteBuf buffer) {
+        this(id, playerInventory, new TokenEnchanterTileEntity(), new SimpleContainerData(1));
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
-    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity, IIntArray fields) {
+    public TokenEnchanterContainer(int id, Inventory playerInventory, TokenEnchanterTileEntity tileEntity, ContainerData fields) {
         super(ModContainers.TOKEN_ENCHANTER.get(), id);
 
         this.tileEntity = tileEntity;
@@ -61,13 +61,13 @@ public class TokenEnchanterContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn) {
+    public boolean stillValid(Player playerIn) {
         return this.tileEntity.stillValid(playerIn);
     }
 
     @Nonnull
     @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int slotIndex) {
+    public ItemStack quickMoveStack(Player player, int slotIndex) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.slots.get(slotIndex);
 

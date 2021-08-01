@@ -1,29 +1,29 @@
 package net.silentchaos512.tokenenchanter.block.tokenenchanter;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
-public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContainer> {
+public class TokenEnchanterScreen extends AbstractContainerScreen<TokenEnchanterContainer> {
     public static final ResourceLocation TEXTURE = TokenMod.getId("textures/gui/token_enchanter.png");
 
-    public TokenEnchanterScreen(TokenEnchanterContainer container, PlayerInventory playerInventory, ITextComponent title) {
+    public TokenEnchanterScreen(TokenEnchanterContainer container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
     }
 
     @Override
-    public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrix);
         super.render(matrix, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bind(TEXTURE);
@@ -39,6 +39,6 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(PoseStack matrixStack, int x, int y) {
     }
 }

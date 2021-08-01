@@ -1,22 +1,21 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 
 plugins {
-    id 'maven'
     id 'maven-publish'
     id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'idea'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 repositories {
     flatDir {
@@ -24,7 +23,6 @@ repositories {
         dirs "repo"
     }
     mavenLocal()
-    jcenter()
 }
 
 tasks.withType(JavaCompile) {
@@ -47,10 +45,10 @@ def gpr_creds = { // Credentials for GitHub Packages, since this is used multipl
     password = property('gpr.token')
 }
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
-    mappings channel: project.mcp_channel.toString(), version: project.mcp_mappings.toString()
+    mappings channel: 'official', version: mc_version
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -100,8 +98,6 @@ sourceSets.main.resources {
 }
 
 repositories {
-    jcenter()
-//    mavenLocal()
     // Silent Lib
     maven {
         url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
@@ -126,7 +122,10 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.forge_version}"
 
-    compile fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
+    compileOnly fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
+        exclude module: "forge"
+    }
+    runtimeOnly fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
         exclude module: "forge"
     }
 
@@ -143,10 +142,10 @@ jar {
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
-                    "Specification-Version"   : "1.0",
+                    "Specification-Version"   : "1",
                     "Implementation-Title"    : project.name,
-                    "Implementation-Version"  : version_short,
                     "Implementation-Vendor"   : "SilentChaos512",
+                    "Implementation-Version"  : version_short,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
@@ -183,8 +182,6 @@ curseforge {
             changelog = file(project.cf_changelog_filename)
             releaseType = project.cf_release_type
             addGameVersion(project.mc_version)
-            addGameVersion('1.16.4')
-            addGameVersion('1.16.3')
             mainArtifact(jar) {
 //                displayName = "$project.description $display_version"
                 relations {

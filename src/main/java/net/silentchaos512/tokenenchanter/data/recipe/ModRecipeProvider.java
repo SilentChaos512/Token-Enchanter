@@ -3,14 +3,14 @@ package net.silentchaos512.tokenenchanter.data.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.conditions.ICondition;
@@ -36,7 +36,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
         registerCustomRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN.get());
 
         registerTokenEnchanting(consumer);
@@ -112,7 +112,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .build(consumer);
     }
 
-    private static void registerTokenEnchanting(Consumer<IFinishedRecipe> consumer) {
+    private static void registerTokenEnchanting(Consumer<FinishedRecipe> consumer) {
         TokenEnchantingRecipeBuilder.builder(Items.GOLDEN_APPLE, 1, 2)
                 .token(Items.APPLE)
                 .addIngredient(Tags.Items.INGOTS_GOLD, 6)
@@ -308,7 +308,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .name(getEnchantedTokenRecipeId(enchantment));
     }
 
-    private static void createCursedTokenRecipe(Consumer<IFinishedRecipe> consumer, Enchantment enchantment, ITag<Item> ingredient) {
+    private static void createCursedTokenRecipe(Consumer<FinishedRecipe> consumer, Enchantment enchantment, Tag<Item> ingredient) {
         ENCHANTED_TOKEN_RECIPES_CREATED.add(enchantment);
 
         TokenEnchantingRecipeBuilder.builder(ModItems.ENCHANTED_TOKEN, 1, 1)

@@ -1,6 +1,6 @@
 package net.silentchaos512.tokenenchanter.setup;
 
-import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +18,7 @@ public final class ModClientProxy {
         ModTileEntities.registerRenderers(event);
         ModContainers.registerScreens(event);
 
-        ItemModelsProperties.register(ModItems.ENCHANTED_TOKEN.get(),
+        ItemProperties.register(ModItems.ENCHANTED_TOKEN.get(),
                 EnchantedTokenItem.MODEL_INDEX,
                 EnchantedTokenItem::getModel);
     }

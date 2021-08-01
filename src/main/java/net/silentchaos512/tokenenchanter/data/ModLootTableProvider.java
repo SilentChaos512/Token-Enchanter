@@ -2,13 +2,22 @@ package net.silentchaos512.tokenenchanter.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.LootTableProvider;
-import net.minecraft.loot.*;
-import net.minecraft.loot.functions.SetCount;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.silentchaos512.tokenenchanter.loot.function.FillXpItemFunction;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
@@ -28,19 +37,19 @@ public class ModLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
+    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return ImmutableList.of(
-                Pair.of(BlockLootTables::new, LootParameterSets.BLOCK),
-                Pair.of(ChestLootTables::new, LootParameterSets.CHEST)
+                Pair.of(BlockLootTables::new, LootContextParamSets.BLOCK),
+                Pair.of(ChestLootTables::new, LootContextParamSets.CHEST)
         );
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validate(validationtracker, p_218436_2_, p_218436_3_));
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
+        map.forEach((p_218436_2_, p_218436_3_) -> LootTables.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
-    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLootTables {
+    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLoot {
         @Override
         protected void addTables() {
             dropSelf(ModBlocks.TOKEN_ENCHANTER.get());
@@ -52,7 +61,7 @@ public class ModLootTableProvider extends LootTableProvider {
         }
     }
 
-    private static final class ChestLootTables extends net.minecraft.data.loot.ChestLootTables {
+    private static final class ChestLootTables extends net.minecraft.data.loot.ChestLoot {
         @Override
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(ModLoot.Injector.Tables.CHESTS_SIMPLE_DUNGEON, addXpItems());
@@ -61,18 +70,18 @@ public class ModLootTableProvider extends LootTableProvider {
         private static LootTable.Builder addXpItems() {
             LootTable.Builder builder = LootTable.lootTable();
             builder.withPool(LootPool.lootPool()
-                    .setRolls(ConstantRange.exactly(1))
-                    .add(EmptyLootEntry.emptyItem()
+                    .setRolls(ConstantValue.exactly(1))
+                    .add(EmptyLootItem.emptyItem()
                             .setWeight(5)
                     )
-                    .add(ItemLootEntry.lootTableItem(ModItems.XP_BREAD)
+                    .add(LootItem.lootTableItem(ModItems.XP_BREAD)
                             .setWeight(15)
-                            .apply(SetCount.setCount(RandomValueRange.between(1, 3)))
-                            .apply(FillXpItemFunction.builder(RandomValueRange.between(2, 4)))
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
+                            .apply(FillXpItemFunction.builder(UniformGenerator.between(2, 4)))
                     )
-                    .add(ItemLootEntry.lootTableItem(ModItems.SMALL_XP_CRYSTAL)
+                    .add(LootItem.lootTableItem(ModItems.SMALL_XP_CRYSTAL)
                             .setWeight(5)
-                            .apply(FillXpItemFunction.builder(RandomValueRange.between(1, 9)))
+                            .apply(FillXpItemFunction.builder(UniformGenerator.between(1, 9)))
                     )
             );
             return builder;

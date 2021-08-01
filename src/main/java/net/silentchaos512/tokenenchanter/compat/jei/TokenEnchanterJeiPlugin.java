@@ -1,3 +1,4 @@
+/*
 package net.silentchaos512.tokenenchanter.compat.jei;
 
 import mezz.jei.api.IModPlugin;
@@ -5,12 +6,12 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainer;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
@@ -46,8 +47,8 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
         reg.addRecipes(getRecipesOfType(ModRecipes.TOKEN_ENCHANTING_TYPE), TOKEN_ENCHANTING);
     }
 
-    private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
-        World world = Objects.requireNonNull(Minecraft.getInstance().level);
+    private static List<Recipe<?>> getRecipesOfType(RecipeType<?> recipeType) {
+        Level world = Objects.requireNonNull(Minecraft.getInstance().level);
         return world.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
                 .collect(Collectors.toList());
@@ -77,11 +78,14 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
             return enchantment != null ? enchantment.getDescriptionId() : "none";
         });
         // XP crystals
-        /*ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
+        */
+/*ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
             reg.registerSubtypeInterpreter(item, stack -> {
                 float levels = ((IXpCrystalItem) item).getLevels(stack);
                 return String.valueOf((int) levels);
             });
-        });*/
+        });*//*
+
     }
 }
+*/

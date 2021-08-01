@@ -1,10 +1,10 @@
 package net.silentchaos512.tokenenchanter.crafting.recipe;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
@@ -18,17 +18,17 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.SHAPED_XP_CRYSTAL.get();
     }
 
     @Override
-    public boolean matches(CraftingInventory craftingInventory, World world) {
+    public boolean matches(CraftingContainer craftingInventory, Level world) {
         return getBaseRecipe().matches(craftingInventory, world);
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory craftingInventory) {
+    public ItemStack assemble(CraftingContainer craftingInventory) {
         ItemStack ret = getBaseRecipe().assemble(craftingInventory);
         LazyOptional<IXpStorage> retCap = ret.getCapability(XpStorageCapability.INSTANCE);
 

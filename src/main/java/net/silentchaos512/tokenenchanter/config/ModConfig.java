@@ -1,7 +1,6 @@
 package net.silentchaos512.tokenenchanter.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.tokenenchanter.TokenMod;
@@ -26,7 +25,7 @@ public final class ModConfig {
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, Common.spec);
     }
 
-    public static void sync() {}
+    /*public static void sync() {}
 
     @SubscribeEvent
     public static void sync(net.minecraftforge.fml.config.ModConfig.Loading event) {
@@ -36,5 +35,5 @@ public final class ModConfig {
     @SubscribeEvent
     public static void sync(net.minecraftforge.fml.config.ModConfig.Reloading event) {
         sync();
-    }
+    }*/
 }

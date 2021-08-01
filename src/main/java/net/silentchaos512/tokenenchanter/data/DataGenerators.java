@@ -3,7 +3,7 @@ package net.silentchaos512.tokenenchanter.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.data.client.ModBlockStateProvider;
 import net.silentchaos512.tokenenchanter.data.client.ModItemModelProvider;

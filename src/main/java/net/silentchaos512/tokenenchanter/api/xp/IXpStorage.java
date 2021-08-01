@@ -1,6 +1,6 @@
 package net.silentchaos512.tokenenchanter.api.xp;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public interface IXpStorage {
     float getLevels();
@@ -12,7 +12,7 @@ public interface IXpStorage {
     boolean canDrain();
 
     default void drainLevels(float amount) {
-        setLevels(MathHelper.clamp(getLevels() - amount, 0, getCapacity()));
+        setLevels(Mth.clamp(getLevels() - amount, 0, getCapacity()));
     }
 
     default void addLevels(float amountToAdd) {

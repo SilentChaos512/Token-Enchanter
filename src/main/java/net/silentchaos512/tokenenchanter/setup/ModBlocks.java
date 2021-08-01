@@ -1,11 +1,11 @@
 package net.silentchaos512.tokenenchanter.setup;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public final class ModBlocks {
     public static final BlockRegistryObject<TokenEnchanterBlock> TOKEN_ENCHANTER = register("token_enchanter", () ->
-            new TokenEnchanterBlock(AbstractBlock.Properties.of(Material.METAL).strength(5, 50).sound(SoundType.METAL)));
+            new TokenEnchanterBlock(BlockBehaviour.Properties.of(Material.METAL).strength(5, 50).sound(SoundType.METAL)));
 
     private ModBlocks() {}
 

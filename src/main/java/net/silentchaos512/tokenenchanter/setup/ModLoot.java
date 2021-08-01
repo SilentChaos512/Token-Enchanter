@@ -1,11 +1,11 @@
 package net.silentchaos512.tokenenchanter.setup;
 
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ModLoot {
-    public static final LootFunctionType FILL_XP_ITEM = new LootFunctionType(FillXpItemFunction.SERIALIZER);
+    public static final LootItemFunctionType FILL_XP_ITEM = new LootItemFunctionType(FillXpItemFunction.SERIALIZER);
 
     static void register() {
         Registry.register(Registry.LOOT_FUNCTION_TYPE, TokenMod.getId("fill_xp_item"), FILL_XP_ITEM);
@@ -29,7 +29,7 @@ public class ModLoot {
         public static final class Tables {
             private static final Map<ResourceLocation, ResourceLocation> MAP = new HashMap<>();
 
-            public static final ResourceLocation CHESTS_SIMPLE_DUNGEON = inject(LootTables.SIMPLE_DUNGEON);
+            public static final ResourceLocation CHESTS_SIMPLE_DUNGEON = inject(BuiltInLootTables.SIMPLE_DUNGEON);
 
             private Tables() {}
 
@@ -57,7 +57,7 @@ public class ModLoot {
                 event.getTable().addPool(
                         LootPool.lootPool()
                                 .name("tokenenchanter_injected")
-                                .add(TableLootEntry.lootTableReference(injectorName))
+                                .add(LootTableReference.lootTableReference(injectorName))
                                 .build()
                 );
             });

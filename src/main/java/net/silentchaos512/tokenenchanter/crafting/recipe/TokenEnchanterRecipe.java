@@ -3,14 +3,14 @@ package net.silentchaos512.tokenenchanter.crafting.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.lib.collection.StackList;
@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class TokenEnchanterRecipe implements IRecipe<IInventory> {
+public class TokenEnchanterRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private int levelCost;
     private ItemStack result;
@@ -58,7 +58,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         return Collections.unmodifiableMap(ingredientMap);
     }
 
-    public void consumeIngredients(IInventory inv) {
+    public void consumeIngredients(Container inv) {
         ItemStack stack = inv.getItem(0);
         stack.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.drainLevels(this.levelCost));
 
@@ -68,7 +68,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }));
     }
 
-    private static void consumeItems(IInventory inventory, int startIndex, int endIndex, Predicate<ItemStack> ingredient, int amount) {
+    private static void consumeItems(Container inventory, int startIndex, int endIndex, Predicate<ItemStack> ingredient, int amount) {
         int amountLeft = amount;
         for (int i = startIndex; i < endIndex; ++i) {
             ItemStack stack = inventory.getItem(i);
@@ -89,7 +89,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(Container inv, Level worldIn) {
         if (!valid) return false;
 
         // XP crystal with enough levels?
@@ -130,7 +130,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack assemble(IInventory inv) {
+    public ItemStack assemble(Container inv) {
         return result.copy();
     }
 
@@ -145,12 +145,12 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.TOKEN_ENCHANTING.get();
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return ModRecipes.TOKEN_ENCHANTING_TYPE;
     }
 
@@ -159,13 +159,13 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         return true;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<TokenEnchanterRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TokenEnchanterRecipe> {
         @Override
         public TokenEnchanterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(recipeId);
 
             // Chaos and processing time
-            recipe.levelCost = JSONUtils.getAsInt(json, "level_cost", 1);
+            recipe.levelCost = GsonHelper.getAsInt(json, "level_cost", 1);
 
             // Ingredients
             JsonObject ingredientsJson = json.get("ingredients").getAsJsonObject();
@@ -173,7 +173,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
             JsonArray othersArray = ingredientsJson.get("others").getAsJsonArray();
             for (JsonElement elem : othersArray) {
                 Ingredient ingredient = Ingredient.fromJson(elem);
-                int count = JSONUtils.getAsInt(elem.getAsJsonObject(), "count", 1);
+                int count = GsonHelper.getAsInt(elem.getAsJsonObject(), "count", 1);
                 recipe.ingredientMap.put(ingredient, count);
             }
 
@@ -186,13 +186,13 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
             if (elem != null) {
                 for (JsonElement elem1 : elem.getAsJsonArray()) {
                     JsonObject elemObj = elem1.getAsJsonObject();
-                    String name = JSONUtils.getAsString(elemObj, "name");
+                    String name = GsonHelper.getAsString(elemObj, "name");
                     Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(name));
                     if (enchantment == null) {
                         // Enchantment does not exist!
                         recipe.valid = false;
                     } else {
-                        int level = JSONUtils.getAsInt(elemObj, "level", 1);
+                        int level = GsonHelper.getAsInt(elemObj, "level", 1);
                         addEnchantment(recipe.result, enchantment, level);
                     }
                 }
@@ -200,7 +200,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
             if (recipe.result.getCapability(XpStorageCapability.INSTANCE).isPresent()) {
                 // Infuse XP levels into certain items (XP bread, crystals, etc.)
-                int amount = JSONUtils.getAsInt(resultJson, "infuse_levels", 0);
+                int amount = GsonHelper.getAsInt(resultJson, "infuse_levels", 0);
                 if (amount > 0) {
                     recipe.result.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(amount));
                 }
@@ -214,7 +214,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         @Override
-        public TokenEnchanterRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+        public TokenEnchanterRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
             TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(recipeId);
             recipe.levelCost = buffer.readVarInt();
             recipe.result = buffer.readItem();
@@ -229,7 +229,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         @Override
-        public void toNetwork(PacketBuffer buffer, TokenEnchanterRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, TokenEnchanterRecipe recipe) {
             buffer.writeVarInt(recipe.levelCost);
             buffer.writeItem(recipe.result);
             recipe.token.toNetwork(buffer);
@@ -241,7 +241,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         }
 
         private static ItemStack deserializeItem(JsonObject json) {
-            return ShapedRecipe.itemFromJson(json);
+            return ShapedRecipe.itemStackFromJson(json);
         }
 
         private static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {

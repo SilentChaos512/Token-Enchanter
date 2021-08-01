@@ -1,20 +1,16 @@
 package net.silentchaos512.tokenenchanter.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -56,7 +52,7 @@ public class XpCrystalItem extends Item {
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         return new ICapabilityProvider() {
             @Nonnull
             @Override
@@ -75,8 +71,8 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack stack) {
-        return UseAction.DRINK;
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.DRINK;
     }
 
     @Override
@@ -85,15 +81,15 @@ public class XpCrystalItem extends Item {
     }
 
     private static int getPlayerLevel(LivingEntity entity) {
-        if (entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
-            return player.abilities.instabuild ? Integer.MAX_VALUE : player.experienceLevel;
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            return player.getAbilities().instabuild ? Integer.MAX_VALUE : player.experienceLevel;
         }
         return 0;
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         int fillAmount = getFillAmount(stack);
@@ -101,12 +97,12 @@ public class XpCrystalItem extends Item {
         if (xp.getLevels() < xp.getCapacity()) {
             if (getPlayerLevel(playerIn) >= fillAmount) {
                 playerIn.startUsingItem(handIn);
-                return ActionResult.consume(stack);
+                return InteractionResultHolder.consume(stack);
             } else {
-                ITextComponent msg = TextUtil.translate("item", "xp_crystal.not_enough_levels", fillAmount);
+                Component msg = TextUtil.translate("item", "xp_crystal.not_enough_levels", fillAmount);
                 playerIn.displayClientMessage(msg, true);
                 playerIn.getCooldowns().addCooldown(this, 10);
-                return ActionResult.fail(stack);
+                return InteractionResultHolder.fail(stack);
             }
         }
 
@@ -114,12 +110,12 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+    public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
         int playerLevels = getPlayerLevel(entityLiving);
         int fillAmount = getFillAmount(stack);
 
-        if (playerLevels >= fillAmount && entityLiving instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entityLiving;
+        if (playerLevels >= fillAmount && entityLiving instanceof Player) {
+            Player player = (Player) entityLiving;
             player.giveExperienceLevels(-fillAmount);
 
             ItemStack ret = stack.copy();
@@ -131,11 +127,11 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         float levels = xp.getLevels();
         if (levels <= 0.1f) {
-            tooltip.add(TextUtil.translate("item", "xp_crystal.hint").plainCopy().withStyle(TextFormatting.ITALIC));
+            tooltip.add(TextUtil.translate("item", "xp_crystal.hint").plainCopy().withStyle(ChatFormatting.ITALIC));
         }
 
         String levelsFormatted = String.format("%.1f", levels);
@@ -144,7 +140,7 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (allowdedIn(group)) {
             ItemStack empty = new ItemStack(this);
             items.add(empty);

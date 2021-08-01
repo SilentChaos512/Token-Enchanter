@@ -2,15 +2,15 @@ package net.silentchaos512.tokenenchanter.api.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
@@ -33,13 +33,13 @@ public class TokenEnchantingRecipeBuilder {
     private final Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
     private int infuseLevels = 0;
 
-    protected TokenEnchantingRecipeBuilder(IItemProvider result, int count, int levelCost) {
+    protected TokenEnchantingRecipeBuilder(ItemLike result, int count, int levelCost) {
         this.result = result.asItem();
         this.count = count;
         this.levelCost = levelCost;
     }
 
-    public static TokenEnchantingRecipeBuilder builder(IItemProvider result, int count, int levelCost) {
+    public static TokenEnchantingRecipeBuilder builder(ItemLike result, int count, int levelCost) {
         return new TokenEnchantingRecipeBuilder(result, count, levelCost);
     }
 
@@ -67,11 +67,11 @@ public class TokenEnchantingRecipeBuilder {
         return this;
     }
 
-    public TokenEnchantingRecipeBuilder token(IItemProvider item) {
+    public TokenEnchantingRecipeBuilder token(ItemLike item) {
         return token(Ingredient.of(item));
     }
 
-    public TokenEnchantingRecipeBuilder token(ITag<Item> tag) {
+    public TokenEnchantingRecipeBuilder token(Tag<Item> tag) {
         return token(Ingredient.of(tag));
     }
 
@@ -80,11 +80,11 @@ public class TokenEnchantingRecipeBuilder {
         return this;
     }
 
-    public TokenEnchantingRecipeBuilder addIngredient(IItemProvider item, int count) {
+    public TokenEnchantingRecipeBuilder addIngredient(ItemLike item, int count) {
         return addIngredient(Ingredient.of(item), count);
     }
 
-    public TokenEnchantingRecipeBuilder addIngredient(ITag<Item> tag, int count) {
+    public TokenEnchantingRecipeBuilder addIngredient(Tag<Item> tag, int count) {
         return addIngredient(Ingredient.of(tag), count);
     }
 
@@ -93,17 +93,17 @@ public class TokenEnchantingRecipeBuilder {
         return this;
     }
 
-    public void build(Consumer<IFinishedRecipe> consumer) {
+    public void build(Consumer<FinishedRecipe> consumer) {
         ResourceLocation itemId = NameUtils.from(this.result);
         ResourceLocation id = name == null ? itemId : name;
         build(consumer, id);
     }
 
-    public void build(Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
+    public void build(Consumer<FinishedRecipe> consumer, ResourceLocation id) {
         consumer.accept(new Result(id, this));
     }
 
-    public static class Result implements IFinishedRecipe {
+    public static class Result implements FinishedRecipe {
         private final ResourceLocation id;
         private final TokenEnchantingRecipeBuilder builder;
 
@@ -157,7 +157,7 @@ public class TokenEnchantingRecipeBuilder {
         }
 
         @Override
-        public IRecipeSerializer<?> getType() {
+        public RecipeSerializer<?> getType() {
             return ModRecipes.TOKEN_ENCHANTING.get();
         }
 

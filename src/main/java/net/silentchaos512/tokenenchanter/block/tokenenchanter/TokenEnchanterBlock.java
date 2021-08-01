@@ -1,45 +1,40 @@
 package net.silentchaos512.tokenenchanter.block.tokenenchanter;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class TokenEnchanterBlock extends Block {
+import javax.annotation.Nullable;
+
+public class TokenEnchanterBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 12, 16);
 
     public TokenEnchanterBlock(Properties properties) {
         super(properties);
     }
 
+    @Nullable
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TokenEnchanterTileEntity();
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new TokenEnchanterTileEntity(blockPos, blockState);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity tile = worldIn.getBlockEntity(pos);
-            if (tile instanceof IInventory) {
-                InventoryHelper.dropContents(worldIn, pos, (IInventory) tile);
+            BlockEntity tile = worldIn.getBlockEntity(pos);
+            if (tile instanceof Container) {
+                Containers.dropContents(worldIn, pos, (Container) tile);
                 worldIn.updateNeighbourForOutputSignal(pos, this);
             }
         }
@@ -48,19 +43,19 @@ public class TokenEnchanterBlock extends Block {
 
     @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!worldIn.isClientSide) {
-            TileEntity tile = worldIn.getBlockEntity(pos);
+            BlockEntity tile = worldIn.getBlockEntity(pos);
             if (tile instanceof TokenEnchanterTileEntity) {
-                player.openMenu((INamedContainerProvider) tile);
+                player.openMenu((MenuProvider) tile);
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 }

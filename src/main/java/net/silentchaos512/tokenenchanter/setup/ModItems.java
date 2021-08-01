@@ -1,7 +1,7 @@
 package net.silentchaos512.tokenenchanter.setup;
 
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
@@ -28,7 +28,7 @@ public final class ModItems {
 
     public static final ItemRegistryObject<XpFoodItem> XP_BREAD = registerSimpleModel("xp_bread", () ->
             new XpFoodItem(baseProps()
-                    .food(new Food.Builder().nutrition(6).saturationMod(1.2f).alwaysEat().build())));
+                    .food(new FoodProperties.Builder().nutrition(6).saturationMod(1.2f).alwaysEat().build())));
 
     public static final ItemRegistryObject<EnchantedTokenItem> ENCHANTED_TOKEN = register("enchanted_token", () ->
             new EnchantedTokenItem(baseProps()));

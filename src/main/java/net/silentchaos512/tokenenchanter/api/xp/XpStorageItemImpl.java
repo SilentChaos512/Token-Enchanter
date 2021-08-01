@@ -1,6 +1,6 @@
 package net.silentchaos512.tokenenchanter.api.xp;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class XpStorageItemImpl extends XpStorage {
     private static final String NBT_LEVELS = "StoredLevels";

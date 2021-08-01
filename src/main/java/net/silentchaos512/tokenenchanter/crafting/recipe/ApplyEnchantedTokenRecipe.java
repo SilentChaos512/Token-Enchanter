@@ -1,29 +1,29 @@
 package net.silentchaos512.tokenenchanter.crafting.recipe;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
 import java.util.List;
 
-public class ApplyEnchantedTokenRecipe extends SpecialRecipe {
+public class ApplyEnchantedTokenRecipe extends CustomRecipe {
     public ApplyEnchantedTokenRecipe(ResourceLocation idIn) {
         super(idIn);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
+    public boolean matches(CraftingContainer inv, Level worldIn) {
         return !assemble(inv).isEmpty();
     }
 
     @Override
-    public ItemStack assemble(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack tool = ItemStack.EMPTY;
         List<ItemStack> tokens = NonNullList.create();
 
@@ -61,7 +61,7 @@ public class ApplyEnchantedTokenRecipe extends SpecialRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.APPLY_ENCHANTED_TOKEN.get();
     }
 }

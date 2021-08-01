@@ -1,20 +1,24 @@
 package net.silentchaos512.tokenenchanter.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.crash.ReportedException;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.*;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.*;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.event.ClientTicks;
@@ -22,7 +26,7 @@ import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.*;
 
@@ -50,26 +54,26 @@ public class EnchantedTokenItem extends Item {
     private static final Map<String, Icon> MODELS_BY_TYPE = new HashMap<>();
 
     static {
-        MODELS_BY_TYPE.put(EnchantmentType.VANISHABLE.toString(), Icon.ANY);
-        MODELS_BY_TYPE.put(EnchantmentType.BREAKABLE.toString(), Icon.ANY);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_CHEST.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_FEET.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_HEAD.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_LEGS.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.WEARABLE.toString(), Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.BOW.toString(), Icon.BOW);
-        MODELS_BY_TYPE.put(EnchantmentType.CROSSBOW.toString(), Icon.CROSSBOW);
-        MODELS_BY_TYPE.put(EnchantmentType.DIGGER.toString(), Icon.TOOL);
-        MODELS_BY_TYPE.put(EnchantmentType.FISHING_ROD.toString(), Icon.FISHING_ROD);
-        MODELS_BY_TYPE.put(EnchantmentType.TRIDENT.toString(), Icon.TRIDENT);
-        MODELS_BY_TYPE.put(EnchantmentType.WEAPON.toString(), Icon.SWORD);
+        MODELS_BY_TYPE.put(EnchantmentCategory.VANISHABLE.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnchantmentCategory.BREAKABLE.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnchantmentCategory.ARMOR.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.ARMOR_CHEST.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.ARMOR_FEET.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.ARMOR_HEAD.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.ARMOR_LEGS.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.WEARABLE.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentCategory.BOW.toString(), Icon.BOW);
+        MODELS_BY_TYPE.put(EnchantmentCategory.CROSSBOW.toString(), Icon.CROSSBOW);
+        MODELS_BY_TYPE.put(EnchantmentCategory.DIGGER.toString(), Icon.TOOL);
+        MODELS_BY_TYPE.put(EnchantmentCategory.FISHING_ROD.toString(), Icon.FISHING_ROD);
+        MODELS_BY_TYPE.put(EnchantmentCategory.TRIDENT.toString(), Icon.TRIDENT);
+        MODELS_BY_TYPE.put(EnchantmentCategory.WEAPON.toString(), Icon.SWORD);
 
         if (TokenMod.isDevBuild()) {
             TokenMod.LOGGER.info("Checking enchantment type icons...");
             boolean allGood = true;
 
-            for (EnchantmentType type : EnchantmentType.values()) {
+            for (EnchantmentCategory type : EnchantmentCategory.values()) {
                 if (!MODELS_BY_TYPE.containsKey(type.toString())) {
                     TokenMod.LOGGER.fatal("Missing icon for type: {}", type);
                     allGood = false;
@@ -89,22 +93,22 @@ public class EnchantedTokenItem extends Item {
     //region ItemStack construction
 
     public ItemStack construct(Enchantment enchantment, int level) {
-        return construct(new EnchantmentData(enchantment, level));
+        return construct(new EnchantmentInstance(enchantment, level));
     }
 
-    public ItemStack construct(EnchantmentData... enchantments) {
+    public ItemStack construct(EnchantmentInstance... enchantments) {
         ItemStack stack = new ItemStack(this);
-        for (EnchantmentData data : enchantments) {
+        for (EnchantmentInstance data : enchantments) {
             addEnchantment(stack, data);
         }
         return stack;
     }
 
     public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-        addEnchantment(stack, new EnchantmentData(enchantment, level));
+        addEnchantment(stack, new EnchantmentInstance(enchantment, level));
     }
 
-    private static void addEnchantment(ItemStack stack, EnchantmentData data) {
+    private static void addEnchantment(ItemStack stack, EnchantmentInstance data) {
         stack.enchant(data.enchantment, data.level);
     }
 
@@ -207,18 +211,18 @@ public class EnchantedTokenItem extends Item {
 
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         Enchantment enchantment = getSingleEnchantment(stack);
         if (enchantment != null) {
-            IFormattableTextComponent enchantmentName = enchantment.getFullname(1).plainCopy()
+            MutableComponent enchantmentName = enchantment.getFullname(1).plainCopy()
                     .withStyle(this.getRarity(stack).color);
-            return new TranslationTextComponent(this.getDescriptionId(stack) + ".single", enchantmentName);
+            return new TranslatableComponent(this.getDescriptionId(stack) + ".single", enchantmentName);
         }
         return super.getName(stack);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
 
         if (enchantments.size() == 1) {
@@ -229,8 +233,8 @@ public class EnchantedTokenItem extends Item {
             // Debug info
             if (flag.isAdvanced()) {
                 ResourceLocation registryName = Objects.requireNonNull(enchantment.getRegistryName());
-                list.add(new StringTextComponent(registryName.toString())
-                        .withStyle(TextFormatting.DARK_GRAY));
+                list.add(new TextComponent(registryName.toString())
+                        .withStyle(ChatFormatting.DARK_GRAY));
             }
         }
     }
@@ -247,14 +251,14 @@ public class EnchantedTokenItem extends Item {
                 .orElse("Unknown Mod");
     }
 
-    private ITextComponent subText(String key, Object... formatArgs) {
+    private Component subText(String key, Object... formatArgs) {
         ResourceLocation id = NameUtils.from(this);
         String fullKey = String.format("item.%s.%s.%s", id.getNamespace(), id.getPath(), key);
-        return new TranslationTextComponent(fullKey, formatArgs);
+        return new TranslatableComponent(fullKey, formatArgs);
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (!allowdedIn(group)) return;
 
         List<ItemStack> tokens = NonNullList.create();
@@ -275,15 +279,15 @@ public class EnchantedTokenItem extends Item {
             Enchantment e2 = getSingleEnchantment(o2);
             if (e1 != null && e2 != null) {
                 // If this crashes the enchantment is at fault, nothing should be done about it.
-                ITextComponent name1 = getEnchantmentDisplayName(e1);
-                ITextComponent name2 = getEnchantmentDisplayName(e2);
+                Component name1 = getEnchantmentDisplayName(e1);
+                Component name2 = getEnchantmentDisplayName(e2);
                 return name1.getString().compareTo(name2.getString());
             }
         }
         return k;
     }
 
-    private static ITextComponent getEnchantmentDisplayName(Enchantment enchantment) {
+    private static Component getEnchantmentDisplayName(Enchantment enchantment) {
         // Report on broken mods
         try {
             return enchantment.getFullname(1);
@@ -319,14 +323,14 @@ public class EnchantedTokenItem extends Item {
 
         int baseColor = getOutlineColor(stack);
 
-        int j = (int) (160 * MathHelper.sin(ClientTicks.ticksInGame() * OUTLINE_PULSATE_SPEED));
-        j = MathHelper.clamp(j, 0, 255);
+        int j = (int) (160 * Mth.sin(ClientTicks.ticksInGame() * OUTLINE_PULSATE_SPEED));
+        j = Mth.clamp(j, 0, 255);
         int r = (baseColor >> 16) & 255;
-        r = MathHelper.clamp(r + j, 0, 255);
+        r = Mth.clamp(r + j, 0, 255);
         int g = (baseColor >> 8) & 255;
-        g = MathHelper.clamp(g + j, 0, 255);
+        g = Mth.clamp(g + j, 0, 255);
         int b = baseColor & 255;
-        b = MathHelper.clamp(b + j, 0, 255);
+        b = Mth.clamp(b + j, 0, 255);
         return (r << 16) | (g << 8) | b;
     }
 
@@ -342,7 +346,7 @@ public class EnchantedTokenItem extends Item {
         return 0x8040CC;
     }
 
-    public static float getModel(ItemStack stack, World world, LivingEntity entity) {
+    public static float getModel(ItemStack stack, ClientLevel world, LivingEntity entity, int var4) {
         return getModelIcon(stack).ordinal();
     }
 
@@ -353,7 +357,7 @@ public class EnchantedTokenItem extends Item {
         Enchantment enchantment = map.keySet().iterator().next();
         if (enchantment.isCurse()) return Icon.CURSE;
 
-        EnchantmentType type = enchantment.category;
+        EnchantmentCategory type = enchantment.category;
         if (type == null) return Icon.UNKNOWN;
 
         return MODELS_BY_TYPE.getOrDefault(type.toString(), Icon.UNKNOWN);

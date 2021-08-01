@@ -1,6 +1,7 @@
+/*
 package net.silentchaos512.tokenenchanter.compat.jei;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -9,12 +10,12 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
@@ -123,9 +124,10 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     }
 
     @Override
-    public void draw(TokenEnchanterRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-        FontRenderer font = Minecraft.getInstance().font;
-        ITextComponent text = TextUtil.translate("misc", "level_cost", recipe.getLevelCost());
+    public void draw(TokenEnchanterRecipe recipe, PoseStack matrixStack, double mouseX, double mouseY) {
+        Font font = Minecraft.getInstance().font;
+        Component text = TextUtil.translate("misc", "level_cost", recipe.getLevelCost());
         font.drawShadow(matrixStack, text.getString(), 25, GUI_HEIGHT - font.lineHeight - 1, -1);
     }
 }
+*/

@@ -1,8 +1,8 @@
 package net.silentchaos512.tokenenchanter;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -68,7 +68,7 @@ public class TokenMod {
         return id.toString();
     }
 
-    public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
+    public static final CreativeModeTab ITEM_GROUP = new CreativeModeTab(MOD_ID) {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(ModItems.GOLD_TOKEN);

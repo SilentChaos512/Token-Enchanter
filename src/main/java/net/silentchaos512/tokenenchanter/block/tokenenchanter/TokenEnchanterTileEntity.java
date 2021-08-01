@@ -1,26 +1,29 @@
 package net.silentchaos512.tokenenchanter.block.tokenenchanter;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
+import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
 
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
-public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
+public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements TickableBlockEntity {
     public static final int PROCESS_TIME = 50;
 
     private static final int INVENTORY_SIZE = 2 + 6 + 1;
@@ -31,7 +34,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     private int progress;
 
     @SuppressWarnings("OverlyComplexAnonymousInnerClass")
-    private final IIntArray fields = new IIntArray() {
+    private final ContainerData fields = new ContainerData() {
         @Override
         public int get(int index) {
             switch (index) {
@@ -56,8 +59,12 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
         }
     };
 
-    public TokenEnchanterTileEntity() {
-        super(ModTileEntities.TOKEN_ENCHANTER.get(), INVENTORY_SIZE);
+    public TokenEnchanterTileEntity(BlockPos pos, BlockState state) {
+        super(ModTileEntities.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, pos, state);
+    }
+
+    TokenEnchanterTileEntity() {
+        super(ModTileEntities.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, BlockPos.ZERO, ModBlocks.TOKEN_ENCHANTER.asBlockState());
     }
 
     @Nullable
@@ -122,12 +129,12 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     }
 
     @Override
-    protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.tokenenchanter.token_enchanter");
+    protected Component getDefaultName() {
+        return new TranslatableComponent("container.tokenenchanter.token_enchanter");
     }
 
     @Override
-    protected Container createMenu(int id, PlayerInventory playerInventory) {
+    protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
         return new TokenEnchanterContainer(id, playerInventory, this, this.fields);
     }
 
