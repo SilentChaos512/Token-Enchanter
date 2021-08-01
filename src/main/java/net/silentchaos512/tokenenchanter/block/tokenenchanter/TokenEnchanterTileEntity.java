@@ -4,11 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
@@ -23,7 +23,7 @@ import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
-public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements TickableBlockEntity {
+public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
     public static final int PROCESS_TIME = 50;
 
     private static final int INVENTORY_SIZE = 2 + 6 + 1;
@@ -82,23 +82,22 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
         recipe.consumeIngredients(this);
     }
 
-    @Override
-    public void tick() {
+    public static void tick(Level level, BlockPos pos, BlockState state, TokenEnchanterTileEntity blockEntity) {
         if (level == null || level.isClientSide) return;
 
-        TokenEnchanterRecipe recipe = getRecipe();
-        if (recipe != null && canMachineRun(recipe)) {
+        TokenEnchanterRecipe recipe = blockEntity.getRecipe();
+        if (recipe != null && blockEntity.canMachineRun(recipe)) {
             // Process
-            ++progress;
+            ++blockEntity.progress;
 
-            if (progress >= PROCESS_TIME) {
+            if (blockEntity.progress >= PROCESS_TIME) {
                 // Create result
-                storeResultItem(getCraftingResult(recipe));
-                consumeIngredients(recipe);
-                progress = 0;
+                blockEntity.storeResultItem(blockEntity.getCraftingResult(recipe));
+                blockEntity.consumeIngredients(recipe);
+                blockEntity.progress = 0;
             }
         } else {
-            progress = 0;
+            blockEntity.progress = 0;
         }
     }
 
