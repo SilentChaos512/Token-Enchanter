@@ -9,17 +9,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.silentchaos512.lib.block.IBlockProvider;
-import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterTileEntity;
+import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterBlockEntity;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public final class ModTileEntities {
-    public static final RegistryObject<BlockEntityType<TokenEnchanterTileEntity>> TOKEN_ENCHANTER = register("token_enchanter",
-            TokenEnchanterTileEntity::new,
+public final class ModBlockEntityTypes {
+    public static final RegistryObject<BlockEntityType<TokenEnchanterBlockEntity>> TOKEN_ENCHANTER = register("token_enchanter",
+            TokenEnchanterBlockEntity::new,
             ModBlocks.TOKEN_ENCHANTER);
 
-    private ModTileEntities() {throw new IllegalAccessError("Utility class");}
+    private ModBlockEntityTypes() {throw new IllegalAccessError("Utility class");}
 
     static void register() {}
 
@@ -32,7 +32,7 @@ public final class ModTileEntities {
     }
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factoryIn, Supplier<Collection<? extends Block>> validBlocksSupplier) {
-        return Registration.TILE_ENTITIES.register(name, () -> {
+        return Registration.BLOCK_ENTITIES.register(name, () -> {
             Block[] validBlocks = validBlocksSupplier.get().toArray(new Block[0]);
             //noinspection ConstantConditions -- null in build
             return BlockEntityType.Builder.of(factoryIn, validBlocks).build(null);

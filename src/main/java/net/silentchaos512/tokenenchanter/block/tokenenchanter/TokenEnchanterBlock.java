@@ -15,8 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fml.common.Mod;
-import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
+import net.silentchaos512.tokenenchanter.setup.ModBlockEntityTypes;
 
 import javax.annotation.Nullable;
 
@@ -30,7 +29,7 @@ public class TokenEnchanterBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new TokenEnchanterTileEntity(blockPos, blockState);
+        return new TokenEnchanterBlockEntity(blockPos, blockState);
     }
 
     @SuppressWarnings("deprecation")
@@ -51,7 +50,7 @@ public class TokenEnchanterBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!worldIn.isClientSide) {
             BlockEntity tile = worldIn.getBlockEntity(pos);
-            if (tile instanceof TokenEnchanterTileEntity) {
+            if (tile instanceof TokenEnchanterBlockEntity) {
                 player.openMenu((MenuProvider) tile);
             }
         }
@@ -72,6 +71,6 @@ public class TokenEnchanterBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModTileEntities.TOKEN_ENCHANTER.get(), TokenEnchanterTileEntity::tick);
+        return createTickerHelper(blockEntityType, ModBlockEntityTypes.TOKEN_ENCHANTER.get(), TokenEnchanterBlockEntity::tick);
     }
 }

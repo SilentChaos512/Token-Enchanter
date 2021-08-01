@@ -18,12 +18,12 @@ import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
-import net.silentchaos512.tokenenchanter.setup.ModTileEntities;
+import net.silentchaos512.tokenenchanter.setup.ModBlockEntityTypes;
 
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
-public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
+public class TokenEnchanterBlockEntity extends LockableSidedInventoryTileEntity {
     public static final int PROCESS_TIME = 50;
 
     private static final int INVENTORY_SIZE = 2 + 6 + 1;
@@ -39,7 +39,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
         public int get(int index) {
             switch (index) {
                 case 0:
-                    return TokenEnchanterTileEntity.this.progress;
+                    return TokenEnchanterBlockEntity.this.progress;
                 default:
                     return 0;
             }
@@ -49,7 +49,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
         public void set(int index, int value) {
             switch (index) {
                 case 0:
-                    TokenEnchanterTileEntity.this.progress = value;
+                    TokenEnchanterBlockEntity.this.progress = value;
             }
         }
 
@@ -59,12 +59,12 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
         }
     };
 
-    public TokenEnchanterTileEntity(BlockPos pos, BlockState state) {
-        super(ModTileEntities.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, pos, state);
+    public TokenEnchanterBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntityTypes.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, pos, state);
     }
 
-    TokenEnchanterTileEntity() {
-        super(ModTileEntities.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, BlockPos.ZERO, ModBlocks.TOKEN_ENCHANTER.asBlockState());
+    TokenEnchanterBlockEntity() {
+        super(ModBlockEntityTypes.TOKEN_ENCHANTER.get(), INVENTORY_SIZE, BlockPos.ZERO, ModBlocks.TOKEN_ENCHANTER.asBlockState());
     }
 
     @Nullable
@@ -82,7 +82,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
         recipe.consumeIngredients(this);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, TokenEnchanterTileEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, TokenEnchanterBlockEntity blockEntity) {
         if (level == null || level.isClientSide) return;
 
         TokenEnchanterRecipe recipe = blockEntity.getRecipe();
@@ -134,7 +134,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity {
 
     @Override
     protected AbstractContainerMenu createMenu(int id, Inventory playerInventory) {
-        return new TokenEnchanterContainer(id, playerInventory, this, this.fields);
+        return new TokenEnchanterContainerMenu(id, playerInventory, this, this.fields);
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")

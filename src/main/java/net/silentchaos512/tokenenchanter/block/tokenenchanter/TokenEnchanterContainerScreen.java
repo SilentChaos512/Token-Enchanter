@@ -9,10 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
-public class TokenEnchanterScreen extends AbstractContainerScreen<TokenEnchanterContainer> {
+public class TokenEnchanterContainerScreen extends AbstractContainerScreen<TokenEnchanterContainerMenu> {
     public static final ResourceLocation TEXTURE = TokenMod.getId("textures/gui/token_enchanter.png");
 
-    public TokenEnchanterScreen(TokenEnchanterContainer container, Inventory playerInventory, Component title) {
+    public TokenEnchanterContainerScreen(TokenEnchanterContainerMenu container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
     }
 

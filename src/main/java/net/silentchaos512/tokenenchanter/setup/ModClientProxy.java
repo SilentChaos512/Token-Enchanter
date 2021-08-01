@@ -15,7 +15,7 @@ public final class ModClientProxy {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         ModBlocks.registerRenderTypes(event);
-        ModTileEntities.registerRenderers(event);
+        ModBlockEntityTypes.registerRenderers(event);
         ModContainers.registerScreens(event);
 
         ItemProperties.register(ModItems.ENCHANTED_TOKEN.get(),

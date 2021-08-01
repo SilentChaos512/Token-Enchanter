@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Registration {
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = create(ForgeRegistries.BLOCK_ENTITIES);
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
     public static final DeferredRegister<MenuType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
     public static final DeferredRegister<MobEffect> EFFECTS = create(ForgeRegistries.POTIONS);
@@ -35,12 +36,12 @@ public class Registration {
     public static final DeferredRegister<Potion> POTIONS = create(ForgeRegistries.POTION_TYPES);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = create(ForgeRegistries.SOUND_EVENTS);
-    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = create(ForgeRegistries.BLOCK_ENTITIES);
 
     private Registration() {}
 
     public static void register() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        BLOCK_ENTITIES.register(modEventBus);
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         EFFECTS.register(modEventBus);
@@ -51,14 +52,13 @@ public class Registration {
         POTIONS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         SOUND_EVENTS.register(modEventBus);
-        TILE_ENTITIES.register(modEventBus);
 
+        ModBlockEntityTypes.register();
         ModBlocks.register();
         ModContainers.register();
         ModItems.register();
         ModLoot.register();
         ModRecipes.register();
-        ModTileEntities.register();
     }
 
     @SuppressWarnings("unchecked")

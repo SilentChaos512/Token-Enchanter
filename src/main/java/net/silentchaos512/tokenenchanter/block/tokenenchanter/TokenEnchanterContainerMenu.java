@@ -14,16 +14,16 @@ import net.silentchaos512.tokenenchanter.setup.ModContainers;
 
 import javax.annotation.Nonnull;
 
-public class TokenEnchanterContainer extends AbstractContainerMenu {
-    private final TokenEnchanterTileEntity tileEntity;
+public class TokenEnchanterContainerMenu extends AbstractContainerMenu {
+    private final TokenEnchanterBlockEntity tileEntity;
     private final ContainerData fields;
 
-    public TokenEnchanterContainer(int id, Inventory playerInventory, FriendlyByteBuf buffer) {
-        this(id, playerInventory, new TokenEnchanterTileEntity(), new SimpleContainerData(1));
+    public TokenEnchanterContainerMenu(int id, Inventory playerInventory, FriendlyByteBuf buffer) {
+        this(id, playerInventory, new TokenEnchanterBlockEntity(), new SimpleContainerData(1));
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
-    public TokenEnchanterContainer(int id, Inventory playerInventory, TokenEnchanterTileEntity tileEntity, ContainerData fields) {
+    public TokenEnchanterContainerMenu(int id, Inventory playerInventory, TokenEnchanterBlockEntity tileEntity, ContainerData fields) {
         super(ModContainers.TOKEN_ENCHANTER.get(), id);
 
         this.tileEntity = tileEntity;
@@ -34,7 +34,7 @@ public class TokenEnchanterContainer extends AbstractContainerMenu {
         this.addSlot(new Slot(this.tileEntity, 0, 22, 55) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return TokenEnchanterContainer.this.tileEntity.canPlaceItem(0, stack);
+                return TokenEnchanterContainerMenu.this.tileEntity.canPlaceItem(0, stack);
             }
         });
         // Token
@@ -57,7 +57,7 @@ public class TokenEnchanterContainer extends AbstractContainerMenu {
     }
 
     public int getProcessTime() {
-        return TokenEnchanterTileEntity.PROCESS_TIME;
+        return TokenEnchanterBlockEntity.PROCESS_TIME;
     }
 
     @Override
