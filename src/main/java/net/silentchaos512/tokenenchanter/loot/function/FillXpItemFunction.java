@@ -10,7 +10,6 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModLoot;
 
@@ -51,12 +50,12 @@ public class FillXpItemFunction extends LootItemConditionalFunction {
     public static class Serializer extends LootItemConditionalFunction.Serializer<FillXpItemFunction> {
         @Override
         public void serialize(JsonObject json, FillXpItemFunction function, JsonSerializationContext context) {
-            json.add("levels", context.serialize(new JsonObject(), function.levels.getType().getClass()));
+            json.add("levels", context.serialize(function.levels));
         }
 
         @Override
         public FillXpItemFunction deserialize(JsonObject json, JsonDeserializationContext context, LootItemCondition[] conditionsIn) {
-            NumberProvider levels = context.deserialize(json.get("levels"), NumberProviders.class);
+            NumberProvider levels = context.deserialize(json.get("levels"), NumberProvider.class);
             return new FillXpItemFunction(conditionsIn, levels);
         }
     }

@@ -2,6 +2,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/token-enchanter",
     "changelog": "https://github.com/SilentChaos512/Token-Enchanter/blob/1.17.x/CHANGELOG.md",
     "1.17.1": {
+        "1.1.1": "https://github.com/SilentChaos512/Silent-Gear/blob/1.17.x/CHANGELOG.md",
         "1.1.0": "https://github.com/SilentChaos512/Silent-Gear/blob/1.17.x/CHANGELOG.md"
     },
     "1.16.5": {
@@ -10,7 +11,7 @@
     "promos": {
         "1.16.5-latest": "1.0.5",
         "1.16.5-recommended": "1.0.5",
-        "1.17.1-latest": "1.1.0",
-        "1.17.1-recommended": "1.1.0"
+        "1.17.1-latest": "1.1.1",
+        "1.17.1-recommended": "1.1.1"
     }
 }

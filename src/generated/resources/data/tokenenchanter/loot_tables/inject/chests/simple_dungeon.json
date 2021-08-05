@@ -2,7 +2,8 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:empty",
@@ -15,17 +16,18 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1.0,
-                "max": 3.0,
-                "type": "minecraft:uniform"
-              }
+                "max": 3.0
+              },
+              "add": false
             },
             {
               "function": "tokenenchanter:fill_xp_item",
               "levels": {
+                "type": "minecraft:uniform",
                 "min": 2.0,
-                "max": 4.0,
-                "type": "minecraft:uniform"
+                "max": 4.0
               }
             }
           ],
@@ -38,9 +40,9 @@
             {
               "function": "tokenenchanter:fill_xp_item",
               "levels": {
+                "type": "minecraft:uniform",
                 "min": 1.0,
-                "max": 9.0,
-                "type": "minecraft:uniform"
+                "max": 9.0
               }
             }
           ],
