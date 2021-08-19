@@ -83,8 +83,6 @@ public class TokenEnchanterBlockEntity extends LockableSidedInventoryTileEntity 
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, TokenEnchanterBlockEntity blockEntity) {
-        if (level == null || level.isClientSide) return;
-
         TokenEnchanterRecipe recipe = blockEntity.getRecipe();
         if (recipe != null && blockEntity.canMachineRun(recipe)) {
             // Process
