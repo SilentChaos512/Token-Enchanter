@@ -1,4 +1,3 @@
-/*
 package net.silentchaos512.tokenenchanter.compat.jei;
 
 import mezz.jei.api.IModPlugin;
@@ -6,16 +5,18 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.TokenMod;
-import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainer;
-import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
+import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainerMenu;
+import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainerScreen;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
+import net.silentchaos512.tokenenchanter.item.XpCrystalItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
@@ -61,31 +62,28 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
-        reg.addRecipeClickArea(TokenEnchanterScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+        reg.addRecipeClickArea(TokenEnchanterContainerScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
     }
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(TokenEnchanterContainer.class, TOKEN_ENCHANTING, 0, 8, 9, 36);
+        registration.addRecipeTransferHandler(TokenEnchanterContainerMenu.class, TOKEN_ENCHANTING, 0, 8, 9, 36);
 //        registration.addRecipeTransferHandler(new TokenEnchantingRecipeTransferHandler(), TOKEN_ENCHANTING);
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration reg) {
         // Enchanted tokens
-        reg.registerSubtypeInterpreter(ModItems.ENCHANTED_TOKEN.get(), stack -> {
+        reg.registerSubtypeInterpreter(ModItems.ENCHANTED_TOKEN.get(), (stack, context) -> {
             Enchantment enchantment = EnchantedTokenItem.getSingleEnchantment(stack);
             return enchantment != null ? enchantment.getDescriptionId() : "none";
         });
         // XP crystals
-        */
-/*ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof IXpCrystalItem).forEach(item -> {
-            reg.registerSubtypeInterpreter(item, stack -> {
-                float levels = ((IXpCrystalItem) item).getLevels(stack);
-                return String.valueOf((int) levels);
+        ForgeRegistries.ITEMS.getValues().stream().filter(item -> item instanceof XpCrystalItem).forEach(item -> {
+            reg.registerSubtypeInterpreter(item, (stack, context) -> {
+                return String.valueOf(XpCrystalItem.getLevels(stack));
             });
-        });*//*
+        });
 
     }
 }
-*/

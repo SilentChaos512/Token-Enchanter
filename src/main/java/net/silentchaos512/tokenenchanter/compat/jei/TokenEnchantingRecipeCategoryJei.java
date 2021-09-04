@@ -1,4 +1,3 @@
-/*
 package net.silentchaos512.tokenenchanter.compat.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -11,16 +10,16 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
-import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterScreen;
+import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainerScreen;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.util.TextUtil;
@@ -38,12 +37,12 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String localizedName;
+    private final Component localizedName;
 
     public TokenEnchantingRecipeCategoryJei(IGuiHelper guiHelper) {
-        background = guiHelper.createDrawable(TokenEnchanterScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
+        background = guiHelper.createDrawable(TokenEnchanterContainerScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.TOKEN_ENCHANTER));
-        localizedName = I18n.get("category.tokenenchanter.token_enchanting");
+        localizedName = new TranslatableComponent("category.tokenenchanter.token_enchanting");
     }
 
     @Override
@@ -57,7 +56,7 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     }
 
     @Override
-    public String getTitle() {
+    public Component getTitle() {
         return localizedName;
     }
 
@@ -130,4 +129,3 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
         font.drawShadow(matrixStack, text.getString(), 25, GUI_HEIGHT - font.lineHeight - 1, -1);
     }
 }
-*/

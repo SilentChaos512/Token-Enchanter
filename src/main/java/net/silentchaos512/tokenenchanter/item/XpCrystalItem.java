@@ -32,6 +32,15 @@ public class XpCrystalItem extends Item {
         this.maxLevels = maxLevels;
     }
 
+    public static int getLevels(ItemStack stack) {
+        LazyOptional<IXpStorage> capability = stack.getCapability(XpStorageCapability.INSTANCE);
+        if (capability.isPresent()) {
+            IXpStorage xpStorage = capability.orElseThrow(IllegalStateException::new);
+            return (int) xpStorage.getLevels();
+        }
+        return 0;
+    }
+
     private static int getFillAmount(ItemStack stack) {
         IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
         int normalAmount = xp.getCapacity() / 5;

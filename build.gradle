@@ -122,10 +122,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.forge_version}"
 
-    compileOnly fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
-        exclude module: "forge"
-    }
-    runtimeOnly fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
+    implementation fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
         exclude module: "forge"
     }
 
