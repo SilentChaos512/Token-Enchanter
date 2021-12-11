@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -48,17 +49,6 @@ public class XpCrystalItem extends Item {
         return Math.min(freeSpace, normalAmount);
     }
 
-    @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
-        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
-        float levels = xp.getLevels();
-        float max = xp.getCapacity();
-        if (max == 0f) {
-            return 1.0;
-        }
-        return (max - levels) / max;
-    }
-
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
@@ -75,7 +65,27 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+        float levels = xp.getLevels();
+        float max = xp.getCapacity();
+        if (max == 0f) {
+            return 0;
+        }
+        return 13 - Math.round(13f * (max - levels) / max);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        IXpStorage xp = stack.getCapability(XpStorageCapability.INSTANCE).orElse(XpStorage.INVALID);
+        float levels = xp.getLevels();
+        float max = xp.getCapacity();
+        float f = Math.max(0f, 1f - (max - levels) / max);
+        return Mth.hsvToRgb(f / 3f, 1f, 1f);
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
         return true;
     }
 

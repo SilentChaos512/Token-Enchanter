@@ -5,10 +5,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.network.IContainerFactory;
+import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainerMenu;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterContainerScreen;
 
@@ -23,6 +23,6 @@ public class ModContainers {
     }
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, IContainerFactory<T> factory) {
-        return Registration.CONTAINERS.register(name, () -> IForgeContainerType.create(factory));
+        return Registration.CONTAINERS.register(name, () -> IForgeMenuType.create(factory));
     }
 }
