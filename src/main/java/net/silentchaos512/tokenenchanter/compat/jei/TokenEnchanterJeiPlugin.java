@@ -45,7 +45,7 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
-        reg.addRecipes(getRecipesOfType(ModRecipes.TOKEN_ENCHANTING_TYPE), TOKEN_ENCHANTING);
+        reg.addRecipes(getRecipesOfType(ModRecipes.TOKEN_ENCHANTING_TYPE.get()), TOKEN_ENCHANTING);
     }
 
     private static List<Recipe<?>> getRecipesOfType(RecipeType<?> recipeType) {

@@ -1,10 +1,14 @@
 package net.silentchaos512.tokenenchanter.setup;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,7 +22,9 @@ public class Registration {
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
     public static final DeferredRegister<MenuType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
     public static final DeferredRegister<Item> ITEMS = create(ForgeRegistries.ITEMS);
+    public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = create(Registry.LOOT_FUNCTION_REGISTRY);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = create(Registry.RECIPE_TYPE_REGISTRY);
 
     private Registration() {}
 
@@ -28,17 +34,22 @@ public class Registration {
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         ITEMS.register(modEventBus);
+        LOOT_FUNCTIONS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
+        RECIPE_TYPES.register(modEventBus);
 
         ModBlockEntityTypes.register();
         ModBlocks.register();
         ModContainers.register();
         ModItems.register();
-        ModLoot.register();
         ModRecipes.register();
     }
 
     static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {
+        return DeferredRegister.create(registry, TokenMod.MOD_ID);
+    }
+
+    private static <B> DeferredRegister<B> create(ResourceKey<Registry<B>> registry) {
         return DeferredRegister.create(registry, TokenMod.MOD_ID);
     }
 }

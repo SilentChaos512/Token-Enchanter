@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.Item;
@@ -50,7 +51,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .key('e', Tags.Items.GEMS_EMERALD)
                 .build(consumer);
 
-        TagEmptyCondition silverTagEmpty = new TagEmptyCondition(ModTags.Items.INGOTS_SILVER.getName());
+        TagEmptyCondition silverTagEmpty = new TagEmptyCondition(ModTags.Items.INGOTS_SILVER.location());
         NotCondition silverTagExists = new NotCondition(silverTagEmpty);
 
         shapedBuilder(ModItems.SILVER_TOKEN, 16)
@@ -308,7 +309,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .name(getEnchantedTokenRecipeId(enchantment));
     }
 
-    private static void createCursedTokenRecipe(Consumer<FinishedRecipe> consumer, Enchantment enchantment, Tag<Item> ingredient) {
+    private static void createCursedTokenRecipe(Consumer<FinishedRecipe> consumer, Enchantment enchantment, TagKey<Item> ingredient) {
         ENCHANTED_TOKEN_RECIPES_CREATED.add(enchantment);
 
         TokenEnchantingRecipeBuilder.builder(ModItems.ENCHANTED_TOKEN, 1, 1)

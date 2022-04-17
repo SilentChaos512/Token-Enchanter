@@ -1,6 +1,6 @@
 # Token Enchanter
 
-TODO
+A Minecraft mod that adds a block which can create Enchanted Tokens, items which can be used as an alternative means of enchanting.
 
 ## Links and Downloads
 

@@ -44,7 +44,7 @@ public class FillXpItemFunction extends LootItemConditionalFunction {
 
     @Override
     public LootItemFunctionType getType() {
-        return ModLoot.FILL_XP_ITEM;
+        return ModLoot.FILL_XP_ITEM.get();
     }
 
     public static class Serializer extends LootItemConditionalFunction.Serializer<FillXpItemFunction> {

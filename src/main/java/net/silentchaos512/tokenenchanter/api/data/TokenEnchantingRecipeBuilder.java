@@ -3,6 +3,7 @@ package net.silentchaos512.tokenenchanter.api.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -71,7 +72,7 @@ public class TokenEnchantingRecipeBuilder {
         return token(Ingredient.of(item));
     }
 
-    public TokenEnchantingRecipeBuilder token(Tag<Item> tag) {
+    public TokenEnchantingRecipeBuilder token(TagKey<Item> tag) {
         return token(Ingredient.of(tag));
     }
 
@@ -84,7 +85,7 @@ public class TokenEnchantingRecipeBuilder {
         return addIngredient(Ingredient.of(item), count);
     }
 
-    public TokenEnchantingRecipeBuilder addIngredient(Tag<Item> tag, int count) {
+    public TokenEnchantingRecipeBuilder addIngredient(TagKey<Item> tag, int count) {
         return addIngredient(Ingredient.of(tag), count);
     }
 

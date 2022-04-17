@@ -9,6 +9,7 @@ import net.minecraft.core.Registry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.loot.function.FillXpItemFunction;
 
@@ -18,11 +19,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ModLoot {
-    public static final LootItemFunctionType FILL_XP_ITEM = new LootItemFunctionType(FillXpItemFunction.SERIALIZER);
+    public static final RegistryObject<LootItemFunctionType> FILL_XP_ITEM = Registration.LOOT_FUNCTIONS.register("fill_xp_item", () ->
+            new LootItemFunctionType(FillXpItemFunction.SERIALIZER));
 
-    static void register() {
-        Registry.register(Registry.LOOT_FUNCTION_TYPE, TokenMod.getId("fill_xp_item"), FILL_XP_ITEM);
-    }
+    static void register() {}
 
     @Mod.EventBusSubscriber
     public static final class Injector {

@@ -151,7 +151,7 @@ public class TokenEnchanterRecipe implements Recipe<Container> {
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.TOKEN_ENCHANTING_TYPE;
+        return ModRecipes.TOKEN_ENCHANTING_TYPE.get();
     }
 
     @Override

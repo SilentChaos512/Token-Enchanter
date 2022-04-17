@@ -70,7 +70,7 @@ public class TokenEnchanterBlockEntity extends LockableSidedInventoryTileEntity 
     @Nullable
     private TokenEnchanterRecipe getRecipe() {
         if (level == null) return null;
-        return level.getRecipeManager().getRecipeFor(ModRecipes.TOKEN_ENCHANTING_TYPE, this, level).orElse(null);
+        return level.getRecipeManager().getRecipeFor(ModRecipes.TOKEN_ENCHANTING_TYPE.get(), this, level).orElse(null);
     }
 
     @SuppressWarnings("TypeMayBeWeakened")

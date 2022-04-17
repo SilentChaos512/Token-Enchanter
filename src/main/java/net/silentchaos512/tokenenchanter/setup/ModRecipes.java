@@ -1,6 +1,7 @@
 package net.silentchaos512.tokenenchanter.setup;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
@@ -14,7 +15,7 @@ import net.silentchaos512.tokenenchanter.crafting.recipe.XpCrystalRecipe;
 import java.util.function.Supplier;
 
 public final class ModRecipes {
-    public static final RecipeType<TokenEnchanterRecipe> TOKEN_ENCHANTING_TYPE = RecipeType.register(TokenMod.getId("token_enchanting").toString());
+    public static final RegistryObject<RecipeType<TokenEnchanterRecipe>> TOKEN_ENCHANTING_TYPE = registerType("token_enchanting");
 
     public static final RegistryObject<RecipeSerializer<?>> TOKEN_ENCHANTING = register("token_enchanting", TokenEnchanterRecipe.Serializer::new);
 
@@ -34,5 +35,14 @@ public final class ModRecipes {
 
     private static <T extends RecipeSerializer<?>> RegistryObject<T> register(ResourceLocation id, Supplier<T> serializer) {
         return Registration.RECIPE_SERIALIZERS.register(id.getPath(), serializer);
+    }
+
+    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> registerType(final String name) {
+        return Registration.RECIPE_TYPES.register(name, () -> new RecipeType<T>() {
+            @Override
+            public String toString() {
+                return name;
+            }
+        });
     }
 }
