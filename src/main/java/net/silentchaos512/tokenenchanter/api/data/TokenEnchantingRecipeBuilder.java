@@ -3,15 +3,15 @@ package net.silentchaos512.tokenenchanter.api.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
@@ -21,6 +21,7 @@ import net.silentchaos512.tokenenchanter.setup.ModTags;
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @SuppressWarnings("WeakerAccess")
@@ -62,7 +63,7 @@ public class TokenEnchantingRecipeBuilder {
 
     public TokenEnchantingRecipeBuilder infuseLevels(int levels) {
         if (!new ItemStack(result).getCapability(XpStorageCapability.INSTANCE).isPresent()) {
-            throw new IllegalStateException("Item '" + NameUtils.from(this.result) + "' has no XP storage capability");
+            throw new IllegalStateException("Item '" + NameUtils.fromItem(this.result) + "' has no XP storage capability");
         }
         this.infuseLevels = levels;
         return this;
@@ -95,7 +96,7 @@ public class TokenEnchantingRecipeBuilder {
     }
 
     public void build(Consumer<FinishedRecipe> consumer) {
-        ResourceLocation itemId = NameUtils.from(this.result);
+        ResourceLocation itemId = NameUtils.fromItem(this.result);
         ResourceLocation id = name == null ? itemId : name;
         build(consumer, id);
     }
@@ -131,7 +132,7 @@ public class TokenEnchantingRecipeBuilder {
             json.add("ingredients", ingredients);
 
             JsonObject result = new JsonObject();
-            result.addProperty("item", NameUtils.from(builder.result).toString());
+            result.addProperty("item", NameUtils.fromItem(builder.result).toString());
             if (builder.count > 1) {
                 result.addProperty("count", builder.count);
             }
@@ -140,7 +141,7 @@ public class TokenEnchantingRecipeBuilder {
                 //noinspection OverlyLongLambda
                 builder.enchantments.forEach((enchantment, level) -> {
                     JsonObject obj = new JsonObject();
-                    obj.addProperty("name", NameUtils.from(enchantment).toString());
+                    obj.addProperty("name", getEnchantmentId(enchantment).toString());
                     obj.addProperty("level", level);
                     array.add(obj);
                 });
@@ -150,6 +151,10 @@ public class TokenEnchantingRecipeBuilder {
                 result.addProperty("infuse_levels", builder.infuseLevels);
             }
             json.add("result", result);
+        }
+
+        private static ResourceLocation getEnchantmentId(Enchantment enchantment) {
+            return Objects.requireNonNull(ForgeRegistries.ENCHANTMENTS.getKey(enchantment));
         }
 
         @Override

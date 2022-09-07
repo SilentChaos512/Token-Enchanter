@@ -29,12 +29,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void simpleBlock(Block block, String texture) {
-        String name = NameUtils.from(block).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         simpleBlock(block, models().cubeAll(name, modLoc(texture)));
     }
 
     private void threeQuartersBlock(IBlockProvider block) {
-        String name = NameUtils.from(block.asBlock()).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         threeQuartersBlock(block.asBlock(),
                 "block/" + name + "_bottom",
                 "block/" + name + "_side",
@@ -42,7 +42,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void threeQuartersBlock(Block block, String bottomTexture, String sideTexture, String topTexture) {
-        String name = NameUtils.from(block).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         simpleBlock(block, models().withExistingParent(name, mcLoc("block/block"))
                 .texture("bottom", bottomTexture)
                 .texture("side", sideTexture)

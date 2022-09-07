@@ -14,17 +14,16 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 public class Registration {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = create(ForgeRegistries.BLOCK_ENTITIES);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = create(ForgeRegistries.BLOCK_ENTITY_TYPES);
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
-    public static final DeferredRegister<MenuType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
     public static final DeferredRegister<Item> ITEMS = create(ForgeRegistries.ITEMS);
     public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = create(Registry.LOOT_FUNCTION_REGISTRY);
+    public static final DeferredRegister<MenuType<?>> MENUS = create(ForgeRegistries.MENU_TYPES);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = create(Registry.RECIPE_TYPE_REGISTRY);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = create(ForgeRegistries.RECIPE_TYPES);
 
     private Registration() {}
 
@@ -32,9 +31,9 @@ public class Registration {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCK_ENTITIES.register(modEventBus);
         BLOCKS.register(modEventBus);
-        CONTAINERS.register(modEventBus);
         ITEMS.register(modEventBus);
         LOOT_FUNCTIONS.register(modEventBus);
+        MENUS.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         RECIPE_TYPES.register(modEventBus);
 
@@ -45,7 +44,7 @@ public class Registration {
         ModRecipes.register();
     }
 
-    static <T extends IForgeRegistryEntry<T>> DeferredRegister<T> create(IForgeRegistry<T> registry) {
+    private static <T> DeferredRegister<T> create(IForgeRegistry<T> registry) {
         return DeferredRegister.create(registry, TokenMod.MOD_ID);
     }
 

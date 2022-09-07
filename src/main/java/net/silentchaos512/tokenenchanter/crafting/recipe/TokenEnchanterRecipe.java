@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
@@ -159,7 +158,7 @@ public class TokenEnchanterRecipe implements Recipe<Container> {
         return true;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TokenEnchanterRecipe> {
+    public static class Serializer implements RecipeSerializer<TokenEnchanterRecipe> {
         @Override
         public TokenEnchanterRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(recipeId);

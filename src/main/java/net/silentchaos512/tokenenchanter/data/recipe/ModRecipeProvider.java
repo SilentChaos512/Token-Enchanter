@@ -9,7 +9,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
@@ -293,7 +292,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
 
         for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS.getValues()) {
             // Check for vanilla enchantments with missing recipes
-            ResourceLocation id = NameUtils.from(enchantment);
+            ResourceLocation id = NameUtils.fromEnchantment(enchantment);
             if ("minecraft".equals(id.getNamespace()) && !ENCHANTED_TOKEN_RECIPES_CREATED.contains(enchantment)) {
                 throw new NullPointerException("Missing enchanted token recipe for '" + id + "'");
             }
@@ -320,7 +319,7 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     private static ResourceLocation getEnchantedTokenRecipeId(Enchantment enchantment) {
-        ResourceLocation enchantmentId = NameUtils.from(enchantment);
+        ResourceLocation enchantmentId = NameUtils.fromEnchantment(enchantment);
         return TokenMod.getId(String.format("enchanted_token/%s.%s", enchantmentId.getNamespace(), enchantmentId.getPath()));
     }
 

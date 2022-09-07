@@ -1,13 +1,12 @@
 package net.silentchaos512.tokenenchanter.block.tokenenchanter;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -16,9 +15,9 @@ import net.silentchaos512.tokenenchanter.api.xp.IXpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorage;
 import net.silentchaos512.tokenenchanter.api.xp.XpStorageCapability;
 import net.silentchaos512.tokenenchanter.crafting.recipe.TokenEnchanterRecipe;
+import net.silentchaos512.tokenenchanter.setup.ModBlockEntityTypes;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
-import net.silentchaos512.tokenenchanter.setup.ModBlockEntityTypes;
 
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
@@ -127,7 +126,7 @@ public class TokenEnchanterBlockEntity extends LockableSidedInventoryTileEntity 
 
     @Override
     protected Component getDefaultName() {
-        return new TranslatableComponent("container.tokenenchanter.token_enchanter");
+        return Component.translatable("container.tokenenchanter.token_enchanter");
     }
 
     @Override

@@ -160,7 +160,7 @@ public class XpCrystalItem extends Item {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowdedIn(group)) {
+        if (allowedIn(group)) {
             ItemStack empty = new ItemStack(this);
             items.add(empty);
 

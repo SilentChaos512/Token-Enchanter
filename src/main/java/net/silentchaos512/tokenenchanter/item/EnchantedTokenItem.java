@@ -8,8 +8,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -215,8 +213,8 @@ public class EnchantedTokenItem extends Item {
         Enchantment enchantment = getSingleEnchantment(stack);
         if (enchantment != null) {
             MutableComponent enchantmentName = enchantment.getFullname(1).plainCopy()
-                    .withStyle(this.getRarity(stack).color);
-            return new TranslatableComponent(this.getDescriptionId(stack) + ".single", enchantmentName);
+                    .withStyle(this.getRarity(stack).getStyleModifier());
+            return Component.translatable(this.getDescriptionId(stack) + ".single", enchantmentName);
         }
         return super.getName(stack);
     }
@@ -232,8 +230,8 @@ public class EnchantedTokenItem extends Item {
 
             // Debug info
             if (flag.isAdvanced()) {
-                ResourceLocation registryName = Objects.requireNonNull(enchantment.getRegistryName());
-                list.add(new TextComponent(registryName.toString())
+                ResourceLocation registryName = NameUtils.fromEnchantment(enchantment);
+                list.add(Component.literal(registryName.toString())
                         .withStyle(ChatFormatting.DARK_GRAY));
             }
         }
@@ -246,20 +244,20 @@ public class EnchantedTokenItem extends Item {
 
     @SuppressWarnings("TypeMayBeWeakened")
     private static String getModName(Enchantment enchantment) {
-        return ModList.get().getModContainerById(NameUtils.from(enchantment).getNamespace())
+        return ModList.get().getModContainerById(NameUtils.fromEnchantment(enchantment).getNamespace())
                 .map(c -> c.getModInfo().getDisplayName())
                 .orElse("Unknown Mod");
     }
 
     private Component subText(String key, Object... formatArgs) {
-        ResourceLocation id = NameUtils.from(this);
+        ResourceLocation id = NameUtils.fromItem(this);
         String fullKey = String.format("item.%s.%s.%s", id.getNamespace(), id.getPath(), key);
-        return new TranslatableComponent(fullKey, formatArgs);
+        return Component.translatable(fullKey, formatArgs);
     }
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (!allowdedIn(group)) return;
+        if (!allowedIn(group)) return;
 
         List<ItemStack> tokens = NonNullList.create();
         for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
@@ -294,7 +292,7 @@ public class EnchantedTokenItem extends Item {
         } catch (Throwable ex) {
             CrashReport report = CrashReport.forThrowable(ex, "Enchantment threw an exception when getting display name. This is not Token Enchanter's fault!");
             CrashReportCategory cat = report.addCategory("Enchantment");
-            cat.setDetail("ID", NameUtils.from(enchantment));
+            cat.setDetail("ID", NameUtils.fromEnchantment(enchantment));
             cat.setDetail("Mod Name", getModName(enchantment));
             throw new ReportedException(report);
         }
@@ -338,7 +336,7 @@ public class EnchantedTokenItem extends Item {
         Enchantment enchantment = getSingleEnchantment(stack);
         if (enchantment != null) {
             return OUTLINE_COLOR_MAP.computeIfAbsent(enchantment, e -> {
-                int hash = NameUtils.from(e).hashCode();
+                int hash = NameUtils.fromEnchantment(e).hashCode();
                 float hue = ((hash + 32 * OUTLINE_COLOR_MAP.size()) % 1024) / 1024f;
                 return Color.getHSBColor(hue, 1f, 1f).getRGB();
             });

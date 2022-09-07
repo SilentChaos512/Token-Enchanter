@@ -1,7 +1,6 @@
 package net.silentchaos512.tokenenchanter.util;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
 public final class TextUtil {
@@ -9,6 +8,6 @@ public final class TextUtil {
 
     public static Component translate(String prefix, String suffix, Object... params) {
         String key = String.format("%s.%s.%s", prefix, TokenMod.MOD_ID, suffix);
-        return new TranslatableComponent(key, params);
+        return Component.translatable(key, params);
     }
 }

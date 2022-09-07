@@ -2,7 +2,7 @@ package net.silentchaos512.tokenenchanter.setup;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -24,7 +24,7 @@ public final class ModClientProxy {
     }
 
     @SubscribeEvent
-    public static void onItemColors(ColorHandlerEvent.Item event) {
+    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
         event.getItemColors().register(EnchantedTokenItem::getItemColor, ModItems.ENCHANTED_TOKEN);
     }
 }

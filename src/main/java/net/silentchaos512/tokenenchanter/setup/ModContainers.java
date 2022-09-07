@@ -23,6 +23,6 @@ public class ModContainers {
     }
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, IContainerFactory<T> factory) {
-        return Registration.CONTAINERS.register(name, () -> IForgeMenuType.create(factory));
+        return Registration.MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
 }

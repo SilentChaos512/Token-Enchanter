@@ -61,7 +61,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private void blockBuilder(Block block) {
-        String name = NameUtils.from(block).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         withExistingParent(name, modLoc("block/" + name));
     }
 

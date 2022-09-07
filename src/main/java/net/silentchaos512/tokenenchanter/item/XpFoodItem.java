@@ -65,7 +65,7 @@ public class XpFoodItem extends Item {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowdedIn(group)) {
+        if (allowedIn(group)) {
             items.add(createWithLevels(5));
             items.add(createWithLevels(10));
             items.add(createWithLevels(20));

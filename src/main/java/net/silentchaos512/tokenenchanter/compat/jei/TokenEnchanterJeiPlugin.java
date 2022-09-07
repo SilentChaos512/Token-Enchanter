@@ -18,6 +18,7 @@ import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterCont
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.item.XpCrystalItem;
 import net.silentchaos512.tokenenchanter.setup.ModBlocks;
+import net.silentchaos512.tokenenchanter.setup.ModContainers;
 import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 
@@ -45,29 +46,30 @@ public class TokenEnchanterJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
-        reg.addRecipes(getRecipesOfType(ModRecipes.TOKEN_ENCHANTING_TYPE.get()), TOKEN_ENCHANTING);
+        reg.addRecipes(TokenEnchantingRecipeCategoryJei.RECIPE_TYPE, getRecipesOfType(ModRecipes.TOKEN_ENCHANTING_TYPE.get()));
     }
 
-    private static List<Recipe<?>> getRecipesOfType(RecipeType<?> recipeType) {
+    private static <T extends Recipe<?>> List<T> getRecipesOfType(RecipeType<T> recipeType) {
         Level world = Objects.requireNonNull(Minecraft.getInstance().level);
         return world.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
+                .map(r -> (T) r)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        reg.addRecipeCatalyst(new ItemStack(ModBlocks.TOKEN_ENCHANTER), TOKEN_ENCHANTING);
+        reg.addRecipeCatalyst(new ItemStack(ModBlocks.TOKEN_ENCHANTER), TokenEnchantingRecipeCategoryJei.RECIPE_TYPE);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
-        reg.addRecipeClickArea(TokenEnchanterContainerScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+        reg.addRecipeClickArea(TokenEnchanterContainerScreen.class, 102, 32, 24, 23, TokenEnchantingRecipeCategoryJei.RECIPE_TYPE);
     }
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(TokenEnchanterContainerMenu.class, TOKEN_ENCHANTING, 0, 8, 9, 36);
+        registration.addRecipeTransferHandler(TokenEnchanterContainerMenu.class, ModContainers.TOKEN_ENCHANTER.get(), TokenEnchantingRecipeCategoryJei.RECIPE_TYPE, 0, 8, 9, 36);
 //        registration.addRecipeTransferHandler(new TokenEnchantingRecipeTransferHandler(), TOKEN_ENCHANTING);
     }
 
