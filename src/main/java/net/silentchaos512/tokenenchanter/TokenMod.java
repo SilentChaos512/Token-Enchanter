@@ -55,7 +55,7 @@ public class TokenMod {
         creativeModeTab = event.registerCreativeModeTab(getId("tab"), b -> b
                 .icon(() -> new ItemStack(ModItems.GOLD_TOKEN.get()))
                 .title(Component.translatable("itemGroup.tokenenchanter"))
-                .displayItems((featureFlagSet, output, b1) -> {
+                .displayItems((itemDisplayParameters, output) -> {
                     Registration.ITEMS.getEntries().forEach(ro -> {
                         Item item = ro.get();
                         if (item instanceof HasSubItems) {

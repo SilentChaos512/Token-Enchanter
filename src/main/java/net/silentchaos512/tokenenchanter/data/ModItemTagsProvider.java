@@ -10,7 +10,7 @@ import net.silentchaos512.tokenenchanter.setup.ModTags;
 
 public class ModItemTagsProvider extends ItemTagsProvider {
     public ModItemTagsProvider(GatherDataEvent event, BlockTagsProvider blockTagProvider) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blockTagProvider, TokenMod.MOD_ID, event.getExistingFileHelper());
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blockTagProvider.contentsGetter(), TokenMod.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override

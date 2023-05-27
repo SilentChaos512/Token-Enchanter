@@ -74,7 +74,7 @@ public class TokenEnchanterBlockEntity extends LockableSidedInventoryTileEntity 
 
     @SuppressWarnings("TypeMayBeWeakened")
     private ItemStack getCraftingResult(TokenEnchanterRecipe recipe) {
-        return recipe.assemble(this);
+        return recipe.assemble(this, null);
     }
 
     private void consumeIngredients(TokenEnchanterRecipe recipe) {

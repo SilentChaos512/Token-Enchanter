@@ -1,5 +1,6 @@
 package net.silentchaos512.tokenenchanter.crafting.recipe;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -20,11 +21,11 @@ public class ApplyEnchantedTokenRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingContainer inv, Level worldIn) {
-        return !assemble(inv).isEmpty();
+        return !assemble(inv, null).isEmpty();
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
         ItemStack tool = ItemStack.EMPTY;
         List<ItemStack> tokens = NonNullList.create();
 

@@ -1,5 +1,6 @@
 package net.silentchaos512.tokenenchanter.crafting.recipe;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -28,8 +29,8 @@ public class XpCrystalRecipe extends ExtendedShapedRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer craftingInventory) {
-        ItemStack ret = getBaseRecipe().assemble(craftingInventory);
+    public ItemStack assemble(CraftingContainer craftingInventory, RegistryAccess registryAccess) {
+        ItemStack ret = getBaseRecipe().assemble(craftingInventory, registryAccess);
         LazyOptional<IXpStorage> retCap = ret.getCapability(XpStorageCapability.INSTANCE);
 
         if (retCap.isPresent()) {
