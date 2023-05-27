@@ -2,6 +2,7 @@ package net.silentchaos512.tokenenchanter.crafting.recipe;
 
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.core.NonNullList;
@@ -13,8 +14,8 @@ import net.silentchaos512.tokenenchanter.setup.ModRecipes;
 import java.util.List;
 
 public class ApplyEnchantedTokenRecipe extends CustomRecipe {
-    public ApplyEnchantedTokenRecipe(ResourceLocation idIn) {
-        super(idIn);
+    public ApplyEnchantedTokenRecipe(ResourceLocation idIn, CraftingBookCategory category) {
+        super(idIn, category);
     }
 
     @Override

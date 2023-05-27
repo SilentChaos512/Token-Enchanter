@@ -2,7 +2,6 @@ package net.silentchaos512.tokenenchanter.setup;
 
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
-import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.tokenenchanter.item.EnchantedTokenItem;
 import net.silentchaos512.tokenenchanter.item.XpCrystalItem;
@@ -58,7 +57,7 @@ public final class ModItems {
     }
 
     private static Item.Properties baseProps() {
-        return new Item.Properties().tab(TokenMod.ITEM_GROUP);
+        return new Item.Properties();
     }
 
     private static Item.Properties unstackableProps() {

@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -23,7 +22,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class XpFoodItem extends Item {
+public class XpFoodItem extends Item implements HasSubItems {
     public XpFoodItem(Properties properties) {
         super(properties);
 
@@ -64,13 +63,13 @@ public class XpFoodItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowedIn(group)) {
-            items.add(createWithLevels(5));
-            items.add(createWithLevels(10));
-            items.add(createWithLevels(20));
-            items.add(createWithLevels(30));
-        }
+    public List<ItemStack> getSubItems() {
+        NonNullList<ItemStack> items = NonNullList.create();
+        items.add(createWithLevels(5));
+        items.add(createWithLevels(10));
+        items.add(createWithLevels(20));
+        items.add(createWithLevels(30));
+        return items;
     }
 
     public ItemStack createWithLevels(int levels) {

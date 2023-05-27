@@ -1,15 +1,14 @@
 package net.silentchaos512.tokenenchanter.setup;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.tokenenchanter.block.tokenenchanter.TokenEnchanterBlock;
 
@@ -44,6 +43,6 @@ public final class ModBlocks {
     }
 
     public static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().tab(TokenMod.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties());
     }
 }

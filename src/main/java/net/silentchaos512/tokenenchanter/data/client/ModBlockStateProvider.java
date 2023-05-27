@@ -12,7 +12,7 @@ import net.silentchaos512.lib.util.NameUtils;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, TokenMod.MOD_ID, exFileHelper);
+        super(gen.getPackOutput(), TokenMod.MOD_ID, exFileHelper);
     }
 
     @Override

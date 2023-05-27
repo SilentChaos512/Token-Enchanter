@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.lib.crafting.recipe.ExtendedShapedRecipe;
 import net.silentchaos512.tokenenchanter.TokenMod;
@@ -22,8 +22,8 @@ public final class ModRecipes {
     public static final RegistryObject<RecipeSerializer<?>> SHAPED_XP_CRYSTAL = register("shaped_xp_crystal", () ->
             ExtendedShapedRecipe.Serializer.basic(XpCrystalRecipe::new));
 
-    public static final RegistryObject<SimpleRecipeSerializer<?>> APPLY_ENCHANTED_TOKEN = register("apply_enchanted_token", () ->
-            new SimpleRecipeSerializer<>(ApplyEnchantedTokenRecipe::new));
+    public static final RegistryObject<SimpleCraftingRecipeSerializer<?>> APPLY_ENCHANTED_TOKEN = register("apply_enchanted_token", () ->
+            new SimpleCraftingRecipeSerializer<>(ApplyEnchantedTokenRecipe::new));
 
     private ModRecipes() {}
 

@@ -18,7 +18,7 @@ import net.silentchaos512.tokenenchanter.setup.Registration;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, TokenMod.MOD_ID, existingFileHelper);
+        super(generator.getPackOutput(), TokenMod.MOD_ID, existingFileHelper);
     }
 
     @Override

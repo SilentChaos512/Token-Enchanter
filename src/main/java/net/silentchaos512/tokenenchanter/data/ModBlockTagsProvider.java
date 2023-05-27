@@ -1,18 +1,16 @@
 package net.silentchaos512.tokenenchanter.data;
 
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.silentchaos512.tokenenchanter.TokenMod;
 
-import javax.annotation.Nullable;
-
 public class ModBlockTagsProvider extends BlockTagsProvider {
-    public ModBlockTagsProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generatorIn, TokenMod.MOD_ID, existingFileHelper);
+    public ModBlockTagsProvider(GatherDataEvent event) {
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), TokenMod.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
-    protected void addTags() {
+    protected void addTags(HolderLookup.Provider provider) {
     }
 }

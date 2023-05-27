@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class XpCrystalItem extends Item {
+public class XpCrystalItem extends Item implements HasSubItems {
     private final int maxLevels;
 
     public XpCrystalItem(int maxLevels, Properties properties) {
@@ -159,14 +159,16 @@ public class XpCrystalItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowedIn(group)) {
-            ItemStack empty = new ItemStack(this);
-            items.add(empty);
+    public List<ItemStack> getSubItems() {
+        NonNullList<ItemStack> items = NonNullList.create();
 
-            ItemStack full = empty.copy();
-            full.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(xp.getCapacity()));
-            items.add(full);
-        }
+        ItemStack empty = new ItemStack(this);
+        items.add(empty);
+
+        ItemStack full = empty.copy();
+        full.getCapability(XpStorageCapability.INSTANCE).ifPresent(xp -> xp.addLevels(xp.getCapacity()));
+        items.add(full);
+
+        return items;
     }
 }

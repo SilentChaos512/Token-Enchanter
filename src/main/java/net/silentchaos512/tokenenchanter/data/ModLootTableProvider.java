@@ -1,10 +1,13 @@
 package net.silentchaos512.tokenenchanter.data;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.packs.VanillaChestLoot;
+import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -13,7 +16,6 @@ import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -24,23 +26,22 @@ import net.silentchaos512.tokenenchanter.setup.ModItems;
 import net.silentchaos512.tokenenchanter.setup.ModLoot;
 import net.silentchaos512.tokenenchanter.setup.Registration;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ModLootTableProvider extends LootTableProvider {
-    public ModLootTableProvider(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+    public ModLootTableProvider(DataGenerator gen) {
+        super(gen.getPackOutput(), Collections.emptySet(), VanillaLootTableProvider.create(gen.getPackOutput()).getTables());
     }
 
     @Override
-    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
+    public List<SubProviderEntry> getTables() {
         return ImmutableList.of(
-                Pair.of(BlockLootTables::new, LootContextParamSets.BLOCK),
-                Pair.of(ChestLootTables::new, LootContextParamSets.CHEST)
+                new SubProviderEntry(BlockLootTables::new, LootContextParamSets.BLOCK),
+                new SubProviderEntry(ChestLootTables::new, LootContextParamSets.CHEST)
         );
     }
 
@@ -49,9 +50,13 @@ public class ModLootTableProvider extends LootTableProvider {
         map.forEach((p_218436_2_, p_218436_3_) -> LootTables.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
-    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLoot {
+    private static final class BlockLootTables extends BlockLootSubProvider {
+        protected BlockLootTables() {
+            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        }
+
         @Override
-        protected void addTables() {
+        protected void generate() {
             dropSelf(ModBlocks.TOKEN_ENCHANTER.get());
         }
 
@@ -61,9 +66,9 @@ public class ModLootTableProvider extends LootTableProvider {
         }
     }
 
-    private static final class ChestLootTables extends net.minecraft.data.loot.ChestLoot {
+    private static final class ChestLootTables extends VanillaChestLoot {
         @Override
-        public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(ModLoot.Injector.Tables.CHESTS_SIMPLE_DUNGEON, addXpItems());
         }
 

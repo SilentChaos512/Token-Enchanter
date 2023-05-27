@@ -28,7 +28,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.*;
 
-public class EnchantedTokenItem extends Item {
+public class EnchantedTokenItem extends Item implements HasSubItems {
     public enum Icon {
         ANY,
         TOOL,
@@ -256,17 +256,16 @@ public class EnchantedTokenItem extends Item {
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (!allowedIn(group)) return;
-
-        List<ItemStack> tokens = NonNullList.create();
+    public List<ItemStack> getSubItems() {
+        NonNullList<ItemStack> tokens = NonNullList.create();
         for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
             tokens.add(construct(enchantment, 1));
         }
 
         // Sort by type, then enchantment name
         tokens.sort(EnchantedTokenItem::compareEnchantmentNames);
-        items.addAll(tokens);
+
+        return tokens;
     }
 
     private static int compareEnchantmentNames(ItemStack o1, ItemStack o2) {

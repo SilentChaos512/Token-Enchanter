@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[44,)"
 license="MIT"
 issueTrackerURL="https://github.com/SilentChaos512/Token-Enchanter/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/token-enchanter"
@@ -22,18 +22,18 @@ authors="SilentChaos512"
 [[dependencies.tokenenchanter]]
     modId="forge"
     mandatory=true
-    versionRange="[41,)"
+    versionRange="[44,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.tokenenchanter]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,1.20)"
+    versionRange="[1.19.3,1.19.4)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.tokenenchanter]]
     modId="silentlib"
     mandatory=true
-    versionRange="[7.0.3,8)"
+    versionRange="[7,)"
     ordering = "NONE"
     side = "BOTH"

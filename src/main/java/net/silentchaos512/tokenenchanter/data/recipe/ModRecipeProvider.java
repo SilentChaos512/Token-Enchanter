@@ -4,7 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.Item;
@@ -36,80 +40,80 @@ public class ModRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        registerCustomRecipe(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN.get());
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+        special(consumer, ModRecipes.APPLY_ENCHANTED_TOKEN.get());
 
         registerTokenEnchanting(consumer);
 
-        shapedBuilder(ModItems.GOLD_TOKEN, 16)
-                .patternLine("///")
-                .patternLine("lel")
-                .patternLine("///")
-                .key('/', Tags.Items.INGOTS_GOLD)
-                .key('l', Tags.Items.GEMS_LAPIS)
-                .key('e', Tags.Items.GEMS_EMERALD)
-                .build(consumer);
+        shapedBuilder(RecipeCategory.MISC, ModItems.GOLD_TOKEN, 16)
+                .pattern("///")
+                .pattern("lel")
+                .pattern("///")
+                .define('/', Tags.Items.INGOTS_GOLD)
+                .define('l', Tags.Items.GEMS_LAPIS)
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .save(consumer);
 
         TagEmptyCondition silverTagEmpty = new TagEmptyCondition(ModTags.Items.INGOTS_SILVER.location());
         NotCondition silverTagExists = new NotCondition(silverTagEmpty);
 
-        shapedBuilder(ModItems.SILVER_TOKEN, 16)
+        shapedBuilder(RecipeCategory.MISC, ModItems.SILVER_TOKEN, 16)
                 .addExtraData(json -> writeConditions(json, silverTagExists))
-                .patternLine("///")
-                .patternLine("lel")
-                .patternLine("///")
-                .key('/', ModTags.Items.INGOTS_SILVER)
-                .key('l', Tags.Items.GEMS_LAPIS)
-                .key('e', Tags.Items.GEMS_EMERALD)
-                .build(consumer);
+                .pattern("///")
+                .pattern("lel")
+                .pattern("///")
+                .define('/', ModTags.Items.INGOTS_SILVER)
+                .define('l', Tags.Items.GEMS_LAPIS)
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .save(consumer);
 
         // Alternative silver token recipe, loaded when no silver ingots are tagged
-        shapedBuilder(ModItems.SILVER_TOKEN, 8)
+        shapedBuilder(RecipeCategory.MISC, ModItems.SILVER_TOKEN, 8)
                 .addExtraData(json -> writeConditions(json, silverTagEmpty))
-                .patternLine("/n/")
-                .patternLine("lel")
-                .patternLine("/n/")
-                .key('/', Tags.Items.INGOTS_IRON)
-                .key('l', Tags.Items.GEMS_LAPIS)
-                .key('e', Tags.Items.GEMS_EMERALD)
-                .key('n', Tags.Items.NUGGETS_GOLD)
-                .build(consumer, modId("silver_token_no_silver"));
+                .pattern("/n/")
+                .pattern("lel")
+                .pattern("/n/")
+                .define('/', Tags.Items.INGOTS_IRON)
+                .define('l', Tags.Items.GEMS_LAPIS)
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .define('n', Tags.Items.NUGGETS_GOLD)
+                .save(consumer, modId("silver_token_no_silver"));
 
-        shapedBuilder(ModBlocks.TOKEN_ENCHANTER)
-                .patternLine(" d ")
-                .patternLine("/t/")
-                .patternLine("o#o")
-                .key('d', Tags.Items.GEMS_DIAMOND)
-                .key('/', Tags.Items.INGOTS_GOLD)
-                .key('t', ModItems.GOLD_TOKEN)
-                .key('o', Tags.Items.OBSIDIAN)
-                .key('#', Tags.Items.STORAGE_BLOCKS_LAPIS)
-                .build(consumer);
+        shapedBuilder(RecipeCategory.MISC, ModBlocks.TOKEN_ENCHANTER)
+                .pattern(" d ")
+                .pattern("/t/")
+                .pattern("o#o")
+                .define('d', Tags.Items.GEMS_DIAMOND)
+                .define('/', Tags.Items.INGOTS_GOLD)
+                .define('t', ModItems.GOLD_TOKEN)
+                .define('o', Tags.Items.OBSIDIAN)
+                .define('#', Tags.Items.STORAGE_BLOCKS_LAPIS)
+                .save(consumer);
 
-        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.SMALL_XP_CRYSTAL)
-                .patternLine("e")
-                .patternLine("o")
-                .patternLine("e")
-                .key('e', Tags.Items.GEMS_EMERALD)
-                .key('o', ModItems.GOLD_TOKEN)
-                .build(consumer);
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), RecipeCategory.MISC, ModItems.SMALL_XP_CRYSTAL)
+                .pattern("e")
+                .pattern("o")
+                .pattern("e")
+                .define('e', Tags.Items.GEMS_EMERALD)
+                .define('o', ModItems.GOLD_TOKEN)
+                .save(consumer);
 
-        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.XP_CRYSTAL)
-                .patternLine(" c ")
-                .patternLine("bbb")
-                .patternLine(" c ")
-                .key('c', ModItems.SMALL_XP_CRYSTAL)
-                .key('b', Items.BLAZE_POWDER)
-                .build(consumer);
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), RecipeCategory.MISC, ModItems.XP_CRYSTAL)
+                .pattern(" c ")
+                .pattern("bbb")
+                .pattern(" c ")
+                .define('c', ModItems.SMALL_XP_CRYSTAL)
+                .define('b', Items.BLAZE_POWDER)
+                .save(consumer);
 
-        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), ModItems.LARGE_XP_CRYSTAL)
-                .patternLine(" c ")
-                .patternLine("ene")
-                .patternLine(" c ")
-                .key('c', ModItems.XP_CRYSTAL)
-                .key('e', Items.ENDER_EYE)
-                .key('n', Tags.Items.NETHER_STARS)
-                .build(consumer);
+        shapedBuilder(ModRecipes.SHAPED_XP_CRYSTAL.get(), RecipeCategory.MISC, ModItems.LARGE_XP_CRYSTAL)
+                .pattern(" c ")
+                .pattern("ene")
+                .pattern(" c ")
+                .define('c', ModItems.XP_CRYSTAL)
+                .define('e', Items.ENDER_EYE)
+                .define('n', Tags.Items.NETHER_STARS)
+                .save(consumer);
     }
 
     private static void registerTokenEnchanting(Consumer<FinishedRecipe> consumer) {
@@ -331,5 +335,9 @@ public class ModRecipeProvider extends LibRecipeProvider {
             }
             json.add("conditions", array);
         }
+    }
+
+    private void special(Consumer<FinishedRecipe> consumer, RecipeSerializer<? extends CraftingRecipe> serializer) {
+        SpecialRecipeBuilder.special(serializer).save(consumer, NameUtils.fromRecipeSerializer(serializer).toString());
     }
 }
