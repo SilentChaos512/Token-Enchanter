@@ -5,7 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -17,7 +16,7 @@ import java.util.function.Supplier;
 
 public final class ModBlocks {
     public static final BlockRegistryObject<TokenEnchanterBlock> TOKEN_ENCHANTER = register("token_enchanter", () ->
-            new TokenEnchanterBlock(BlockBehaviour.Properties.of(Material.METAL).strength(5, 50).sound(SoundType.METAL)));
+            new TokenEnchanterBlock(BlockBehaviour.Properties.of().strength(5, 50).sound(SoundType.METAL)));
 
     private ModBlocks() {}
 

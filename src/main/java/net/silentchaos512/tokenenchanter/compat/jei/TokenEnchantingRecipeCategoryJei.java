@@ -1,6 +1,5 @@
 package net.silentchaos512.tokenenchanter.compat.jei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -12,6 +11,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -121,9 +121,9 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
     }
 
     @Override
-    public void draw(TokenEnchanterRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+    public void draw(TokenEnchanterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
         Font font = Minecraft.getInstance().font;
         Component text = TextUtil.translate("misc", "level_cost", recipe.getLevelCost());
-        font.drawShadow(stack, text.getString(), 25, GUI_HEIGHT - font.lineHeight - 1, -1);
+        graphics.drawString(font, text.getString(), 25, GUI_HEIGHT - font.lineHeight - 1, -1);
     }
 }
