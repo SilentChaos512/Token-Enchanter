@@ -13,7 +13,9 @@ authors="SilentChaos512"
     displayName="Token Enchanter"
     updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Token-Enchanter/1.20.x/update.json"
     description='''
-    Downloads: https://www.curseforge.com/minecraft/mc-mods/token-enchanter
+    Downloads:
+        - https://www.curseforge.com/minecraft/mc-mods/token-enchanter
+        - https://modrinth.com/mod/token-enchanter
     Changelog: https://github.com/SilentChaos512/Token-Enchanter/blob/1.20.x/CHANGELOG.md
     Source: https://github.com/SilentChaos512/Token-Enchanter/
     Issues: https://github.com/SilentChaos512/Token-Enchanter/issues
