@@ -77,23 +77,23 @@ public class TokenEnchantingRecipeCategoryJei implements IRecipeCategory<TokenEn
             inputs.add(list);
         });
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 0, 30)
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 31)
                 .addIngredients(VanillaTypes.ITEM_STACK, getXpCrystals(recipe));
-        builder.addSlot(RecipeIngredientRole.INPUT, 0, 10)
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 11)
                 .addIngredients(VanillaTypes.ITEM_STACK, Arrays.asList(recipe.getToken().getItems()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 26, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 27, 1)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 0));
-        builder.addSlot(RecipeIngredientRole.INPUT, 44, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 45, 1)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 1));
-        builder.addSlot(RecipeIngredientRole.INPUT, 62, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 63, 1)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 2));
-        builder.addSlot(RecipeIngredientRole.INPUT, 26, 18)
+        builder.addSlot(RecipeIngredientRole.INPUT, 27, 19)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 3));
-        builder.addSlot(RecipeIngredientRole.INPUT, 44, 18)
+        builder.addSlot(RecipeIngredientRole.INPUT, 45, 19)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 4));
-        builder.addSlot(RecipeIngredientRole.INPUT, 62, 18)
+        builder.addSlot(RecipeIngredientRole.INPUT, 63, 19)
                 .addIngredients(VanillaTypes.ITEM_STACK, getStacksOrEmptyList(inputs, 5));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 111, 10)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 112, 11)
                 .addIngredients(VanillaTypes.ITEM_STACK, Collections.singletonList(recipe.getResult()));
     }
 
