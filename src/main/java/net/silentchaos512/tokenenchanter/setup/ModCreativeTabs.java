@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.tokenenchanter.TokenMod;
+import net.silentchaos512.tokenenchanter.item.HasSubItems;
 
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TokenMod.MOD_ID);
@@ -16,7 +17,13 @@ public class ModCreativeTabs {
                     .icon(() -> new ItemStack(ModItems.GOLD_TOKEN.get()))
                     .title(Component.translatable("itemGroup.tokenenchanter"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        Registration.ITEMS.getEntries().forEach(ro -> output.accept(ro.get()));
+                        Registration.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(item -> {
+                            if (item instanceof HasSubItems) {
+                                output.acceptAll(((HasSubItems) item).getSubItems());
+                            } else {
+                                output.accept(item);
+                            }
+                        });
                     })
                     .build());
 }
