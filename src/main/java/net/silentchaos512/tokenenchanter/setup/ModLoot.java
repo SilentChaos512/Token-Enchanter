@@ -1,14 +1,15 @@
 package net.silentchaos512.tokenenchanter.setup;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.tokenenchanter.TokenMod;
 import net.silentchaos512.tokenenchanter.loot.function.FillXpItemFunction;
@@ -19,7 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ModLoot {
-    public static final RegistryObject<LootItemFunctionType> FILL_XP_ITEM = Registration.LOOT_FUNCTIONS.register("fill_xp_item", () ->
+    public static final DeferredRegister<LootItemFunctionType> LOOT_FUNCTIONS = Registration.create(Registries.LOOT_FUNCTION_TYPE);
+
+    public static final RegistryObject<LootItemFunctionType> FILL_XP_ITEM = LOOT_FUNCTIONS.register("fill_xp_item", () ->
             new LootItemFunctionType(FillXpItemFunction.SERIALIZER));
 
     static void register() {}

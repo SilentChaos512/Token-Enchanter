@@ -2,7 +2,6 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -11,44 +10,46 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
+                "max": 3.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             },
             {
               "function": "tokenenchanter:fill_xp_item",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 4.0
+                "max": 4.0,
+                "min": 2.0
               }
             }
           ],
-          "name": "tokenenchanter:xp_bread"
+          "name": "tokenenchanter:xp_bread",
+          "weight": 15
         },
         {
           "type": "minecraft:item",
-          "weight": 5,
           "functions": [
             {
               "function": "tokenenchanter:fill_xp_item",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 9.0
+                "max": 9.0,
+                "min": 1.0
               }
             }
           ],
-          "name": "tokenenchanter:small_xp_crystal"
+          "name": "tokenenchanter:small_xp_crystal",
+          "weight": 5
         }
-      ]
+      ],
+      "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "tokenenchanter:inject/chests/simple_dungeon"
 }

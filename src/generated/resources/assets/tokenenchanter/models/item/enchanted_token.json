@@ -1,68 +1,68 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "tokenenchanter:item/enchanted_token/any"
-  },
   "overrides": [
     {
+      "model": "tokenenchanter:item/enchanted_token/any",
       "predicate": {
         "tokenenchanter:model_index": 0.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/any"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/tool",
       "predicate": {
         "tokenenchanter:model_index": 1.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/tool"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/sword",
       "predicate": {
         "tokenenchanter:model_index": 2.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/sword"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/fishing_rod",
       "predicate": {
         "tokenenchanter:model_index": 3.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/fishing_rod"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/trident",
       "predicate": {
         "tokenenchanter:model_index": 4.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/trident"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/bow",
       "predicate": {
         "tokenenchanter:model_index": 5.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/bow"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/crossbow",
       "predicate": {
         "tokenenchanter:model_index": 6.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/crossbow"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/armor",
       "predicate": {
         "tokenenchanter:model_index": 7.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/armor"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/curse",
       "predicate": {
         "tokenenchanter:model_index": 8.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/curse"
+      }
     },
     {
+      "model": "tokenenchanter:item/enchanted_token/unknown",
       "predicate": {
         "tokenenchanter:model_index": 9.0
-      },
-      "model": "tokenenchanter:item/enchanted_token/unknown"
+      }
     }
-  ]
+  ],
+  "textures": {
+    "layer0": "tokenenchanter:item/enchanted_token/any"
+  }
 }
