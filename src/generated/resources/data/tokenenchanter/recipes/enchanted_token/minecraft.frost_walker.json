@@ -1,40 +1,40 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 32,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:blue_ice",
-        "count": 4
+        "count": 4,
+        "item": "minecraft:blue_ice"
       },
       {
-        "tag": "forge:gems/prismarine",
-        "count": 16
+        "count": 16,
+        "tag": "forge:gems/prismarine"
       },
       {
-        "item": "minecraft:purpur_block",
-        "count": 64
+        "count": 64,
+        "item": "minecraft:purpur_block"
       },
       {
-        "item": "minecraft:blackstone",
-        "count": 32
+        "count": 32,
+        "item": "minecraft:blackstone"
       },
       {
-        "item": "minecraft:magma_block",
-        "count": 32
+        "count": 32,
+        "item": "minecraft:magma_block"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 32,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:frost_walker",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:frost_walker"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

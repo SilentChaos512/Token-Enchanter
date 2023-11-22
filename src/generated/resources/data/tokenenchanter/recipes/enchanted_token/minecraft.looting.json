@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 8,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:gems/emerald",
-        "count": 2
+        "count": 2,
+        "tag": "forge:gems/emerald"
       },
       {
-        "tag": "forge:storage_blocks/redstone",
-        "count": 3
+        "count": 3,
+        "tag": "forge:storage_blocks/redstone"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 8,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:looting",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:looting"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

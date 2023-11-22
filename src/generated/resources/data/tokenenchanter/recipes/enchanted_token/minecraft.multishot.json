@@ -1,32 +1,32 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 16,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:crossbow",
-        "count": 1
+        "count": 1,
+        "item": "minecraft:crossbow"
       },
       {
-        "item": "minecraft:tripwire_hook",
-        "count": 12
+        "count": 12,
+        "item": "minecraft:tripwire_hook"
       },
       {
-        "tag": "forge:ender_pearls",
-        "count": 4
+        "count": 4,
+        "tag": "forge:ender_pearls"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 16,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:multishot",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:multishot"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

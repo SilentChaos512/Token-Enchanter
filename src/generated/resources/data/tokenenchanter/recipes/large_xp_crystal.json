@@ -1,10 +1,5 @@
 {
   "type": "tokenenchanter:shaped_xp_crystal",
-  "pattern": [
-    " c ",
-    "ene",
-    " c "
-  ],
   "key": {
     "c": {
       "item": "tokenenchanter:xp_crystal"
@@ -16,6 +11,11 @@
       "tag": "forge:nether_stars"
     }
   },
+  "pattern": [
+    " c ",
+    "ene",
+    " c "
+  ],
   "result": {
     "item": "tokenenchanter:large_xp_crystal"
   }

@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:ingots/brick",
-        "count": 8
+        "count": 8,
+        "tag": "forge:ingots/brick"
       },
       {
-        "tag": "forge:gunpowder",
-        "count": 6
+        "count": 6,
+        "tag": "forge:gunpowder"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:blast_protection",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:blast_protection"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

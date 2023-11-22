@@ -3,24 +3,28 @@
   "ingredients": {
     "others": [
       {
-        "count": 4,
-        "tag": "forge:nuggets/gold"
+        "count": 1,
+        "item": "minecraft:sculk_catalyst"
       },
       {
-        "count": 9,
-        "tag": "forge:dusts/redstone"
+        "count": 40,
+        "tag": "minecraft:wool"
+      },
+      {
+        "count": 5,
+        "tag": "forge:gems/diamond"
       }
     ],
     "token": {
       "tag": "tokenenchanter:tokens/gold"
     }
   },
-  "level_cost": 2,
+  "level_cost": 26,
   "result": {
     "enchantments": [
       {
         "level": 1,
-        "name": "minecraft:efficiency"
+        "name": "minecraft:swift_sneak"
       }
     ],
     "item": "tokenenchanter:enchanted_token"

@@ -1,24 +1,24 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/silver"
-    },
     "others": [
       {
-        "tag": "forge:string",
-        "count": 4
+        "count": 4,
+        "tag": "forge:string"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/silver"
+    }
   },
+  "level_cost": 1,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:binding_curse",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:binding_curse"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

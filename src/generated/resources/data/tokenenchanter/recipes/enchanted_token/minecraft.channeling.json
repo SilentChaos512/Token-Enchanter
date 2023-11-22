@@ -1,32 +1,32 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 4,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:nautilus_shell",
-        "count": 1
+        "count": 1,
+        "item": "minecraft:nautilus_shell"
       },
       {
-        "tag": "forge:ingots/gold",
-        "count": 12
+        "count": 12,
+        "tag": "forge:ingots/gold"
       },
       {
-        "item": "minecraft:ender_eye",
-        "count": 4
+        "count": 4,
+        "item": "minecraft:ender_eye"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 4,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:channeling",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:channeling"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

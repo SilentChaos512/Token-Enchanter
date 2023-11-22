@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:gems/lapis",
-        "count": 2
+        "count": 2,
+        "tag": "forge:gems/lapis"
       },
       {
-        "item": "minecraft:rotten_flesh",
-        "count": 15
+        "count": 15,
+        "item": "minecraft:rotten_flesh"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:smite",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:smite"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

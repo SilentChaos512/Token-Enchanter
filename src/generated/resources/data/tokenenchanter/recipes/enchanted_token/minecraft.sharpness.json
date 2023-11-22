@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 3,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:ingots/iron",
-        "count": 1
+        "count": 1,
+        "tag": "forge:ingots/iron"
       },
       {
-        "item": "minecraft:flint",
-        "count": 8
+        "count": 8,
+        "item": "minecraft:flint"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 3,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:sharpness",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:sharpness"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

@@ -1,40 +1,40 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 32,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:ingots/netherite",
-        "count": 1
+        "count": 1,
+        "tag": "forge:ingots/netherite"
       },
       {
-        "item": "minecraft:apple",
-        "count": 64
+        "count": 64,
+        "item": "minecraft:apple"
       },
       {
-        "item": "minecraft:twisting_vines",
-        "count": 16
+        "count": 16,
+        "item": "minecraft:twisting_vines"
       },
       {
-        "item": "minecraft:crimson_fungus",
-        "count": 4
+        "count": 4,
+        "item": "minecraft:crimson_fungus"
       },
       {
-        "item": "minecraft:chorus_fruit",
-        "count": 32
+        "count": 32,
+        "item": "minecraft:chorus_fruit"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 32,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:mending",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:mending"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

@@ -1,24 +1,24 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/silver"
-    },
     "others": [
       {
-        "tag": "forge:gunpowder",
-        "count": 4
+        "count": 4,
+        "tag": "forge:gunpowder"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/silver"
+    }
   },
+  "level_cost": 1,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:vanishing_curse",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:vanishing_curse"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

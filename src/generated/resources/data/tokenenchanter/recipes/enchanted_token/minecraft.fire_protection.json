@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:snow_block",
-        "count": 5
+        "count": 5,
+        "item": "minecraft:snow_block"
       },
       {
-        "tag": "forge:ingots/nether_brick",
-        "count": 20
+        "count": 20,
+        "tag": "forge:ingots/nether_brick"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:fire_protection",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:fire_protection"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

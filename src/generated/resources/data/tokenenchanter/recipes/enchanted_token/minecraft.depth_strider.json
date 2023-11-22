@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 6,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:warped_fungus",
-        "count": 1
+        "count": 1,
+        "item": "minecraft:warped_fungus"
       },
       {
-        "item": "minecraft:clay",
-        "count": 8
+        "count": 8,
+        "item": "minecraft:clay"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 6,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:depth_strider",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:depth_strider"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

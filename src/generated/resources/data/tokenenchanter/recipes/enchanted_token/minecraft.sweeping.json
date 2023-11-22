@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:chain",
-        "count": 2
+        "count": 2,
+        "item": "minecraft:chain"
       },
       {
-        "item": "minecraft:sugar_cane",
-        "count": 8
+        "count": 8,
+        "item": "minecraft:sugar_cane"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 1,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:sweeping",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:sweeping"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

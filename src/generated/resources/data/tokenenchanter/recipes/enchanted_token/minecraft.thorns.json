@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 3,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:iron_bars",
-        "count": 12
+        "count": 12,
+        "item": "minecraft:iron_bars"
       },
       {
-        "item": "minecraft:rose_bush",
-        "count": 8
+        "count": 8,
+        "item": "minecraft:rose_bush"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 3,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:thorns",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:thorns"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

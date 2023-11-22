@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:ingots/iron",
-        "count": 6
+        "count": 6,
+        "tag": "forge:ingots/iron"
       },
       {
-        "tag": "forge:cobblestone",
-        "count": 12
+        "count": 12,
+        "tag": "forge:cobblestone"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 1,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:unbreaking",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:unbreaking"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

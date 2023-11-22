@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:tripwire_hook",
-        "count": 4
+        "count": 4,
+        "item": "minecraft:tripwire_hook"
       },
       {
-        "item": "minecraft:salmon",
-        "count": 6
+        "count": 6,
+        "item": "minecraft:salmon"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:lure",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:lure"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

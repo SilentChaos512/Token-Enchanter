@@ -1,23 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "/": {
+      "tag": "forge:ingots/gold"
+    },
+    "e": {
+      "tag": "forge:gems/emerald"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    }
+  },
   "pattern": [
     "///",
     "lel",
     "///"
   ],
-  "key": {
-    "/": {
-      "tag": "forge:ingots/gold"
-    },
-    "l": {
-      "tag": "forge:gems/lapis"
-    },
-    "e": {
-      "tag": "forge:gems/emerald"
-    }
-  },
   "result": {
-    "item": "tokenenchanter:gold_token",
-    "count": 16
+    "count": 16,
+    "item": "tokenenchanter:gold_token"
   }
 }

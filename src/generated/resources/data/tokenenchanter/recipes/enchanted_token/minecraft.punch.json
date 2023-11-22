@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 1,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:piston",
-        "count": 2
+        "count": 2,
+        "item": "minecraft:piston"
       },
       {
-        "item": "minecraft:arrow",
-        "count": 4
+        "count": 4,
+        "item": "minecraft:arrow"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 1,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:punch",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:punch"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

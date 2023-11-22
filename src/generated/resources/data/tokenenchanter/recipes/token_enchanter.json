@@ -1,27 +1,27 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "/": {
+      "tag": "forge:ingots/gold"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "o": {
+      "tag": "forge:obsidian"
+    },
+    "t": {
+      "item": "tokenenchanter:gold_token"
+    }
+  },
   "pattern": [
     " d ",
     "/t/",
     "o#o"
   ],
-  "key": {
-    "d": {
-      "tag": "forge:gems/diamond"
-    },
-    "/": {
-      "tag": "forge:ingots/gold"
-    },
-    "t": {
-      "item": "tokenenchanter:gold_token"
-    },
-    "o": {
-      "tag": "forge:obsidian"
-    },
-    "#": {
-      "tag": "forge:storage_blocks/lapis"
-    }
-  },
   "result": {
     "item": "tokenenchanter:token_enchanter"
   }

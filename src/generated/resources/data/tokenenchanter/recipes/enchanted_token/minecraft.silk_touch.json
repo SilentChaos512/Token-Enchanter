@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 12,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:storage_blocks/emerald",
-        "count": 1
+        "count": 1,
+        "tag": "forge:storage_blocks/emerald"
       },
       {
-        "tag": "forge:rods/blaze",
-        "count": 4
+        "count": 4,
+        "tag": "forge:rods/blaze"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 12,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:silk_touch",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:silk_touch"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

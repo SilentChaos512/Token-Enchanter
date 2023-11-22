@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 4,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:pufferfish",
-        "count": 2
+        "count": 2,
+        "item": "minecraft:pufferfish"
       },
       {
-        "item": "minecraft:glass_bottle",
-        "count": 9
+        "count": 9,
+        "item": "minecraft:glass_bottle"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 4,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:respiration",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:respiration"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

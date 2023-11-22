@@ -1,32 +1,32 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:arrow",
-        "count": 10
+        "count": 10,
+        "item": "minecraft:arrow"
       },
       {
-        "tag": "forge:string",
-        "count": 5
+        "count": 5,
+        "tag": "forge:string"
       },
       {
-        "tag": "forge:dusts/redstone",
-        "count": 5
+        "count": 5,
+        "tag": "forge:dusts/redstone"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:power",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:power"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

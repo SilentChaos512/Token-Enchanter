@@ -282,6 +282,11 @@ public class ModRecipeProvider extends LibRecipeProvider {
                 .addIngredient(Items.CHAIN, 2)
                 .addIngredient(Items.SUGAR_CANE, 8)
                 .build(consumer);
+        enchantedToken(Enchantments.SWIFT_SNEAK, 26)
+                .addIngredient(Items.SCULK_CATALYST, 1)
+                .addIngredient(ItemTags.WOOL, 40)
+                .addIngredient(Tags.Items.GEMS_DIAMOND, 5)
+                .build(consumer);
         enchantedToken(Enchantments.THORNS, 3)
                 .addIngredient(Items.IRON_BARS, 12)
                 .addIngredient(Items.ROSE_BUSH, 8)

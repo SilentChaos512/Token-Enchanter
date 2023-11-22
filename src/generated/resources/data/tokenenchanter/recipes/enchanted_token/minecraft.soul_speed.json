@@ -1,28 +1,28 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 4,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "tag": "forge:storage_blocks/quartz",
-        "count": 1
+        "count": 1,
+        "tag": "forge:storage_blocks/quartz"
       },
       {
-        "item": "minecraft:soul_soil",
-        "count": 20
+        "count": 20,
+        "item": "minecraft:soul_soil"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 4,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:soul_speed",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:soul_speed"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

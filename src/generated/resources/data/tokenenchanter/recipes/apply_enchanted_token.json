@@ -1,3 +1,4 @@
 {
-  "type": "tokenenchanter:apply_enchanted_token"
+  "type": "tokenenchanter:apply_enchanted_token",
+  "category": "misc"
 }

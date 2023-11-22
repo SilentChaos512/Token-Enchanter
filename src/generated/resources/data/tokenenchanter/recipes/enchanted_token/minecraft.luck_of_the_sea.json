@@ -1,32 +1,32 @@
 {
   "type": "tokenenchanter:token_enchanting",
-  "level_cost": 2,
   "ingredients": {
-    "token": {
-      "tag": "tokenenchanter:tokens/gold"
-    },
     "others": [
       {
-        "item": "minecraft:cod",
-        "count": 7
+        "count": 7,
+        "item": "minecraft:cod"
       },
       {
-        "item": "minecraft:kelp",
-        "count": 7
+        "count": 7,
+        "item": "minecraft:kelp"
       },
       {
-        "item": "minecraft:seagrass",
-        "count": 7
+        "count": 7,
+        "item": "minecraft:seagrass"
       }
-    ]
+    ],
+    "token": {
+      "tag": "tokenenchanter:tokens/gold"
+    }
   },
+  "level_cost": 2,
   "result": {
-    "item": "tokenenchanter:enchanted_token",
     "enchantments": [
       {
-        "name": "minecraft:luck_of_the_sea",
-        "level": 1
+        "level": 1,
+        "name": "minecraft:luck_of_the_sea"
       }
-    ]
+    ],
+    "item": "tokenenchanter:enchanted_token"
   }
 }

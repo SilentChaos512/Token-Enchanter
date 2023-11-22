@@ -1,18 +1,18 @@
 {
   "type": "tokenenchanter:shaped_xp_crystal",
+  "key": {
+    "b": {
+      "item": "minecraft:blaze_powder"
+    },
+    "c": {
+      "item": "tokenenchanter:small_xp_crystal"
+    }
+  },
   "pattern": [
     " c ",
     "bbb",
     " c "
   ],
-  "key": {
-    "c": {
-      "item": "tokenenchanter:small_xp_crystal"
-    },
-    "b": {
-      "item": "minecraft:blaze_powder"
-    }
-  },
   "result": {
     "item": "tokenenchanter:xp_crystal"
   }
